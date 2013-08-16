@@ -3,17 +3,21 @@ package scripting.core;
 import static scripting.ScriptingMod.SECTION;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
 import scripting.core.script.BasicScript;
+import scripting.core.script.FilterScript;
 import scripting.core.script.JSScript;
 import scripting.packet.ScriptPacket;
 import scripting.packet.ScriptPacket.PacketType;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ServerCore extends ScriptCore {
 
@@ -31,6 +35,15 @@ public class ServerCore extends ScriptCore {
 			if (script instanceof BasicScript)
 				return true;
 		return false;
+	}
+	
+	public List<String> getFilterScripts() {
+		List<String> filters = new ArrayList<String>();
+		for (JSScript script : scripts.values())
+			if (script instanceof FilterScript) //Remove .filter extension
+				filters.add(script.name.substring(0,script.name.length() - 7));
+		Collections.sort(filters);
+		return filters;
 	}
 
 	/**
@@ -51,5 +64,17 @@ public class ServerCore extends ScriptCore {
 			}
 		}
 	}
+
+	public void runFilter(EntityPlayer player, String name) {
+		if (!name.endsWith(".filter"))
+			name += ".filter";
+		JSScript script = scripts.get(name);
+		if (script instanceof FilterScript) {
+			
+		}
+		else
+			player.addChatMessage(SECTION + "cUnknown filter \"" + name + "\"");
+	}
+
 
 }

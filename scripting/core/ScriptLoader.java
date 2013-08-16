@@ -40,6 +40,10 @@ public class ScriptLoader {
 					try {
 						String name = f.getName();
 						String source = readScript(f);
+						if (name.endsWith(".filter") && name.contains(" ")) {
+							System.err.println("[SCRIPTS] Illegal filter name \"" + name + "\"");
+							continue;
+						}
 						scripts.put(name, (name.endsWith(".filter")) ? new FilterScript(name, source) : new BasicScript(name, source));
 						System.out.println("[SCRIPTS] Succesfully read " + getSimpleName(f, client));
 					}
