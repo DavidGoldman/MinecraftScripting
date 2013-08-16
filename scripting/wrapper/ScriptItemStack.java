@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 
 public class ScriptItemStack {
 	
-	private final ItemStack stack;
+	public final ItemStack stack;
 
 	public ScriptItemStack(ItemStack is) {
 		this.stack = is;
