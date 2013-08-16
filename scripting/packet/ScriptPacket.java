@@ -28,6 +28,8 @@ public abstract class ScriptPacket {
 		SELECTION(SelectionPacket.class),
 		HAS_SCRIPTS(HasScriptsPacket.class),
 		STATE(StatePacket.class),
+		ENTITY_NBT(EntityNBTPacket.class),
+		TILE_NBT(TileNBTPacket.class),
 		CLOSE_GUI(CloseGUIPacket.class),
 		REQUEST(RequestPacket.class);
 

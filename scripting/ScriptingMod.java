@@ -41,6 +41,7 @@ import scripting.wrapper.nbt.TAG_List;
 import scripting.wrapper.nbt.TAG_Long;
 import scripting.wrapper.nbt.TAG_Short;
 import scripting.wrapper.nbt.TAG_String;
+import scripting.wrapper.tileentity.ScriptTileEntity;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -133,6 +134,8 @@ public class ScriptingMod {
 		addAbbreviation("Entity", ScriptEntity.class);
 		addAbbreviation("EntityLivingBase", ScriptEntityLivingBase.class);
 		addAbbreviation("Player", ScriptPlayer.class);
+		
+		addAbbreviation("TileEntity", ScriptTileEntity.class);
 
 		addAbbreviation("TAG_Byte", TAG_Byte.class);
 		addAbbreviation("TAG_Byte_Array", TAG_Byte_Array.class);

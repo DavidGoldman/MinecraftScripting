@@ -4,11 +4,13 @@ import scripting.ScriptingMod;
 import scripting.core.ScriptCore.State;
 import scripting.core.ServerCore;
 import scripting.packet.CloseGUIPacket;
+import scripting.packet.EntityNBTPacket;
 import scripting.packet.HasScriptsPacket;
 import scripting.packet.ScriptPacket;
 import scripting.packet.ScriptPacket.PacketType;
 import scripting.packet.SelectionPacket;
 import scripting.packet.StatePacket;
+import scripting.packet.TileNBTPacket;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
@@ -18,6 +20,12 @@ public class ServerPacketHandler extends ScriptPacketHandler {
 	public void handleSelection(SelectionPacket pkt, Player player) { }
 	@Override
 	public void handleCloseGUI(CloseGUIPacket pkt, Player player) { }
+	
+	@Override
+	public void handleEntityNBT(EntityNBTPacket pkt, Player player) { }
+	@Override
+	public void handleTileNBT(TileNBTPacket pkt, Player player) { }
+	
 
 	@Override
 	public void handleHasScripts(HasScriptsPacket pkt, Player player) {
