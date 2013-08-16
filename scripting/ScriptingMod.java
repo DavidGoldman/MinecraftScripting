@@ -26,6 +26,10 @@ import scripting.wrapper.ScriptIO;
 import scripting.wrapper.ScriptItemStack;
 import scripting.wrapper.ScriptVec2;
 import scripting.wrapper.ScriptVec3;
+import scripting.wrapper.entity.ScriptDataWatcher;
+import scripting.wrapper.entity.ScriptEntity;
+import scripting.wrapper.entity.ScriptEntityLivingBase;
+import scripting.wrapper.entity.ScriptPlayer;
 import scripting.wrapper.nbt.TAG_Byte;
 import scripting.wrapper.nbt.TAG_Byte_Array;
 import scripting.wrapper.nbt.TAG_Compound;
@@ -124,6 +128,11 @@ public class ScriptingMod {
 		addAbbreviation("Array", ScriptArray.class);
 		addAbbreviation("IO", ScriptIO.class);
 		addAbbreviation("Script", ScriptHelper.class);
+		
+		addAbbreviation("DataWatcher", ScriptDataWatcher.class);
+		addAbbreviation("Entity", ScriptEntity.class);
+		addAbbreviation("EntityLivingBase", ScriptEntityLivingBase.class);
+		addAbbreviation("Player", ScriptPlayer.class);
 
 		addAbbreviation("TAG_Byte", TAG_Byte.class);
 		addAbbreviation("TAG_Byte_Array", TAG_Byte_Array.class);

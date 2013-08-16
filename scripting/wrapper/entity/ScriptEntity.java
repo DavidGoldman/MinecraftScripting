@@ -16,6 +16,14 @@ public class ScriptEntity {
 		return entity.entityId;
 	}
 	
+	public String getEntityName() {
+		return entity.getEntityName();
+	}
+	
+	public String getTranslatedEntityName() {
+		return entity.getTranslatedEntityName();
+	}
+	
 	public ScriptVec3 getPosition() {
 		return new ScriptVec3(entity.posX, entity.posY, entity.posZ);
 	}
