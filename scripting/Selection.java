@@ -106,6 +106,9 @@ public class Selection {
 		corner1 = corner2 = null;
 	}
 
+	/**
+	 * @return A pooled AABB. Do not cache.
+	 */
 	public AxisAlignedBB getAABB() {
 		if (corner2 == null)
 			return AxisAlignedBB.getAABBPool().getAABB(corner1.x, corner1.y, corner1.z, corner1.x + 1, corner1.y + 1, corner1.z + 1);

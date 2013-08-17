@@ -7,7 +7,7 @@ import java.util.Map;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import scripting.core.script.BasicScript;
+import scripting.core.script.JSScript;
 import scripting.gui.ClientMenu;
 import scripting.wrapper.entity.ScriptPlayer;
 
@@ -33,7 +33,7 @@ public class ClientCore extends ScriptCore {
 	 * Notifies the player of the script crash.
 	 */
 	@Override
-	protected void notifyCrash(BasicScript script, Exception e) {
+	protected void notifyCrash(JSScript script, Exception e) {
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayer player = mc.thePlayer;
 		if (player != null) {

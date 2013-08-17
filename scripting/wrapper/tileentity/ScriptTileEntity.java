@@ -4,8 +4,8 @@ import java.util.Map;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import scripting.wrapper.ScriptWorld;
 import scripting.wrapper.nbt.TAG_Compound;
+import scripting.wrapper.world.ScriptWorld;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 public class ScriptTileEntity {

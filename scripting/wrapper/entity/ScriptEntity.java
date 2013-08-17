@@ -4,8 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.nbt.NBTTagCompound;
 import scripting.wrapper.ScriptVec3;
-import scripting.wrapper.ScriptWorld;
 import scripting.wrapper.nbt.TAG_Compound;
+import scripting.wrapper.world.ScriptWorld;
 
 public class ScriptEntity {
 

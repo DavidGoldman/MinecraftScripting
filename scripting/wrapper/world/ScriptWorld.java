@@ -1,7 +1,9 @@
-package scripting.wrapper;
+package scripting.wrapper.world;
 
-import scripting.wrapper.entity.ScriptEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import scripting.wrapper.entity.ScriptEntity;
+import scripting.wrapper.tileentity.ScriptTileEntity;
 
 public class ScriptWorld {
 	
@@ -45,6 +47,15 @@ public class ScriptWorld {
 	
 	public int getBlockLightValue(int x, int y, int z) {
 		return world.getBlockLightValue(x, y, z);
+	}
+	
+	public boolean hasTileEntity(int x, int y, int z) {
+		return world.blockHasTileEntity(x, y, z);
+	}
+	
+	public ScriptTileEntity getTileEntity(int x, int y, int z) {
+		TileEntity te = world.getBlockTileEntity(x, y, z);
+		return (te == null) ? null : new ScriptTileEntity(te);
 	}
 	
 	public void spawnEntityInWorld(ScriptEntity scriptEnt) {

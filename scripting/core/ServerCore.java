@@ -8,15 +8,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
+import scripting.ScriptingMod;
+import scripting.Selection;
 import scripting.core.script.BasicScript;
 import scripting.core.script.FilterScript;
 import scripting.core.script.JSScript;
 import scripting.packet.ScriptPacket;
 import scripting.packet.ScriptPacket.PacketType;
+import scripting.wrapper.ScriptSelection;
+import scripting.wrapper.entity.ScriptPlayer;
+import scripting.wrapper.world.ScriptWorld;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ServerCore extends ScriptCore {
@@ -50,7 +54,7 @@ public class ServerCore extends ScriptCore {
 	 * Notifies admins of the script crash.
 	 */
 	@Override
-	protected void notifyCrash(BasicScript script, Exception e) {
+	protected void notifyCrash(JSScript script, Exception e) {
 		PacketDispatcher.sendPacketToAllPlayers(ScriptPacket.getPacket(PacketType.CLOSE_GUI));
 		
 		ServerConfigurationManager manager = MinecraftServer.getServer().getConfigurationManager();
@@ -70,10 +74,31 @@ public class ServerCore extends ScriptCore {
 			name += ".filter";
 		JSScript script = scripts.get(name);
 		if (script instanceof FilterScript) {
-			
+			Selection sel = ScriptingMod.instance.getSelection(player);
+			if (sel.isEmpty()) 
+				player.addChatMessage(SECTION + "cNo selection! Unable to run filter");
+			else {
+				//TODO adds options
+				runFilter(player, sel, (FilterScript)script);
+			}
 		}
 		else
 			player.addChatMessage(SECTION + "cUnknown filter \"" + name + "\"");
+	}
+	
+	private void runFilter(EntityPlayer player, Selection sel, FilterScript fs) {
+		try {
+			curScript = new Executing(fs, false);
+			fs.getRun().call(context, fs.getScope(), fs.getScope(), new Object[] { 
+				new ScriptPlayer(player), new ScriptWorld(player.worldObj), new ScriptSelection(sel, player)
+			});
+		}
+		catch(Exception e) {
+			scriptCrash(fs, e);
+		}
+		finally {
+			curScript = null;
+		}
 	}
 
 

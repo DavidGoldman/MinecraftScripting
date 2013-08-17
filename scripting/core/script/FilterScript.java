@@ -39,5 +39,17 @@ public final class FilterScript extends JSScript {
 		if (optObj instanceof Function)
 			options = (Function) optObj;
 	}
+	
+	public Function getRun() {
+		return run;
+	}
+	
+	public boolean hasOptions() {
+		return options != null;
+	}
+	
+	public Function getOptions() {
+		return options;
+	}
 
 }

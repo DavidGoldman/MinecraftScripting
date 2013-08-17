@@ -105,9 +105,9 @@ public abstract class ScriptCore {
 		}
 	}
 
-	protected abstract void notifyCrash(BasicScript script, Exception e);
+	protected abstract void notifyCrash(JSScript script, Exception e);
 
-	private final void scriptCrash(BasicScript script, Exception e) {
+	protected final void scriptCrash(JSScript script, Exception e) {
 		//Remove it for good! Well until it is reloaded...
 		scripts.remove(script.name);
 
