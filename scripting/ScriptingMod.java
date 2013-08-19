@@ -42,6 +42,8 @@ import scripting.wrapper.nbt.TAG_Long;
 import scripting.wrapper.nbt.TAG_Short;
 import scripting.wrapper.nbt.TAG_String;
 import scripting.wrapper.tileentity.ScriptTileEntity;
+import scripting.wrapper.world.ScriptBlockID;
+import scripting.wrapper.world.ScriptItemID;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -129,6 +131,9 @@ public class ScriptingMod {
 		addAbbreviation("Array", ScriptArray.class);
 		addAbbreviation("IO", ScriptIO.class);
 		addAbbreviation("Script", ScriptHelper.class);
+		
+		addAbbreviation("BlockID", ScriptBlockID.class);
+		addAbbreviation("ItemID", ScriptItemID.class);
 		
 		addAbbreviation("DataWatcher", ScriptDataWatcher.class);
 		addAbbreviation("Entity", ScriptEntity.class);
