@@ -1,8 +1,15 @@
 package scripting.wrapper.entity;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import scripting.wrapper.ScriptVec3;
@@ -14,6 +21,23 @@ public class ScriptEntity {
 	public static ScriptEntity createFromNative(Entity entity) {
 		if (entity instanceof EntityPlayer)
 			return new ScriptPlayer((EntityPlayer)entity);
+		
+		if (entity instanceof EntityOcelot)
+			return new ScriptOcelot((EntityOcelot)entity);
+		if (entity instanceof EntityWolf)
+			return new ScriptWolf((EntityWolf)entity);
+		if (entity instanceof EntityTameable)
+			return new ScriptEntityTameable((EntityTameable)entity);
+		
+		if (entity instanceof EntityPig)
+			return new ScriptPig((EntityPig)entity);
+		if (entity instanceof EntitySheep)
+			return new ScriptSheep((EntitySheep)entity);
+		if (entity instanceof EntityVillager)
+			return new ScriptVillager((EntityVillager)entity);
+		if (entity instanceof EntityAgeable)
+			return new ScriptEntityAgeable((EntityAgeable)entity);
+		
 		if (entity instanceof EntityLivingBase)
 			return new ScriptEntityLivingBase((EntityLivingBase)entity);
 		return new ScriptEntity(entity);

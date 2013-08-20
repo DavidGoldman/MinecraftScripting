@@ -28,8 +28,6 @@ import scripting.wrapper.ScriptVec2;
 import scripting.wrapper.ScriptVec3;
 import scripting.wrapper.entity.ScriptDataWatcher;
 import scripting.wrapper.entity.ScriptEntity;
-import scripting.wrapper.entity.ScriptEntityLivingBase;
-import scripting.wrapper.entity.ScriptPlayer;
 import scripting.wrapper.nbt.TAG_Byte;
 import scripting.wrapper.nbt.TAG_Byte_Array;
 import scripting.wrapper.nbt.TAG_Compound;
@@ -68,14 +66,11 @@ import cpw.mods.fml.relauncher.Side;
 
 
 /*
- * TODO Work on Filter scripts -
- * 			1) Use command to start filter
- *          2) Send options to client
- *          3) Client picks options via GUI
- *          4) Filter script runs
+ * 		TODO 
  *      Work on permissions - op only or whitelist (via config)
- *      Work on wrapping (A LOT)
  *      More security measures (stack limit, instruction counter)
+ *      Work on wrapping (focus on client + server scripts now)
+ *     
  * 
  */
 @Mod(modid="Scripting", name="Scripting", version=ScriptingMod.VERSION)
@@ -148,8 +143,6 @@ public class ScriptingMod {
 		
 		addAbbreviation("DataWatcher", ScriptDataWatcher.class);
 		addAbbreviation("Entity", ScriptEntity.class);
-		addAbbreviation("EntityLivingBase", ScriptEntityLivingBase.class);
-		addAbbreviation("Player", ScriptPlayer.class);
 		
 		addAbbreviation("TileEntity", ScriptTileEntity.class);
 
