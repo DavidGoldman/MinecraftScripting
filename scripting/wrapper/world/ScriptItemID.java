@@ -26,6 +26,10 @@ public class ScriptItemID {
 		}
 	}
 	
+	public static boolean isValid(int id) {
+		return id >= 0 && id < Item.itemsList.length && Item.itemsList[id] != null;
+	}
+	
 	public static final int shovelIron = Item.shovelIron.itemID;
 	public static final int pickaxeIron = Item.pickaxeIron.itemID;
 	public static final int axeIron = Item.axeIron.itemID;

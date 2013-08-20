@@ -24,6 +24,10 @@ public class ScriptBlockID {
 			}
 		}
 	}
+	
+	public static boolean isValid(int id) {
+		return id >= 0 && id < Block.blocksList.length && Block.blocksList[id] != null;
+	}
 
 	public static final int stone = Block.stone.blockID;
 	public static final int grass = Block.grass.blockID;

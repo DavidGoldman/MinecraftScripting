@@ -12,16 +12,16 @@ import scripting.wrapper.tileentity.ScriptTileEntity;
 
 public class ScriptSelection {
 	
-	public final ScriptEntity selectedEntity;
-	public final ScriptTileEntity selectedTile;
+	public final ScriptEntity entity;
+	public final ScriptTileEntity tile;
 	private final AxisAlignedBB aabb;
 	
 	public final ScriptEntity[] entities;
 	public final ScriptTileEntity[] tiles;
 	
 	public ScriptSelection(Selection sel, EntityPlayer player) {
-		selectedEntity = (sel.isEntitySelection()) ? ScriptEntity.createFromNative(sel.getSelectedEntity()) : null;
-		selectedTile = (sel.isTileSelection()) ? new ScriptTileEntity(sel.getSelectedTile()) : null;
+		entity = (sel.isEntitySelection()) ? ScriptEntity.createFromNative(sel.getSelectedEntity()) : null;
+		tile = (sel.isTileSelection()) ? new ScriptTileEntity(sel.getSelectedTile()) : null;
 		if (sel.isRegionSelection()) {
 			AxisAlignedBB pooledBB = sel.getAABB();
 			aabb = AxisAlignedBB.getBoundingBox(pooledBB.minX, pooledBB.minY, pooledBB.minZ, pooledBB.maxX, pooledBB.maxY, pooledBB.maxZ);
@@ -43,15 +43,15 @@ public class ScriptSelection {
 		}
 	}
 	
-	public boolean isEntitySelection() {
-		return selectedEntity != null;
+	public boolean isEntity() {
+		return entity != null;
 	}
 	
-	public boolean isTileSelection() {
-		return selectedTile != null;
+	public boolean isTile() {
+		return tile != null;
 	}
 	
-	public boolean isRegionSelection() {
+	public boolean isRegion() {
 		return aabb != null;
 	}
 	
