@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatMessageComponent;
 
@@ -44,7 +45,7 @@ public class FilterCommand extends CommandBase {
 	}
 	
 	public boolean canCommandSenderUseCommand(ICommandSender s){
-		return s instanceof EntityPlayerMP && super.canCommandSenderUseCommand(s);
+		return s instanceof EntityPlayerMP && Config.hasPermission((EntityPlayer)s);
 	}
 
 }

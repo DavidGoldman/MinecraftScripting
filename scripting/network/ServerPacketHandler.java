@@ -1,6 +1,8 @@
 package scripting.network;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import scripting.Config;
 import scripting.ScriptingMod;
 import scripting.core.ScriptCore.State;
 import scripting.core.ServerCore;
@@ -17,6 +19,11 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
 public class ServerPacketHandler extends ScriptPacketHandler {
+	
+	@Override
+	protected boolean hasPermission(Player player) {
+		return Config.hasPermission((EntityPlayer)player);
+	}
 
 	@Override
 	public void handleSelection(SelectionPacket pkt, Player player) { }

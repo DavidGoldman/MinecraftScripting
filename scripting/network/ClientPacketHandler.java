@@ -23,6 +23,11 @@ import cpw.mods.fml.common.network.Player;
 public class ClientPacketHandler extends ScriptPacketHandler {
 	
 	protected Minecraft mc = Minecraft.getMinecraft();
+	
+	@Override
+	protected boolean hasPermission(Player player) {
+		return true;
+	}
 
 	@Override
 	public void handleSelection(SelectionPacket pkt, Player player) {

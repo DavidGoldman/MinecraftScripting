@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
+import scripting.Config;
 import scripting.ScriptingMod;
 import scripting.Selection;
 import scripting.core.script.BasicScript;
@@ -55,7 +56,7 @@ public class ServerCore extends ScriptCore {
 	}
 
 	/**
-	 * Notifies admins of the script crash.
+	 * Notifies OPs/whitelisted users of the script crash.
 	 */
 	@Override
 	protected void notifyCrash(JSScript script, Exception e) {
@@ -63,14 +64,14 @@ public class ServerCore extends ScriptCore {
 
 		ServerConfigurationManager manager = MinecraftServer.getServer().getConfigurationManager();
 		List<EntityPlayer> players = (List<EntityPlayer>) MinecraftServer.getServer().getConfigurationManager().playerEntityList;
-		for (EntityPlayer p : players) {
-			if(manager.areCommandsAllowed(p.getCommandSenderName())) {
+		for (EntityPlayer p : players) 
+			if(Config.hasPermission(p)) {
 				p.addChatMessage(SECTION + "cServer script \"" + script.name + "\" has crashed");
 				p.addChatMessage(SECTION + "cCheck the console/log for more information");
 				p.addChatMessage(SECTION + "cFor now, the script has been disabled");
 				p.addChatMessage(SECTION + "cFix the script and restart the server to reload it");
 			}
-		}
+
 	}
 
 	public void runFilter(EntityPlayerMP player, String name) {
@@ -90,7 +91,7 @@ public class ServerCore extends ScriptCore {
 		else
 			player.addChatMessage(SECTION + "cUnknown filter \"" + name + "\"");
 	}
-	
+
 	public void runFilter(EntityPlayerMP player, SettingsPacket pkt) {
 		JSScript script = scripts.get(pkt.script);
 		if (script instanceof FilterScript) {

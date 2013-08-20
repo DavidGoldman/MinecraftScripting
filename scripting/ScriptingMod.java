@@ -66,11 +66,9 @@ import cpw.mods.fml.relauncher.Side;
 
 
 /*
- * 		TODO 
- *      Work on permissions - op only or whitelist (via config)
+ * TODO 
  *      More security measures (stack limit, instruction counter)
  *      Work on wrapping (focus on client + server scripts now)
- *     
  * 
  */
 @Mod(modid="Scripting", name="Scripting", version=ScriptingMod.VERSION)
