@@ -32,10 +32,10 @@ public class SandboxContextFactory extends ContextFactory {
 	 */ 
 	protected Context makeContext() {
 		TimedContext cx = new TimedContext(this);
-		cx.setMaximumInterpreterStackDepth(STACK_DEPTH);
-		cx.setInstructionObserverThreshold(INSTRUCTION_THRESHOLD);
 		cx.setLanguageVersion(Context.VERSION_1_7);
 		cx.setOptimizationLevel(-1);
+		cx.setMaximumInterpreterStackDepth(STACK_DEPTH);
+		cx.setInstructionObserverThreshold(INSTRUCTION_THRESHOLD);
 		cx.setClassShutter(new SandboxClassShutter());
 		cx.setWrapFactory(new SandboxWrapFactory());
 		return cx;
