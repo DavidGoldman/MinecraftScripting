@@ -1,5 +1,6 @@
 package scripting.core;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -14,8 +15,10 @@ import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
+import scripting.core.rhino.SandboxClassShutter;
 import scripting.core.script.BasicScript;
 import scripting.core.script.JSScript;
+import scripting.wrapper.js.Range;
 
 public abstract class ScriptCore {
 	
@@ -59,6 +62,7 @@ public abstract class ScriptCore {
 			return (--ticksLeft) == 0;
 		}
 	}
+	
 
 	/**
 	 * Note that {@link Context#exit} is never called.
@@ -78,13 +82,14 @@ public abstract class ScriptCore {
 		this.scripts = scripts;
 		this.context = Context.enter();
 		this.sleepingScripts = new ArrayList<Sleeping>();
-		context.setLanguageVersion(Context.VERSION_1_7);
-		context.setOptimizationLevel(-1);
-		/*
-		 * If a class shutter already exists, something is wrong
-		 */
-		context.setClassShutter(new ScriptShutter());
 		this.globalScope = new ImporterTopLevel(context); /*context.initStandardObjects();*/
+		
+		try {
+			ScriptableObject.defineClass(globalScope, Range.class);
+		}
+		catch(Exception e) {
+			throw new RuntimeException(e);
+		}
 
 		for (Entry<String, Class<?>> entry : abbreviations.entrySet()) 
 			abbreviate(entry.getValue(), entry.getKey());

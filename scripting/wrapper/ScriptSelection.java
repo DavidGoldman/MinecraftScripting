@@ -75,34 +75,4 @@ public class ScriptSelection {
 	public int getMaxZ() {
 		return (int) aabb.maxZ - 1;
 	}
-	
-	/*
-	 * This is a really bad way to deal with ranges.
-	 * TODO Implement a JS Range object similar to the one found here:
-	 * https://gist.github.com/tschaub/3291399
-	 * 
-	 * Array ranges can be iterated with "for each (var in arr)", but true
-	 * JS iterators can be iterated with "for (var in arr)"
-	 */
-	public int[] getXRange() {
-		int min = getMinX(), max = getMaxX();
-		int[] arr = new int[max - min + 1];
-		for (int i = 0; i < arr.length; ++i)
-			arr[i] = min+i;
-		return arr;
-	}
-	public int[] getYRange() {
-		int min = getMinY(), max = getMaxY();
-		int[] arr = new int[max - min + 1];
-		for (int i = 0; i < arr.length; ++i)
-			arr[i] = min+i;
-		return arr;
-	}
-	public int[] getZRange() {
-		int min = getMinZ(), max = getMaxZ();
-		int[] arr = new int[max - min + 1];
-		for (int i = 0; i < arr.length; ++i)
-			arr[i] = min+i;
-		return arr;
-	}
 }
