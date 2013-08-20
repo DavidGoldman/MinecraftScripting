@@ -1,19 +1,19 @@
 package scripting.gui.settings;
 
 import net.minecraft.client.Minecraft;
-import scripting.wrapper.settings.SettingString;
+import scripting.wrapper.settings.SettingList;
 
 import com.mcf.davidee.guilib.core.Scrollbar.Shiftable;
 import com.mcf.davidee.guilib.vanilla.ButtonVanilla;
 
-public class SetStringButton extends ButtonVanilla implements ISetting, Shiftable {
+public class SetListButton extends ButtonVanilla implements ISetting, Shiftable {
 	
-	private final SettingString setting;
+	private final SettingList setting;
 	
 	private int centerX;
 	private int textX;
 
-	public SetStringButton(SettingString setting) {
+	public SetListButton(SettingList setting) {
 		super(Minecraft.getMinecraft().fontRenderer.getStringWidth(setting.selected) + 8, 15, setting.selected, null);
 		
 		this.setting = setting;

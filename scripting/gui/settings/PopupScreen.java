@@ -15,7 +15,7 @@ import com.mcf.davidee.guilib.vanilla.ScrollbarVanilla;
  */
 public class PopupScreen extends OverlayScreen {
 	
-	private final SetStringButton button;
+	private final SetListButton button;
 	private final String[] options;
 	
 	private Scrollbar scrollbar;
@@ -23,7 +23,7 @@ public class PopupScreen extends OverlayScreen {
 	private int x, y;
 	private int cWidth, cHeight;
 
-	public PopupScreen(SetStringButton button, String[] options, BasicScreen bg) {
+	public PopupScreen(SetListButton button, String[] options, BasicScreen bg) {
 		super(bg);
 		
 		this.button = button;

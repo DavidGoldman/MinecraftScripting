@@ -1,39 +1,34 @@
 package scripting.wrapper.settings;
 
-import scripting.packet.ScriptPacket;
-
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
+import scripting.gui.settings.ISetting;
+
 public class SettingString extends Setting {
-	
-	public final String[] options;
-	public String selected;
+
+	public String str;
 	
 	protected SettingString(ByteArrayDataInput in) {
 		super(in);
 		
-		this.options = ScriptPacket.readStringArray(in);
-		this.selected = in.readUTF();
+		this.str = in.readUTF();
 	}
-	
-	public SettingString(String display, String... options) throws IllegalArgumentException {
+
+	public SettingString(String display, String str) {
 		super(display);
-		
-		this.options = options;
-		if (options.length == 0)
-			throw new IllegalArgumentException("Must have at least 1 option!");
-		selected = options[0];
+
+		this.str = str;
 	}
 
 	@Override
 	public Object getValue() {
-		return selected;
+		return str;
 	}
-	
+
 	@Override
 	protected void write(ByteArrayDataOutput out) {
-		ScriptPacket.writeStringArray(options, out);
-		out.writeUTF(selected);
+		out.writeUTF(str);
 	}
+
 }

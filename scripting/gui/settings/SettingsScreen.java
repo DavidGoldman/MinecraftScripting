@@ -1,7 +1,5 @@
 package scripting.gui.settings;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.client.gui.GuiScreen;
 import scripting.gui.ScriptScreen;
 import scripting.packet.ScriptPacket;
@@ -11,6 +9,7 @@ import scripting.wrapper.settings.Setting;
 import scripting.wrapper.settings.SettingBoolean;
 import scripting.wrapper.settings.SettingFloat;
 import scripting.wrapper.settings.SettingInt;
+import scripting.wrapper.settings.SettingList;
 import scripting.wrapper.settings.SettingString;
 
 import com.mcf.davidee.guilib.basic.Label;
@@ -83,7 +82,9 @@ public class SettingsScreen extends ScriptScreen {
 			return new SetIntTextField((SettingInt)s);
 		if (s instanceof SettingFloat)
 			return new SetFloatTextField((SettingFloat)s);
-		return new SetStringButton((SettingString)s);
+		if (s instanceof SettingString)
+			return new SetStringTextField((SettingString)s);
+		return new SetListButton((SettingList)s);
 	}
 	
 	@Override
@@ -95,8 +96,8 @@ public class SettingsScreen extends ScriptScreen {
 	
 	@Override
 	public void drawBackground() {
-		super.drawBackground();
-		drawRect(setC.left(), setC.top(), setC.right() - 10, setC.bottom(), 0x44444444);
+		drawRect(0, 0, width, height, 0x80101010);
+		drawRect(setC.left(), setC.top(), setC.right() - 10, setC.bottom(), 0x55555555);
 	}
 
 }

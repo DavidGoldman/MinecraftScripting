@@ -45,6 +45,7 @@ import scripting.wrapper.settings.Setting;
 import scripting.wrapper.settings.SettingBoolean;
 import scripting.wrapper.settings.SettingFloat;
 import scripting.wrapper.settings.SettingInt;
+import scripting.wrapper.settings.SettingList;
 import scripting.wrapper.settings.SettingString;
 import scripting.wrapper.tileentity.ScriptTileEntity;
 import scripting.wrapper.world.ScriptBlockID;
@@ -69,7 +70,6 @@ import cpw.mods.fml.relauncher.Side;
 
 /*
  * TODO 
- *      More security measures (stack limit, instruction counter)
  *      Work on wrapping (focus on client + server scripts now)
  * 
  */
@@ -147,6 +147,7 @@ public class ScriptingMod {
 		addAbbreviation("SettingInt", SettingInt.class);
 		addAbbreviation("SettingFloat", SettingFloat.class);
 		addAbbreviation("SettingString", SettingString.class);
+		addAbbreviation("SettingList", SettingList.class);
 		
 		addAbbreviation("DataWatcher", ScriptDataWatcher.class);
 		addAbbreviation("Entity", ScriptEntity.class);
