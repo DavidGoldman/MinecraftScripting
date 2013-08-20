@@ -10,10 +10,12 @@ import net.minecraft.command.ServerCommandManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.Configuration;
 
+import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.ContinuationPending;
 
 import scripting.core.ScriptCore;
 import scripting.core.ServerCore;
+import scripting.core.rhino.SandboxContextFactory;
 import scripting.forge.Proxy;
 import scripting.forge.ServerTickHandler;
 import scripting.items.SelectorItem;
@@ -102,6 +104,8 @@ public class ScriptingMod {
 		abbreviations = new HashMap<String, Class<?>>();
 		serverProps = new HashMap<String, Object>();
 		clientProps = new HashMap<String, Object>();
+		
+		
 	}
 
 	@EventHandler
@@ -123,6 +127,11 @@ public class ScriptingMod {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		/*
+		 * Initialize our special context factory
+		 */
+		ContextFactory.initGlobal(new SandboxContextFactory());
+		
 		addAbbreviation("Vec3", ScriptVec3.class);
 		addAbbreviation("Vec2", ScriptVec2.class);
 		addAbbreviation("ItemStack", ScriptItemStack.class);

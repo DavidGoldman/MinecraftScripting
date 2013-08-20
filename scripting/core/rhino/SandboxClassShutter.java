@@ -1,11 +1,11 @@
-package scripting.core;
+package scripting.core.rhino;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.mozilla.javascript.ClassShutter;
 
-public class ScriptShutter implements ClassShutter {
+public class SandboxClassShutter implements ClassShutter {
 	
 	/**
 	 * Some classes in java.lang are quite scary, so no :O
