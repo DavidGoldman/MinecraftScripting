@@ -45,6 +45,8 @@ public class ScriptPlayer extends ScriptEntityLivingBase {
 		player.setGameType(EnumGameType.getByID(id));
 	}
 	
+	public void setDead() { }
+	
 	//Case in-sensitive 
 	public void setGameType(String name) {
 		player.setGameType(EnumGameType.getByName(name.toLowerCase()));

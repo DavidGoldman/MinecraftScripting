@@ -18,6 +18,11 @@ import scripting.wrapper.world.ScriptWorld;
 
 public class ScriptEntity {
 	
+	public static ScriptEntity createEntityByName(String name, ScriptWorld world) {
+		Entity e = EntityList.createEntityByName(name, world.world);
+		return (e != null) ? createFromNative(e) : null;
+	}
+	
 	public static ScriptEntity createFromNative(Entity entity) {
 		if (entity instanceof EntityPlayer)
 			return new ScriptPlayer((EntityPlayer)entity);
@@ -113,6 +118,10 @@ public class ScriptEntity {
 
 	public boolean isDead() {
 		return entity.isDead;
+	}
+	
+	public void setDead() {
+		entity.worldObj.removeEntity(entity);
 	}
 
 	public double getDistanceToEntity(ScriptEntity se) {

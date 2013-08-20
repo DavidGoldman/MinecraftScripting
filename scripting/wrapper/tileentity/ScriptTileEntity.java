@@ -9,6 +9,11 @@ import scripting.wrapper.world.ScriptWorld;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 public class ScriptTileEntity {
+	
+	public static ScriptTileEntity createFromTag(TAG_Compound tag) {
+		TileEntity te = TileEntity.createAndLoadEntity(tag.tag);
+		return (te != null) ? new ScriptTileEntity(te) : null;
+	}
 
 	private static final Map CLASS_TO_STRING = ObfuscationReflectionHelper.getPrivateValue(TileEntity.class, null, 1);
 	

@@ -3,15 +3,16 @@ package scripting.core;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import scripting.ScriptingMod;
 import scripting.core.script.BasicScript;
-import scripting.core.script.JSScript;
 import scripting.core.script.FilterScript;
+import scripting.core.script.JSScript;
 import scripting.utils.Utils;
 
 public class ScriptLoader {
@@ -66,17 +67,20 @@ public class ScriptLoader {
 	private static String readScript(File f) throws IOException {
 		String source = "";
 		String line = "";
-		FileReader in = null;
+		FileInputStream in = null;
+		InputStreamReader is = null;
 		BufferedReader reader = null;
 		try {
-			in = new FileReader(f);
-			reader = new BufferedReader(in);
+			in = new FileInputStream(f);
+			is = new InputStreamReader(in, "UTF8");
+			reader = new BufferedReader(is);
 			while((line = reader.readLine()) != null)
 				source += line + '\n';
 			return source;
 		}
 		finally {
 			Utils.closeSilently(reader);
+			Utils.closeSilently(is);
 			Utils.closeSilently(in);
 		}
 	}

@@ -12,43 +12,51 @@ import scripting.wrapper.tileentity.ScriptTileEntity;
 
 public class ScriptSelection {
 	
-	public final ScriptEntity entity;
-	public final ScriptTileEntity tile;
+	public final ScriptEntity selEntity;
+	public final ScriptTileEntity selTile;
 	private final AxisAlignedBB aabb;
 	
-	public final ScriptEntity[] entities;
-	public final ScriptTileEntity[] tiles;
+	public final ScriptEntity[] selEntities;
+	public final ScriptTileEntity[] selTiles;
 	
 	public ScriptSelection(Selection sel, EntityPlayer player) {
-		entity = (sel.isEntitySelection()) ? ScriptEntity.createFromNative(sel.getSelectedEntity()) : null;
-		tile = (sel.isTileSelection()) ? new ScriptTileEntity(sel.getSelectedTile()) : null;
+		selEntity = (sel.isEntitySelection()) ? ScriptEntity.createFromNative(sel.getSelectedEntity()) : null;
+		selTile = (sel.isTileSelection()) ? new ScriptTileEntity(sel.getSelectedTile()) : null;
 		if (sel.isRegionSelection()) {
 			AxisAlignedBB pooledBB = sel.getAABB();
 			aabb = AxisAlignedBB.getBoundingBox(pooledBB.minX, pooledBB.minY, pooledBB.minZ, pooledBB.maxX, pooledBB.maxY, pooledBB.maxZ);
 			
 			List<Entity> entList = sel.getEntitiesWithinAABB(player);
-			entities = new ScriptEntity[entList.size()];
-			for (int i = 0; i < entities.length; ++i)
-				entities[i] = ScriptEntity.createFromNative(entList.get(i));
+			selEntities = new ScriptEntity[entList.size()];
+			for (int i = 0; i < selEntities.length; ++i)
+				selEntities[i] = ScriptEntity.createFromNative(entList.get(i));
 			
 			List<TileEntity> tileList = sel.getTilesWithinAABB(player);
-			tiles = new ScriptTileEntity[tileList.size()];
-			for (int i = 0; i < tiles.length; ++i)
-				tiles[i] = new ScriptTileEntity(tileList.get(i));
+			selTiles = new ScriptTileEntity[tileList.size()];
+			for (int i = 0; i < selTiles.length; ++i)
+				selTiles[i] = new ScriptTileEntity(tileList.get(i));
 		}
 		else {
 			aabb = null;
-			entities = null;
-			tiles = null;
+			selEntities = null;
+			selTiles = null;
 		}
 	}
 	
+	public ScriptEntity[] getEntities() {
+		return (isRegion()) ? selEntities : (isEntity()) ? new ScriptEntity[] { selEntity } : new ScriptEntity[0];
+	}
+	
+	public ScriptTileEntity[] getTiles() {
+		return (isRegion()) ? selTiles : (isTile()) ? new ScriptTileEntity[] { selTile } : new ScriptTileEntity[0];
+	}
+	
 	public boolean isEntity() {
-		return entity != null;
+		return selEntity != null;
 	}
 	
 	public boolean isTile() {
-		return tile != null;
+		return selTile != null;
 	}
 	
 	public boolean isRegion() {
