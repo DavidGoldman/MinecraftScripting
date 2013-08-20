@@ -41,6 +41,11 @@ import scripting.wrapper.nbt.TAG_List;
 import scripting.wrapper.nbt.TAG_Long;
 import scripting.wrapper.nbt.TAG_Short;
 import scripting.wrapper.nbt.TAG_String;
+import scripting.wrapper.settings.Setting;
+import scripting.wrapper.settings.SettingBoolean;
+import scripting.wrapper.settings.SettingFloat;
+import scripting.wrapper.settings.SettingInt;
+import scripting.wrapper.settings.SettingString;
 import scripting.wrapper.tileentity.ScriptTileEntity;
 import scripting.wrapper.world.ScriptBlockID;
 import scripting.wrapper.world.ScriptItemID;
@@ -134,6 +139,12 @@ public class ScriptingMod {
 		
 		addAbbreviation("BlockID", ScriptBlockID.class);
 		addAbbreviation("ItemID", ScriptItemID.class);
+		
+		addAbbreviation("Setting", Setting.class);
+		addAbbreviation("SettingBoolean", SettingBoolean.class);
+		addAbbreviation("SettingInt", SettingInt.class);
+		addAbbreviation("SettingFloat", SettingFloat.class);
+		addAbbreviation("SettingString", SettingString.class);
 		
 		addAbbreviation("DataWatcher", ScriptDataWatcher.class);
 		addAbbreviation("Entity", ScriptEntity.class);

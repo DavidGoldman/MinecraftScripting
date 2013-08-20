@@ -20,7 +20,7 @@ public class ScriptSelection {
 	public final ScriptTileEntity[] tiles;
 	
 	public ScriptSelection(Selection sel, EntityPlayer player) {
-		selectedEntity = (sel.isEntitySelection()) ? new ScriptEntity(sel.getSelectedEntity()) : null;
+		selectedEntity = (sel.isEntitySelection()) ? ScriptEntity.createFromNative(sel.getSelectedEntity()) : null;
 		selectedTile = (sel.isTileSelection()) ? new ScriptTileEntity(sel.getSelectedTile()) : null;
 		if (sel.isRegionSelection()) {
 			AxisAlignedBB pooledBB = sel.getAABB();
@@ -29,7 +29,7 @@ public class ScriptSelection {
 			List<Entity> entList = sel.getEntitiesWithinAABB(player);
 			entities = new ScriptEntity[entList.size()];
 			for (int i = 0; i < entities.length; ++i)
-				entities[i] = new ScriptEntity(entList.get(i));
+				entities[i] = ScriptEntity.createFromNative(entList.get(i));
 			
 			List<TileEntity> tileList = sel.getTilesWithinAABB(player);
 			tiles = new ScriptTileEntity[tileList.size()];

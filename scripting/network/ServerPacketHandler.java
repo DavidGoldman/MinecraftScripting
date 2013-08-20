@@ -1,5 +1,6 @@
 package scripting.network;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import scripting.ScriptingMod;
 import scripting.core.ScriptCore.State;
 import scripting.core.ServerCore;
@@ -9,6 +10,7 @@ import scripting.packet.HasScriptsPacket;
 import scripting.packet.ScriptPacket;
 import scripting.packet.ScriptPacket.PacketType;
 import scripting.packet.SelectionPacket;
+import scripting.packet.SettingsPacket;
 import scripting.packet.StatePacket;
 import scripting.packet.TileNBTPacket;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -56,6 +58,11 @@ public class ServerPacketHandler extends ScriptPacketHandler {
 		default:
 			break;
 		}
+	}
+	
+	@Override
+	public void handleSettings(SettingsPacket pkt, Player player) {
+		ScriptingMod.instance.getServerCore().runFilter((EntityPlayerMP)player, pkt);
 	}
 
 }

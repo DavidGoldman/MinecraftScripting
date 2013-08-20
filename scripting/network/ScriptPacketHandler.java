@@ -8,6 +8,7 @@ import scripting.packet.HasScriptsPacket;
 import scripting.packet.ScriptPacket;
 import scripting.packet.ScriptPacket.PacketType;
 import scripting.packet.SelectionPacket;
+import scripting.packet.SettingsPacket;
 import scripting.packet.StatePacket;
 import scripting.packet.TileNBTPacket;
 import cpw.mods.fml.common.network.IPacketHandler;
@@ -19,6 +20,8 @@ public abstract class ScriptPacketHandler implements IPacketHandler {
 	public abstract void handleHasScripts(HasScriptsPacket pkt, Player player);
 	public abstract void handleState(StatePacket pkt, Player player);
 	
+	public abstract void handleSettings(SettingsPacket pkt, Player player);
+	
 	public abstract void handleEntityNBT(EntityNBTPacket pkt, Player player);
 	public abstract void handleTileNBT(TileNBTPacket pkt, Player player);
 	
@@ -29,5 +32,4 @@ public abstract class ScriptPacketHandler implements IPacketHandler {
 	public final void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
 		ScriptPacket.readPacket(packet.data).execute(this, player);
 	}
-
 }

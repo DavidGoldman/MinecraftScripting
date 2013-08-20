@@ -2,12 +2,22 @@ package scripting.wrapper.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import scripting.wrapper.ScriptVec3;
 import scripting.wrapper.nbt.TAG_Compound;
 import scripting.wrapper.world.ScriptWorld;
 
 public class ScriptEntity {
+	
+	public static ScriptEntity createFromNative(Entity entity) {
+		if (entity instanceof EntityPlayer)
+			return new ScriptPlayer((EntityPlayer)entity);
+		if (entity instanceof EntityLivingBase)
+			return new ScriptEntityLivingBase((EntityLivingBase)entity);
+		return new ScriptEntity(entity);
+	}
 
 	public final Entity entity;
 

@@ -1,14 +1,12 @@
 package scripting;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatMessageComponent;
 
 public class FilterCommand extends CommandBase {
@@ -23,7 +21,6 @@ public class FilterCommand extends CommandBase {
 		return "/filter <script> or /filter for help";
 	}
 
-	//TODO 
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] args) {
 		if (args.length == 0) {
@@ -37,7 +34,7 @@ public class FilterCommand extends CommandBase {
 			icommandsender.sendChatToPlayer(ChatMessageComponent.func_111077_e(str));
 		}
 		else if (args.length == 1) 
-			ScriptingMod.instance.getServerCore().runFilter((EntityPlayer)icommandsender, args[0]);
+			ScriptingMod.instance.getServerCore().runFilter((EntityPlayerMP)icommandsender, args[0]);
 		else 
 			throw new WrongUsageException(getCommandUsage(icommandsender), new Object[0]);
 	}
@@ -47,7 +44,7 @@ public class FilterCommand extends CommandBase {
 	}
 	
 	public boolean canCommandSenderUseCommand(ICommandSender s){
-		return s instanceof EntityPlayer && super.canCommandSenderUseCommand(s);
+		return s instanceof EntityPlayerMP && super.canCommandSenderUseCommand(s);
 	}
 
 }

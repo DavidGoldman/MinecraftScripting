@@ -18,7 +18,7 @@ public class ScriptHelper {
 		ScriptingMod.instance.scriptSleep(ticks);
 	}
 
-	public void syncEntityNBT(ScriptEntity entity) throws IllegalAccessException {
+	public static void syncEntityNBT(ScriptEntity entity) throws IllegalAccessException {
 		if (ScriptingMod.instance.isClient())
 			throw new IllegalAccessException("Can only sync NBT from server");
 		NBTTagCompound tag = new NBTTagCompound();
@@ -28,7 +28,7 @@ public class ScriptHelper {
 				 entity.entity.entityId, tag), dim);
 	}
 
-	public void syncTileEntityNBT(ScriptTileEntity te) throws IllegalAccessException {
+	public static void syncTileEntityNBT(ScriptTileEntity te) throws IllegalAccessException {
 		if (ScriptingMod.instance.isClient())
 			throw new IllegalAccessException("Can only sync NBT from server");
 		TileEntity tile = te.tile;

@@ -8,9 +8,7 @@ import scripting.core.ScriptException;
 
 public final class FilterScript extends JSScript {
 	
-	/* canRun(player, world, selection) */
-	private Function canRun;
-	/* getOptions(player, world, selection) */
+	/* getOptions() */
 	private Function options;
 	/* run(player, world, selection, options) */
 	private Function run;
@@ -20,12 +18,11 @@ public final class FilterScript extends JSScript {
 	}
 
 	/**
-	 * We initialize our canRun, run, and options functions here.
+	 * We initialize our run and options functions here.
 	 * @throws ScriptException If no run function exists.
 	 */
 	@Override
 	public void postInit() throws ScriptException {
-		Object canObj = scope.get("canRun", scope);
 		Object runObj = scope.get("run", scope);
 		Object optObj = scope.get("getOptions", scope);
 		
@@ -34,8 +31,6 @@ public final class FilterScript extends JSScript {
 		else
 			throw new ScriptException(name + " must define a run function");
 		
-		if (canObj instanceof Function) 
-			canRun = (Function) canObj;
 		if (optObj instanceof Function)
 			options = (Function) optObj;
 	}

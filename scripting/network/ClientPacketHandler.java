@@ -6,12 +6,16 @@ import net.minecraft.tileentity.TileEntity;
 import scripting.ScriptingMod;
 import scripting.Selection;
 import scripting.gui.MainScreen;
+import scripting.gui.ScriptScreen;
 import scripting.gui.ServerMenu;
+import scripting.gui.settings.PopupScreen;
+import scripting.gui.settings.SettingsScreen;
 import scripting.packet.CloseGUIPacket;
 import scripting.packet.EntityNBTPacket;
 import scripting.packet.HasScriptsPacket;
 import scripting.packet.ScriptPacket.PacketType;
 import scripting.packet.SelectionPacket;
+import scripting.packet.SettingsPacket;
 import scripting.packet.StatePacket;
 import scripting.packet.TileNBTPacket;
 import cpw.mods.fml.common.network.Player;
@@ -45,7 +49,7 @@ public class ClientPacketHandler extends ScriptPacketHandler {
 
 	@Override
 	public void handleCloseGUI(CloseGUIPacket pkt, Player player) {
-		if (mc.currentScreen instanceof MainScreen || mc.currentScreen instanceof ServerMenu)
+		if (mc.currentScreen instanceof ScriptScreen || mc.currentScreen instanceof PopupScreen)
 			mc.displayGuiScreen(null);
 	}
 
@@ -66,6 +70,12 @@ public class ClientPacketHandler extends ScriptPacketHandler {
 				t.readFromNBT(pkt.tag);
 		}
 		
+	}
+
+	@Override
+	public void handleSettings(SettingsPacket pkt, Player player) {
+		if (mc.currentScreen == null)
+			mc.displayGuiScreen(new SettingsScreen(pkt, mc.currentScreen));
 	}
 
 }
