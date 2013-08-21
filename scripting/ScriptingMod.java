@@ -26,6 +26,7 @@ import scripting.wrapper.ScriptArray;
 import scripting.wrapper.ScriptHelper;
 import scripting.wrapper.ScriptIO;
 import scripting.wrapper.ScriptItemStack;
+import scripting.wrapper.ScriptRandom;
 import scripting.wrapper.ScriptVec2;
 import scripting.wrapper.ScriptVec3;
 import scripting.wrapper.entity.ScriptDataWatcher;
@@ -104,8 +105,6 @@ public class ScriptingMod {
 		abbreviations = new HashMap<String, Class<?>>();
 		serverProps = new HashMap<String, Object>();
 		clientProps = new HashMap<String, Object>();
-		
-		
 	}
 
 	@EventHandler
@@ -131,10 +130,12 @@ public class ScriptingMod {
 		 * Initialize our special context factory
 		 */
 		ContextFactory.initGlobal(new SandboxContextFactory());
+		ReflectionHelper.init();
 		
 		addAbbreviation("Vec3", ScriptVec3.class);
 		addAbbreviation("Vec2", ScriptVec2.class);
 		addAbbreviation("ItemStack", ScriptItemStack.class);
+		addAbbreviation("Rand", ScriptRandom.class);
 		addAbbreviation("Array", ScriptArray.class);
 		addAbbreviation("IO", ScriptIO.class);
 		addAbbreviation("Script", ScriptHelper.class);

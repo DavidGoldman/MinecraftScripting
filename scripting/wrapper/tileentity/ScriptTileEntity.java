@@ -1,12 +1,11 @@
 package scripting.wrapper.tileentity;
 
-import java.util.Map;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import scripting.ReflectionHelper;
 import scripting.wrapper.nbt.TAG_Compound;
 import scripting.wrapper.world.ScriptWorld;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
+
 
 public class ScriptTileEntity {
 	
@@ -14,8 +13,6 @@ public class ScriptTileEntity {
 		TileEntity te = TileEntity.createAndLoadEntity(tag.tag);
 		return (te != null) ? new ScriptTileEntity(te) : null;
 	}
-
-	private static final Map CLASS_TO_STRING = ObfuscationReflectionHelper.getPrivateValue(TileEntity.class, null, 1);
 	
 	public final TileEntity tile;
 
@@ -66,6 +63,6 @@ public class ScriptTileEntity {
 	}
 
 	private static String getInternalName(TileEntity te) {
-		return (String) CLASS_TO_STRING.get(te.getClass());
+		return (String) ReflectionHelper.tileClassToString.get(te.getClass());
 	}
 }

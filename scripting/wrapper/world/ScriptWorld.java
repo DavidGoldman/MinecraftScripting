@@ -41,6 +41,10 @@ public class ScriptWorld {
 	public void setBlockAndMetaDataWithNotify(int x, int y, int z, int blockID, int metadata, int flag) {
 		world.setBlock(x, y, z, blockID, metadata, flag);
 	}
+	
+	public boolean canBlockSeeTheSky(int x, int y, int z) {
+		return world.canBlockSeeTheSky(x, y, z);
+	}
 
 	public float getLightBrightness(int x, int y, int z) {
 		return world.getLightBrightness(x, y, z);
@@ -76,5 +80,25 @@ public class ScriptWorld {
 	
 	public void removeEntity(ScriptEntity scriptEnt) {
 		world.removeEntity(scriptEnt.entity);
+	}
+	
+	public long getSeed() {
+		return world.getSeed();
+	}
+	
+	public long getWorldTime() {
+		return world.getWorldTime();
+	}
+	
+	public void setWorldTime(long time) {
+		world.setWorldTime(time);
+	}
+	
+	public boolean isRaining() {
+		return world.isRaining();
+	}
+	
+	public void toggleRain() {
+		world.toggleRain();
 	}
 }

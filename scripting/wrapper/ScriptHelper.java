@@ -1,10 +1,12 @@
 package scripting.wrapper;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 import org.mozilla.javascript.ContinuationPending;
 
+import scripting.ReflectionHelper;
 import scripting.ScriptingMod;
 import scripting.packet.ScriptPacket;
 import scripting.packet.ScriptPacket.PacketType;
@@ -26,6 +28,8 @@ public class ScriptHelper {
 		int dim = entity.entity.dimension;
 		PacketDispatcher.sendPacketToAllInDimension(ScriptPacket.getPacket(PacketType.ENTITY_NBT,
 				 entity.entity.entityId, tag), dim);
+		if (entity.entity instanceof EntityLivingBase) 
+			ReflectionHelper.potionsNeedUpdate.setBoolean(entity.entity, true);
 	}
 
 	public static void syncTileEntityNBT(ScriptTileEntity te) throws IllegalAccessException {
