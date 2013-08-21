@@ -110,20 +110,7 @@ public class ServerCore extends ScriptCore {
 	}
 
 	private void sendFilterOptions(EntityPlayerMP player, FilterScript fs) {
-		try {
-			curScript = new Executing(fs, false);
-			Object result =  fs.getOptions().call(context, fs.getScope(), fs.getScope(), new Object[0]);
-			Setting[] settings = (Setting[]) context.jsToJava(result, Setting[].class);
-			if (settings == null)
-				throw new ScriptException("No settings returned");
-			player.playerNetServerHandler.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.SETTINGS, fs.name, settings));
-		}
-		catch(Exception e) {
-			scriptCrash(fs, e);
-		}
-		finally {
-			curScript = null;
-		}
+		player.playerNetServerHandler.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.SETTINGS, fs.name, fs.getOptions()));
 	}
 
 	/**

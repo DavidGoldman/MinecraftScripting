@@ -1,17 +1,17 @@
 package scripting.core.script;
 
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
-import org.mozilla.javascript.Script;
+import org.mozilla.javascript.NativeJavaArray;
 
 import scripting.core.ScriptException;
+import scripting.wrapper.settings.Setting;
 
 public final class FilterScript extends JSScript {
 	
-	/* getOptions() */
-	private Function options;
-	/* run(player, world, selection, options) */
+	/* function run(player, world, sel, options) */
 	private Function run;
+	/* var inputs = Setting.toArray(...); */
+	private Setting[] inputs;
 
 	public FilterScript(String name, String source) {
 		super(name, source);
@@ -23,16 +23,22 @@ public final class FilterScript extends JSScript {
 	 */
 	@Override
 	public void postInit() throws ScriptException {
-		Object runObj = scope.get("run", scope);
-		Object optObj = scope.get("getOptions", scope);
+		Object run = scope.get("run", scope);
+		Object inputs = scope.get("inputs", scope);
 		
-		if (runObj instanceof Function) 
-			run = (Function) runObj;
+		if (run instanceof Function) 
+			this.run = (Function)run;
 		else
 			throw new ScriptException(name + " must define a run function");
 		
-		if (optObj instanceof Function)
-			options = (Function) optObj;
+		if (inputs instanceof NativeJavaArray) {
+			try {
+				this.inputs = (Setting[]) ((NativeJavaArray)inputs).unwrap();
+			}
+			catch(ClassCastException e) {
+				throw new ScriptException(e);
+			}
+		}
 	}
 	
 	public Function getRun() {
@@ -40,11 +46,11 @@ public final class FilterScript extends JSScript {
 	}
 	
 	public boolean hasOptions() {
-		return options != null;
+		return inputs != null && inputs.length > 0;
 	}
 	
-	public Function getOptions() {
-		return options;
+	public Setting[] getOptions() {
+		return inputs;
 	}
 
 }
