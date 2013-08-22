@@ -1,6 +1,12 @@
 In-Game MCEdit Filters & Scripts
 =================
 
+Forum Link: http://www.minecraftforum.net/topic/1951378-/
+
+Currently this mod requires:
+* Mozilla Rhino
+* GuiLib (Minecraft mod/library)
+
 This mod adds Javascript support to Minecraft via Mozilla Rhino.
 
 * Users can run regular scripts (extension .js) in-game on either the client or server.
@@ -12,9 +18,5 @@ This mod adds Javascript support to Minecraft via Mozilla Rhino.
 * Scripts are currently saved in the "/scripts/client" and "/scripts/server" folders which can be found in the user's minecraft directory. 
 
 * To see what functions are available to the scripts, check out all of the classes inside the "scripting.wrapper" package. Note that some of the class names may be abbreviated to the scripts - check "scripting.ScriptingMod.java" to see which classes have shortened names. 
-
-Currently this mod requires:
-* Mozilla Rhino
-* GuiLib (Minecraft mod/library)
 
 

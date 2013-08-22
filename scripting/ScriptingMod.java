@@ -129,8 +129,7 @@ public class ScriptingMod {
 				+ " Users can write their own scripts to run in-game on either the client or server"
 				+ " and also use filters to directly modify their world." 
 				+ "\nFor more information, visit the URL above.";
-		//TODO URL
-		//modMeta.url = "URL_HERE";
+		modMeta.url = "http://www.minecraftforum.net/topic/1951378-/";
 	}
 
 	@EventHandler
