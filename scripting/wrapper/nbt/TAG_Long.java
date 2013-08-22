@@ -27,11 +27,11 @@ public class TAG_Long extends TAG_Base {
 		return new TAG_Long((NBTTagLong)tag.copy());
 	}
 	
-	public long getLong(){
+	public long getValue(){
 		return tag.data;
 	}
 	
-	public void setLong(long data) {
+	public void setValue(long data) {
 		tag.data = data;
 	}
 }

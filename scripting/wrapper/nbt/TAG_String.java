@@ -27,11 +27,11 @@ public class TAG_String extends TAG_Base {
 		return new TAG_String((NBTTagString)str.copy());
 	}
 	
-	public String getString(){
+	public String getValue(){
 		return str.data;
 	}
 	
-	public void setString(String data) {
+	public void setValue(String data) {
 		str.data = data;
 	}
 }

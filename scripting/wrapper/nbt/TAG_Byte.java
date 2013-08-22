@@ -27,11 +27,11 @@ public class TAG_Byte extends TAG_Base {
 		return new TAG_Byte((NBTTagByte)tag.copy());
 	}
 	
-	public byte getByte(){
+	public byte getValue(){
 		return tag.data;
 	}
 	
-	public void setByte(byte data) {
+	public void setValue(byte data) {
 		tag.data = data;
 	}
 

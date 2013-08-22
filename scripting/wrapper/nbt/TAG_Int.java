@@ -27,11 +27,11 @@ public class TAG_Int extends TAG_Base {
 		return new TAG_Int((NBTTagInt)tag.copy());
 	}
 	
-	public int getInt(){
+	public int getValue(){
 		return tag.data;
 	}
 	
-	public void setInt(int data) {
+	public void setValue(int data) {
 		tag.data = data;
 	}
 }

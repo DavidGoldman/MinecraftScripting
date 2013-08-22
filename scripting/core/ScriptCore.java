@@ -1,6 +1,5 @@
 package scripting.core;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -15,10 +14,10 @@ import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-import scripting.core.rhino.SandboxClassShutter;
 import scripting.core.script.BasicScript;
 import scripting.core.script.JSScript;
 import scripting.wrapper.js.Range;
+import scripting.wrapper.js.TagItr;
 
 public abstract class ScriptCore {
 	
@@ -86,6 +85,7 @@ public abstract class ScriptCore {
 		
 		try {
 			ScriptableObject.defineClass(globalScope, Range.class);
+			ScriptableObject.defineClass(globalScope, TagItr.class);
 		}
 		catch(Exception e) {
 			throw new RuntimeException(e);

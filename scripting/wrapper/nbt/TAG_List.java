@@ -2,6 +2,8 @@ package scripting.wrapper.nbt;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagDouble;
+import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
 
 public class TAG_List extends TAG_Base {
@@ -45,6 +47,20 @@ public class TAG_List extends TAG_Base {
 	public int tagCount() {
 		return list.tagCount();
 	}
+
+	public static TAG_List newFloatList(float... list) {
+        NBTTagList tagList = new NBTTagList();
+        for (float f : list)
+        	tagList.appendTag(new NBTTagFloat("", f));
+        return new TAG_List(tagList);
+    }
+
+	public static TAG_List newDoubleList(double... list) {
+        NBTTagList tagList = new NBTTagList();
+        for (double d : list)
+        	tagList.appendTag(new NBTTagDouble("", d));
+        return new TAG_List(tagList);
+    }
 
 
 }

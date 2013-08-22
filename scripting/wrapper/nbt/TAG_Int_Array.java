@@ -27,11 +27,11 @@ public class TAG_Int_Array extends TAG_Base {
 		return new TAG_Int_Array((NBTTagIntArray)arr.copy());
 	}
 	
-	public int[] getIntArray() {
+	public int[] getValue() {
 		return arr.intArray;
 	}
 	
-	public void setIntArray(int[] intArray) {
+	public void setValue(int[] intArray) {
 		arr.intArray = intArray;
 	}
 }

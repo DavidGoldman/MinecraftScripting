@@ -27,11 +27,11 @@ public class TAG_Short extends TAG_Base {
 		return new TAG_Short((NBTTagShort)tag.copy());
 	}
 	
-	public short getShort(){
+	public short getValue(){
 		return tag.data;
 	}
 	
-	public void setShort(short data) {
+	public void setValue(short data) {
 		tag.data = data;
 	}
 }

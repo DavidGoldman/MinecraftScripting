@@ -27,11 +27,11 @@ public class TAG_Float extends TAG_Base {
 		return new TAG_Float((NBTTagFloat)tag.copy());
 	}
 	
-	public float getFloat(){
+	public float getValue(){
 		return tag.data;
 	}
 	
-	public void setFloat(float data) {
+	public void setValue(float data) {
 		tag.data = data;
 	}
 	

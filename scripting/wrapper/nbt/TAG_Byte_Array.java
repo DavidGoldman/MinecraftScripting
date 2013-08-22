@@ -28,11 +28,11 @@ public class TAG_Byte_Array extends TAG_Base {
 		return new TAG_Byte_Array((NBTTagByteArray)arr.copy());
 	}
 	
-	public byte[] getByteArray() {
+	public byte[] getValue() {
 		return arr.byteArray;
 	}
 	
-	public void setByteArray(byte[] byteArray) {
+	public void setValue(byte[] byteArray) {
 		arr.byteArray = byteArray;
 	}
 

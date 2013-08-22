@@ -28,11 +28,11 @@ public class TAG_Double extends TAG_Base {
 		return new TAG_Double((NBTTagDouble)tag.copy());
 	}
 	
-	public double getDouble(){
+	public double getValue(){
 		return tag.data;
 	}
 	
-	public void setDouble(double data) {
+	public void setValue(double data) {
 		tag.data = data;
 	}
 }
