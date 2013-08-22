@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.command.ServerCommandManager;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.Configuration;
 
 import org.mozilla.javascript.ContextFactory;
@@ -23,6 +23,7 @@ import scripting.network.ClientPacketHandler;
 import scripting.network.ConnectionHandler;
 import scripting.network.ServerPacketHandler;
 import scripting.packet.ScriptPacket;
+import scripting.packet.ScriptPacket.PacketType;
 import scripting.wrapper.ScriptArray;
 import scripting.wrapper.ScriptHelper;
 import scripting.wrapper.ScriptIO;
@@ -222,22 +223,26 @@ public class ScriptingMod {
 			core.setProperty(name, obj);
 	}
 
-	public Selection getSelection(EntityPlayer player) {
+	public Selection getSelection(EntityPlayerMP player) {
 		Selection s = selections.get(player.username);
 		if (s == null) {
 			s = new Selection(player.dimension);
 			selections.put(player.username, s);
 		}
-		if (s.getDimension() != player.dimension)
+		if (s.getDimension() != player.dimension) {
 			s.reset(player.dimension);
+			player.playerNetServerHandler.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.SELECTION, s));
+		}
 		return s;
 	}
 
-	public void updateSelections(List<EntityPlayer> allPlayers) {
-		for (EntityPlayer player : allPlayers) {
+	public void updateSelections(List<EntityPlayerMP> allPlayers) {
+		for (EntityPlayerMP player : allPlayers) {
 			Selection s = selections.get(player.username);
-			if (s != null && (s.getDimension() != player.dimension || s.isInvalid()))
+			if (s != null && (s.getDimension() != player.dimension || s.isInvalid())) {
 				s.reset(player.dimension);
+				player.playerNetServerHandler.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.SELECTION, s));
+			}
 		}
 	}
 	

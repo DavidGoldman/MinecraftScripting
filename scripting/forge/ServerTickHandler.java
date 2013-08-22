@@ -5,10 +5,9 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import scripting.ScriptingMod;
-import scripting.core.ScriptLoader;
 import scripting.core.ServerCore;
 import cpw.mods.fml.common.IScheduledTickHandler;
 import cpw.mods.fml.common.TickType;
@@ -42,7 +41,7 @@ public class ServerTickHandler implements IScheduledTickHandler {
 		}
 		core.tick();
 		
-		List<EntityPlayer> players = (List<EntityPlayer>) MinecraftServer.getServer().getConfigurationManager().playerEntityList;
+		List<EntityPlayerMP> players = (List<EntityPlayerMP>) MinecraftServer.getServer().getConfigurationManager().playerEntityList;
 		ScriptingMod.instance.updateSelections(players);
 	}
 	

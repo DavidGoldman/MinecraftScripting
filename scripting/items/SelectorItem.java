@@ -26,7 +26,7 @@ public class SelectorItem extends SItem {
 
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer player, World world, int x, int y, int z, int par7, float par8, float par9, float par10){
 		if (player instanceof EntityPlayerMP) {
-			Selection sel = ScriptingMod.instance.getSelection(player); 
+			Selection sel = ScriptingMod.instance.getSelection((EntityPlayerMP)player); 
 			TileEntity te = world.getBlockTileEntity(x, y, z);
 			if (te != null)
 				sel.setTileEntity(te);
@@ -40,7 +40,7 @@ public class SelectorItem extends SItem {
 	@Override
 	public boolean func_111207_a(ItemStack itemstack, EntityPlayer player, EntityLivingBase entity) {
 		if (player instanceof EntityPlayerMP) {
-			Selection sel = ScriptingMod.instance.getSelection(player); 
+			Selection sel = ScriptingMod.instance.getSelection((EntityPlayerMP)player); 
 			sel.setSelectedEntity(entity);
 			((EntityPlayerMP)player).playerNetServerHandler.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.SELECTION, sel));
 		}

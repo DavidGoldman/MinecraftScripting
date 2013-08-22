@@ -1,6 +1,6 @@
 package scripting.network;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetLoginHandler;
 import net.minecraft.network.packet.NetHandler;
@@ -18,7 +18,7 @@ public class ConnectionHandler implements IConnectionHandler {
 
 	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) {
-		EntityPlayer entity = (EntityPlayer)player;
+		EntityPlayerMP entity = (EntityPlayerMP)player;
 		Selection sel = ScriptingMod.instance.getSelection(entity);
 		sel.reset(entity.dimension);
 		PacketDispatcher.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.SELECTION, sel), player);

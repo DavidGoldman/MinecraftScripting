@@ -25,7 +25,7 @@ public class SettingBoolean extends Setting {
 
 	@Override
 	public Object getValue() {
-		return enabled;
+		return enabled; 
 	}
 
 	@Override
