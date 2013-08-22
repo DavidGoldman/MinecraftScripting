@@ -77,7 +77,7 @@ import cpw.mods.fml.relauncher.Side;
  *      Work on wrapping (focus on client + server scripts now)
  * 
  */
-@Mod(modid=ScriptingMod.MOD_ID, name=ScriptingMod.NAME, version=ScriptingMod.VERSION)
+@Mod(modid=ScriptingMod.MOD_ID, name=ScriptingMod.NAME, version=ScriptingMod.VERSION, dependencies = "after:guilib")
 @NetworkMod(clientSideRequired = false, serverSideRequired = false,
 connectionHandler = ConnectionHandler.class,
 clientPacketHandlerSpec = @SidedPacketHandler(channels = ScriptPacket.PACKET_ID, packetHandler = ClientPacketHandler.class),
