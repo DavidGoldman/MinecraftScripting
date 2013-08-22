@@ -14,6 +14,9 @@ import scripting.wrapper.nbt.TAG_List;
 
 /**
  * Javascript TAG_List iterator.
+ * 
+ * Usage: "for (var tag in new TagItr(tagList)) ..."
+ * 
  * See {@link scripting.wrapper.js.Range} for more information.
  *
  */

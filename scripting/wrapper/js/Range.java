@@ -19,6 +19,8 @@ import scripting.ScriptingMod;
  * Note the the JS annotations are used rather than the 
  * specialized naming conventions (for convenience). 
  * 
+ * Usage: "for (var coord in new Range(sel.minX, sel.maxX)) ..."
+ * 
  * Based off of the Range class by Tim Schaub.
  * @See https://gist.github.com/tschaub/3291399
  *
