@@ -4,8 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.Configuration;
 
+//TODO Script timeout option?
 public class Config {
-	
 	private static boolean opOnly = true;
 	private static String[] whitelist = new String[0];
 	

@@ -43,7 +43,7 @@ public class MainScreen extends ScriptScreen {
 	@Override
 	protected void createGui() {
 		container = new Container();
-		title = new Label("Scripting Mod", new Tooltip("v" + ScriptingMod.VERSION));
+		title = new Label(ScriptingMod.NAME, new Tooltip("v" + ScriptingMod.VERSION));
 		client = new ButtonVanilla(100, 20, "Client", this);
 		client.setEnabled(ScriptingMod.proxy.getClientCore().hasScripts());
 		server = new ButtonVanilla(100, 20, "Server", this);
