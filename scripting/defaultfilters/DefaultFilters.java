@@ -11,6 +11,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import scripting.Config;
 import scripting.utils.Utils;
 
 public class DefaultFilters {
@@ -19,6 +20,8 @@ public class DefaultFilters {
 		"ChangeMobs", "CreateShops", "CreateSpawners", "StackEntities" };
 
 	public static void init(File dir) {
+		if (!Config.defaultFilters)
+			return;
 		dir.mkdirs();
 		for (String filter : FILTERS) {
 			filter += ".filter";
