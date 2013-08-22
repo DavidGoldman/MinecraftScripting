@@ -83,7 +83,17 @@ public class ScriptEntity {
 	public ScriptVec3 getPosition() {
 		return new ScriptVec3(entity.posX, entity.posY, entity.posZ);
 	}
-
+	
+	public double getX() {
+		return entity.posX;
+	}
+	public double getY() {
+		return entity.posY;
+	}
+	public double getZ() {
+		return entity.posZ;
+	}
+	
 	public void setPosition(ScriptVec3 vec) {
 		entity.setPosition(vec.x, vec.y, vec.z);
 	}
@@ -94,6 +104,10 @@ public class ScriptEntity {
 
 	public void setVelocity(ScriptVec3 vec) {
 		entity.setVelocity(vec.x, vec.y, vec.z);
+	}
+	
+	public void mountEntity(ScriptEntity scriptEnt) {
+		entity.mountEntity((scriptEnt == null) ? null : scriptEnt.entity);
 	}
 
 	public ScriptDataWatcher getDataWatcher() {
@@ -130,5 +144,9 @@ public class ScriptEntity {
 
 	public double getDistanceSqToEntity(ScriptEntity se) {
 		return entity.getDistanceSqToEntity(se.entity);
+	}
+	
+	public String toString() {
+		return "ScriptEntity: " + entity.toString();
 	}
 }

@@ -28,21 +28,30 @@ public class Range extends ScriptableObject {
 	int current, low, high;
 
 	public Range() { }
-	
+
 	public Range(int low, int high) {
 		this.low = low;
 		this.high = high;
 		this.current = low - 1;
 	}
-	
+
+	public Range(int high) {
+		this(0, high);
+	}
+
+	/**
+	 * {@link org.mozilla.javascript.FunctionObject.FunctionObject}
+	 */
 	@JSConstructor
-    public static Object constructor(Context cx, Object[] args, Function ctorObj, boolean inNewExpr) {
+	public static Object constructor(Context cx, Object[] args, Function ctorObj, boolean inNewExpr) {
 		if (!inNewExpr)
 			throw ScriptRuntime.constructError("Range Error", "Call constructor using the \"new\" keyword.");
-        if (args.length != 2) 
-            throw ScriptRuntime.constructError("Range Error", "Call constructor with two numbers.");
-        return new Range( (int)Context.toNumber(args[0]), (int)Context.toNumber(args[1]));
-    }
+		if (args.length == 1)
+			return new Range( (int)Context.toNumber(args[0]));
+		if (args.length == 2) 
+			return new Range( (int)Context.toNumber(args[0]), (int)Context.toNumber(args[1]));
+		throw ScriptRuntime.constructError("Range Error", "Call constructor with one or two numbers.");
+	}
 
 	@Override
 	public Object getDefaultValue(Class<?> typeHint) {
