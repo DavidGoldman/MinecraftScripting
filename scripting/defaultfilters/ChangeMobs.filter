@@ -1,0 +1,105 @@
+/*
+ * By Davidee, based on Sethbling's ChangeMobs filter
+ */
+ 
+const NO_OP = 1337;
+
+var villagers = Array.asList("Farmer (brown)", "Librarian (white)", "Priest (purple)", "Blacksmith (black apron)", "Butcher (white apron)", "Villager (green)");
+ 
+var inputs = Setting.toArray( 
+		new SettingFloat("Health", NO_OP),
+		new SettingFloat("VelocityX", NO_OP),
+		new SettingFloat("VelocityY", NO_OP),
+		new SettingFloat("VelocityZ", NO_OP),
+		new SettingInt("Fire", NO_OP),
+		new SettingFloat("FallDistance", NO_OP),
+		new SettingInt("Air", NO_OP),
+		new SettingInt("AttackTime", NO_OP),
+		new SettingInt("HurtTime", NO_OP),
+		new SettingList("Lightning Creeper", "N/A", "Lightning", "No Lightning"),
+		new SettingInt("Enderman Block Id", NO_OP),
+		new SettingInt("Enderman Block Data", NO_OP),
+		new SettingList("Villager Profession", "N/A", "Farmer (brown)", "Librarian (white)", "Priest (purple)", "Blacksmith (black apron)", "Butcher (white apron)", "Villager (green)"),
+		new SettingInt("Slime Size", NO_OP),
+		new SettingInt("Breeding Mode Ticks", NO_OP),
+		new SettingInt("Child/Adult Age", NO_OP)
+	);
+	
+	
+function run(player, world, sel, options) {
+	if (sel.isTile()) { 
+		player.addChatMessage("§cMust select a region or entity!");
+		return;
+	}
+	var health = options.get("Health");
+	var vx = options.get("VelocityX");
+	var vy = options.get("VelocityY");
+	var vz = options.get("VelocityZ");
+	var fire = options.get("Fire");
+	var fall = options.get("FallDistance");
+	var air = options.get("Air");
+	var attackTime = options.get("AttackTime");
+	var hurtTime = options.get("HurtTime");
+	var powered = options.get("Lightning Creeper");
+	var blockId = options.get("Enderman Block Id");
+	var blockData = options.get("Enderman Block Data");
+	var profession = options.get("Villager Profession");
+	var size = options.get("Slime Size");
+	var breedTicks = options.get("Breeding Mode Ticks");
+	var age = options.get("Child/Adult Age");
+	
+	for each (var entity in sel.entities) { //For each can iterate through native java arrays
+		var tag = entity.writeToTag();
+		if (tag.hasTag("HealF")) {
+			if (health != NO_OP)
+				tag.setFloat("HealF", health);
+		
+			if (vx != NO_OP)
+				tag.getTag("Motion").tagAt(0).value = vx;
+			
+			if (vy != NO_OP)
+				tag.getTag("Motion").tagAt(1).value = vy;
+			
+			if (vz != NO_OP)
+				tag.getTag("Motion").tagAt(2).value = vz;
+			
+			if (fire != NO_OP)
+				tag.setShort("Fire", fire);
+			
+			if (fall != NO_OP)
+				tag.setFloat("FallDistance", fall);
+			
+			if (air != NO_OP)
+				tag.setShort("Air", air);
+			
+			if (attackTime != NO_OP)
+				tag.setShort("AttackTime", attackTime);
+			
+			if (hurtTime != NO_OP)
+				tag.setShort("HurtTime", hurtTime);
+			
+			if (powered != "N/A" && entity.internalName == "Creeper") 
+				tag.setBoolean("powered", powered == "Lightning");
+				
+			if (blockId != NO_OP && entity.internalName == "Enderman") 
+				tag.setShort("carried", blockId);
+			if (blockData != NO_OP && entity.internalName == "Enderman") 
+				tag.setShort("carriedData", blockData);
+			
+			if (profession != "N/A" && entity.internalName == "Villager") 
+				tag.setInteger("Profession", villagers.indexOf(profession));
+			
+			if (size != NO_OP && entity.internalName == "Slime")
+				tag.setInteger("Size", size);
+				
+			if (breedTicks != NO_OP)
+				tag.setInteger("InLove", breedTicks);
+				
+			if (age != NO_OP)
+				tag.setInteger("Age", age);
+			
+			entity.readFromTag(tag);
+			Script.syncEntityNBT(entity);
+		}
+	}
+}

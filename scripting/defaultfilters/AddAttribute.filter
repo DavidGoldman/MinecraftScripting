@@ -1,0 +1,51 @@
+/*
+ * By Davidee, based on Sethbling's AddAttribute filter
+ */
+
+var inputs = Setting.toArray( 
+	new SettingList("Attribute", "generic.maxHealth", "generic.followRange", "generic.attackDamage", "generic.movementSpeed", "generic.knockbackResistance"),
+	new SettingList("Operations", "Add Number", "Add Percentage", "Multiply Percentage"),
+	new SettingInt("Number/Percentage", 100),
+	new SettingString("Name", "")
+	);
+	
+var ops = Array.asList("Add Number", "Multiply Percentage", "Add Percentage");
+
+function run(player, world, sel, options) {
+	if (sel.isEntity()) {
+		player.addChatMessage("§cMust select a region or tile entity!");
+		return;
+	}
+	var amount = options.get("Number/Percentage");
+	var operation = ops.indexOf(options.get("Operations"));
+	if (operation == 1 || operation == 2)
+		amount = amount / 100.0;
+	var attributeName = options.get("Attribute");
+	var name = options.get("Name");
+	
+	for each (var tile in sel.tiles) { //For each can iterate through native java arrays
+		var tileName = tile.internalName;
+		if (tileName == "Trap" || tileName == "Chest" || tileName == "Dropper") {
+			var tag = tile.writeToTag();
+
+			for (var item in new TagItr(tag.getTag("Items"))) {
+				if (!item.hasTag("tag"))
+					item.setTag("tag", new TAG_Compound());
+				var itemTag = item.getTag("tag");
+				if (!itemTag.hasTag("AttributeModifiers"))
+					itemTag.setTag("AttributeModifiers", new TAG_List());
+					
+				var at = new TAG_Compound();
+				at.setDouble("Amount", amount);
+				at.setInteger("Operation", operation);
+				at.setString("AttributeName", attributeName);
+				at.setString("Name", name);
+				at.setLong("UUIDLeast", Rand.randomInt(0, 1000000000));
+				at.setLong("UUIDMost", Rand.randomInt(0, 1000000000));
+				itemTag.getTag("AttributeModifiers").appendTag(at);
+			}
+			tile.readFromTag(tag);
+			Script.syncTileEntityNBT(tile);
+		}
+	}
+}

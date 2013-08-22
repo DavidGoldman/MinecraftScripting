@@ -1,0 +1,98 @@
+/*
+ * By Davidee, based on Sethbling's CreateShops filter.
+ */
+
+var villagers = Array.asList("Farmer (brown)", "Librarian (white)", "Priest (purple)", "Blacksmith (black apron)", "Butcher (white apron)", "Villager (green)");
+
+ var inputs = Setting.toArray( 
+		new SettingList("Villager Profession", "Farmer (brown)", "Librarian (white)", "Priest (purple)", "Blacksmith (black apron)", "Butcher (white apron)", "Villager (green)"),
+		new SettingBoolean("Add Unusable Trade", false),
+		new SettingBoolean("Invincible Villagers", false),
+		new SettingBoolean("Unlimited Trades", true)
+	);
+
+function run(player, world, sel, options) {
+	if (sel.isEntity()) { 
+		player.addChatMessage("§cMust select a region or tile!");
+		return;
+	}
+	var emptyTrade = options.get("Add Unusable Trade").booleanValue(); //Rhino will treat a java.lang.Boolean as true
+	var invincible = options.get("Invincible Villagers").booleanValue(); 
+	var profession = villagers.indexOf(options.get("Villager Profession"));
+	var unlimited = options.get("Unlimited Trades").booleanValue(); 
+
+	for each (tile in sel.tiles) 
+		if (tile.internalName == "Chest")
+				createShop(world, tile, emptyTrade, invincible, profession, unlimited);
+	
+}
+
+function createShop(world, chest, emptyTrade, invincible, profession, unlimited) {
+	var tag = chest.writeToTag();
+	var priceList = {}
+	var priceListB = {}
+	var saleList = {}
+	var x = chest.x, y = chest.y, z = chest.z;
+	for (var item in new TagItr(tag.getTag("Items"))) { //Can use TagItr on TAG_Lists
+		var slot = item.getByte("Slot");
+		if(slot >=0 && slot <= 8)
+			priceList[slot] = item;
+		if (slot >= 9 && slot <= 17)
+			priceListB[slot-9] = item;
+		if (slot >= 18 && slot <= 26)
+			saleList[slot-18] = item;
+	}
+
+	var entity = Entity.createEntityByName("Villager", world);
+	var villager = entity.writeToTag();
+	villager.setInteger("Profession", profession);
+	villager.setTag("Pos", TAG_List.newDoubleList(x + 0.5, y, z + 0.5)); 
+
+	villager.setTag("Offers", new TAG_Compound()); 
+	var recipes = new TAG_List();
+	villager.getTag("Offers").setTag("Recipes", recipes);
+
+	for (var i in new Range(9)) {
+		if ((priceList.hasOwnProperty(i) || priceListB.hasOwnProperty(i)) && saleList.hasOwnProperty(i)) {
+			var offer = new TAG_Compound();
+			offer.setInteger("uses", (unlimited) ? -2000000000 : 0);
+			if (priceList.hasOwnProperty(i))
+				offer.setTag("buy", priceList[i]);
+			if (priceListB.hasOwnProperty(i)) 
+				if (priceList.hasOwnProperty(i))
+					offer.setTag("buyB", priceListB[i]);
+				else
+					offer.setTag("buy", priceListB[i]);
+			offer.setTag("sell", saleList[i]);
+			recipes.appendTag(offer);
+		}
+	}
+
+	if (emptyTrade) {
+		var offer = new TAG_Compound();
+		offer.setTag("buy", new TAG_Compound());
+		offer.getTag("buy").setByte("Count", 1);
+		offer.getTag("buy").setShort("Damage", 0);
+		offer.getTag("buy").setShort("id", 36);
+		offer.setTag("sell", new TAG_Compound());
+		offer.getTag("sell").setByte("Count", 1);
+		offer.getTag("sell").setShort("Damage", 0);
+		offer.getTag("sell").setShort("id", 36);
+		recipes.appendTag(offer);
+	}
+
+	if (invincible) {
+		villager.setTag("ActiveEffects", new TAG_List());
+		var resist = new TAG_Compound();
+		resist.setByte("Amplifier", 4);
+		resist.setByte("Id", 11);
+		resist.setInteger("Duration", 2000000000);
+		villager.getTag("ActiveEffects").appendTag(resist);
+	}
+	world.removeTileEntity(x, y, z);
+	world.setBlockID(x, y, z, 0);
+
+	entity.readFromTag(villager);
+	world.spawnEntityInWorld(entity);
+	Script.syncEntityNBT(entity);
+}

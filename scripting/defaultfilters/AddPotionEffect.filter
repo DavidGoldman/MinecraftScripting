@@ -1,0 +1,61 @@
+/*
+ * By Davidee, based on Sethbling's AddPotionEffect filter
+ */
+
+var effects = {
+	"Strength": 5,
+	"Jump Boost": 8,
+	"Regeneration": 10,
+	"Fire Resistance": 12,
+	"Water Breathing": 13,
+	"Resistance": 11,
+	"Weakness": 18,
+	"Poison": 19,
+	"Speed (no mob effect)": 1,
+	"Slowness (no mob effect)": 2,
+	"Haste (no mob effect)": 3,
+	"Mining Fatigue (no mob effect)": 4,
+	"Nausea (no mob effect)": 9,
+	"Blindness (no mob effect)": 15,
+	"Hunger (no mob effect)": 17,
+	"Invisibility (no effect)": 14,
+	"Night Vision (no effect)": 16,
+	"Wither": 20,
+	};
+ 
+var inputs = Setting.toArray( 
+		new SettingList("Effect", "Strength", "Jump Boost", "Regeneration", "Fire Resistance", "Water Breathing", "Resistance", "Weakness", "Poison", "Speed (no mob effect)", "Slowness (no mob effect)", "Haste (no mob effect)",
+	"Mining Fatigue (no mob effect)", "Nausea (no mob effect)", "Blindness (no mob effect)", "Hunger (no mob effect)", "Invisibility (no effect)", "Night Vision (no effect)", "Wither"),
+		new SettingInt("Level", 1),
+		new SettingInt("Duration (Seconds)", 60)
+	);
+	
+	
+function run(player, world, sel, options) {
+	if (sel.isTile()) { 
+		player.addChatMessage("§cMust select a region or entity!");
+		return;
+	}
+	var effect = effects[options.get("Effect")];
+	var amp = options.get("Level");
+	var duration = options.get("Duration (Seconds)") * 20;
+	
+	for each (var entity in sel.entities) {
+		var tag = entity.writeToTag();
+		if (tag.hasTag("HealF")) {
+			if (!tag.hasTag("ActiveEffects"))
+				tag.setTag("ActiveEffects", new TAG_List()); 
+
+			var ef = new TAG_Compound();
+			ef.setByte("Amplifier", amp);
+			ef.setByte("Id", effect);
+			ef.setInteger("Duration", duration);
+			tag.getTag("ActiveEffects").appendTag(ef); 
+
+			entity.readFromTag(tag);
+			Script.syncEntityNBT(entity);
+		}
+	
+	}
+	
+}

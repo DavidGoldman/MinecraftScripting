@@ -1,0 +1,33 @@
+/*
+ * By Davidee, based on Sethbling's CreateSpawner filter
+ */
+ 
+var inputs = Setting.toArray( 
+		new SettingBoolean("Include position data", false)
+	);
+	
+function run(player, world, sel, options) {
+	if (sel.isTile()) { 
+		player.addChatMessage("§cMust select a region or entity!");
+		return;
+	}
+	for each (var entity in sel.entities) { //For each can iterate through native java arrays
+		var includePos = options.get("Include position data").booleanValue(); //Rhino will treat a java.lang.Boolean as true
+		var pos = entity.position;
+		world.setBlockID(pos.x, pos.y, pos.z, BlockID.mobSpawner); //Can also directly use id 52
+		
+		var spawner = new TAG_Compound();
+		spawner.setString("id", "MobSpawner");
+		spawner.setInteger("x", pos.x);
+		spawner.setInteger("y", pos.y);
+		spawner.setInteger("z", pos.z);
+		spawner.setShort("Delay", 120);
+		spawner.setTag("SpawnData", entity.writeToTag());
+		if (!includePos) 
+			spawner.getTag("SpawnData").removeTag("Pos");
+
+		spawner.setString("EntityId", entity.internalName);
+		world.registerTileEntity(TileEntity.createFromTag(spawner));
+		world.removeEntity(entity);
+	}
+}

@@ -16,6 +16,7 @@ import org.mozilla.javascript.ContinuationPending;
 import scripting.core.ScriptCore;
 import scripting.core.ServerCore;
 import scripting.core.rhino.SandboxContextFactory;
+import scripting.defaultfilters.DefaultFilters;
 import scripting.forge.Proxy;
 import scripting.forge.ServerTickHandler;
 import scripting.items.SelectorItem;
@@ -134,6 +135,7 @@ public class ScriptingMod {
 		 */
 		ContextFactory.initGlobal(new SandboxContextFactory());
 		ReflectionHelper.init();
+		DefaultFilters.init(new File(new File(proxy.getMinecraftDir(), "scripts"), "server"));
 		
 		addAbbreviation("Vec3", ScriptVec3.class);
 		addAbbreviation("Vec2", ScriptVec2.class);

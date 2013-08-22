@@ -1,0 +1,22 @@
+/*
+ * By Davidee, based on Sethbling's StackEntities filter
+ */
+
+function run(player, world, sel, options) {
+	if (!sel.isRegion()) { 
+		player.addChatMessage("§cMust select a region");
+		return;
+	}
+	var entities = sel.entities;
+	entities.sort(function(a,b) { return a.y - b.y });
+
+	var below = null;
+	for each (var entity in entities) { 
+		if (below == null)
+			below = entity;
+		else  {
+			entity.mountEntity(below);
+			below = entity;
+		}
+	}
+}
