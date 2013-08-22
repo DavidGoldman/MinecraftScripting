@@ -7,7 +7,11 @@ import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet1Login;
 import net.minecraft.server.MinecraftServer;
 import scripting.ScriptingMod;
+import scripting.Selection;
+import scripting.packet.ScriptPacket;
+import scripting.packet.ScriptPacket.PacketType;
 import cpw.mods.fml.common.network.IConnectionHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
 public class ConnectionHandler implements IConnectionHandler {
@@ -15,7 +19,9 @@ public class ConnectionHandler implements IConnectionHandler {
 	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) {
 		EntityPlayer entity = (EntityPlayer)player;
-		ScriptingMod.instance.getSelection(entity).reset(entity.dimension);
+		Selection sel = ScriptingMod.instance.getSelection(entity);
+		sel.reset(entity.dimension);
+		PacketDispatcher.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.SELECTION, sel), player);
 	}
 
 	@Override

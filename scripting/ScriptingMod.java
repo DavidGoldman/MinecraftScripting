@@ -20,6 +20,7 @@ import scripting.forge.Proxy;
 import scripting.forge.ServerTickHandler;
 import scripting.items.SelectorItem;
 import scripting.network.ClientPacketHandler;
+import scripting.network.ConnectionHandler;
 import scripting.network.ServerPacketHandler;
 import scripting.packet.ScriptPacket;
 import scripting.wrapper.ScriptArray;
@@ -76,6 +77,7 @@ import cpw.mods.fml.relauncher.Side;
  */
 @Mod(modid="Scripting", name="Scripting", version=ScriptingMod.VERSION)
 @NetworkMod(clientSideRequired = false, serverSideRequired = false,
+connectionHandler = ConnectionHandler.class,
 clientPacketHandlerSpec = @SidedPacketHandler(channels = ScriptPacket.PACKET_ID, packetHandler = ClientPacketHandler.class),
 serverPacketHandlerSpec = @SidedPacketHandler(channels = ScriptPacket.PACKET_ID, packetHandler = ServerPacketHandler.class))
 public class ScriptingMod {
@@ -237,6 +239,10 @@ public class ScriptingMod {
 			if (s != null && (s.getDimension() != player.dimension || s.isInvalid()))
 				s.reset(player.dimension);
 		}
+	}
+	
+	public void clearSelections() {
+		selections.clear();
 	}
 
 	public boolean isClient() {

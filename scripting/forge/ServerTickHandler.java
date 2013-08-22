@@ -37,6 +37,7 @@ public class ServerTickHandler implements IScheduledTickHandler {
 	public void tickEnd(EnumSet<TickType> type, Object... tickData) {
 		if (lastThread != Thread.currentThread()) { 
 			lastThread = Thread.currentThread();
+			ScriptingMod.instance.clearSelections();
 			core = new ServerCore(loadDir, props, abbreviations);
 		}
 		core.tick();

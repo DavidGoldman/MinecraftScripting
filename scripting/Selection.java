@@ -156,4 +156,5 @@ public class Selection {
 	public boolean isInvalid() {
 		return (selectedTile != null && selectedTile.isInvalid()) || (selectedEntity != null && selectedEntity.isDead);
 	}
+	
 }
