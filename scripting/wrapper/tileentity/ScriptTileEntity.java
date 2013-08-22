@@ -1,5 +1,9 @@
 package scripting.wrapper.tileentity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.entity.EntityList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import scripting.ReflectionHelper;
@@ -12,6 +16,10 @@ public class ScriptTileEntity {
 	public static ScriptTileEntity createFromTag(TAG_Compound tag) {
 		TileEntity te = TileEntity.createAndLoadEntity(tag.tag);
 		return (te != null) ? new ScriptTileEntity(te) : null;
+	}
+	
+	public static List<String> getAllTileNames() {
+		return new ArrayList<String>(ReflectionHelper.tileClassToString.values());
 	}
 	
 	public final TileEntity tile;

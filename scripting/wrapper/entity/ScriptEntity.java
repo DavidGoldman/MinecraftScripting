@@ -1,5 +1,8 @@
 package scripting.wrapper.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityList;
@@ -47,7 +50,11 @@ public class ScriptEntity {
 			return new ScriptEntityLivingBase((EntityLivingBase)entity);
 		return new ScriptEntity(entity);
 	}
-
+	
+	public static List<String> getAllEntityNames() {
+		return new ArrayList<String>(EntityList.stringToClassMapping.keySet());
+	}
+	
 	public final Entity entity;
 
 	public ScriptEntity(Entity entity) {
