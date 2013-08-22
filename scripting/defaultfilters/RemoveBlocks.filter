@@ -1,0 +1,26 @@
+/*
+ * By Davidee, a simple filter that removes all blocks within the selected region.
+ */
+
+ var inputs = Setting.toArray( 
+		new SettingBoolean("Remove tile entity blocks", true)
+	);
+
+function run(player, world, sel, options) {
+	if (!sel.isRegion()) { 
+		player.addChatMessage("§cMust select a region!");
+		return;
+	}
+	var removeTiles = options.get("Remove tile entity blocks").booleanValue(); //Rhino will treat a java.lang.Boolean as true
+	for (var x in new Range(sel.minX, sel.maxX))
+		for (var y in new Range(sel.minY, sel.maxY))
+			for (var z in new Range(sel.minZ, sel.maxZ)) 
+				if (world.getTileEntity(x, y, z) == null)
+					world.setBlockID(x, y, z, 0);
+				else if (removeTiles) {
+					world.removeTileEntity(x, y, z);
+					world.setBlockID(x, y, z, 0);
+				}
+			
+
+}

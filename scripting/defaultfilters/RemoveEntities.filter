@@ -1,0 +1,8 @@
+/*
+ * By Davidee, a simple filter that removes all entities within the selected region.
+ */
+
+function run(player, world, sel, options) {
+	for each (var entity in sel.entities)
+		world.removeEntity(entity);
+}
