@@ -78,7 +78,7 @@ public class PopupScreen extends OverlayScreen {
 	
 	@Override
 	public boolean doesGuiPauseGame() {
-		return false;
+		return getParent().doesGuiPauseGame();
 	}
 	
 	@Override

@@ -1,6 +1,8 @@
 package scripting.gui.settings;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.network.MemoryConnection;
+import scripting.Config;
 import scripting.gui.ScriptScreen;
 import scripting.packet.ScriptPacket;
 import scripting.packet.ScriptPacket.PacketType;
@@ -73,6 +75,11 @@ public class SettingsScreen extends ScriptScreen {
 		containers.add(setC);
 		containers.add(mainC);
 		selectedContainer = setC;
+	}
+	
+	@Override
+	public boolean doesGuiPauseGame() {
+		return Config.filtersPauseGame;
 	}
 	
 	private Widget getSettingWidget(Setting s) {

@@ -188,7 +188,6 @@ public class ScriptingMod {
 		 */
 		File scriptDir = new File(proxy.getMinecraftDir(), "scripts");
 		proxy.postInit(scriptDir, clientProps, abbreviations);
-		
 		TickRegistry.registerScheduledTickHandler( (serverTicker = new ServerTickHandler(scriptDir, serverProps, abbreviations)) , Side.SERVER);
 	}
 	
