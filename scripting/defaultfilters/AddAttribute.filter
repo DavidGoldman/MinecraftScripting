@@ -45,7 +45,7 @@ function run(player, world, sel, options) {
 				itemTag.getTag("AttributeModifiers").appendTag(at);
 			}
 			tile.readFromTag(tag);
-			Script.syncTileEntityNBT(tile);
+			Script.syncTileEntity(tile);
 		}
 	}
 }

@@ -86,7 +86,7 @@ public class ScriptingMod {
 
 	public static final String MOD_ID = "Scripting";
 	public static final String NAME = "In-Game MCEdit Filters & Scripts";
-	public static final String VERSION = "1.0.0";
+	public static final String VERSION = "1.0.1";
 	public static final char SECTION = '\u00A7';
 
 	@Instance("Scripting")

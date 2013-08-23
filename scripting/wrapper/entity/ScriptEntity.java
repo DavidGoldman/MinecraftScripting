@@ -1,11 +1,16 @@
 package scripting.wrapper.entity;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityPig;
@@ -51,8 +56,19 @@ public class ScriptEntity {
 		return new ScriptEntity(entity);
 	}
 	
-	public static List<String> getAllEntityNames() {
-		return new ArrayList<String>(EntityList.stringToClassMapping.keySet());
+	public static String[] getAllEntityNames() {
+		return ((Set<String>)EntityList.stringToClassMapping.keySet()).toArray(new String[0]);
+	}
+	
+	
+	public static String[] getAllLivingEntityNames() {
+		List<String> names = new ArrayList<String>();
+		for (Entry<String, Class<?>> entry : ((Map<String, Class<?>>)EntityList.stringToClassMapping).entrySet()) {
+			Class<?> clazz = entry.getValue();
+			if (!Modifier.isAbstract(clazz.getModifiers()) && EntityLiving.class.isAssignableFrom(clazz)) 
+				names.add(entry.getKey());
+		}
+		return names.toArray(new String[0]);
 	}
 	
 	public final Entity entity;

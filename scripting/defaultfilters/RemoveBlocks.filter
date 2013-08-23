@@ -21,6 +21,4 @@ function run(player, world, sel, options) {
 					world.removeTileEntity(x, y, z);
 					world.setBlockID(x, y, z, 0);
 				}
-			
-
 }

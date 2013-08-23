@@ -1,0 +1,44 @@
+/*
+ * By Davidee, based on Sethbling's setSpawnerproperties filter.
+ */
+ 
+/*
+ * Here we make use of the SettingInt(name, val, min, max) constructor.
+ * Since these numbers are saved internally as shorts, their max value is 32767.
+ */
+var entities = Entity.allLivingEntityNames;
+entities.sort(function(a,b) { return a.compareTo(b); });
+
+var inputs = Setting.toArray( 
+		new SettingList("Entity", "N/A", entities),
+		new SettingInt("Min Spawn Delay", 600, 0, 32767),
+		new SettingInt("Max Spawn Delay", 1200, 1, 32767),
+		new SettingInt("Current Spawn Delay", 120, -1, 32767),
+		new SettingInt("Spawn Count", 1, 1, 32767),
+		new SettingInt("Entity Cap", 6, 1, 32767),
+		new SettingInt("Detection Range", 16, 1, 32767),
+		new SettingInt("Spawn Radius", 4, 1, 32767)
+	);
+	
+function run(player, world, sel, options) {
+	if (sel.isEntity()) { 
+		player.addChatMessage("§cMust select a region or tile!");
+		return;
+	}
+	var entity = options.get("Entity");
+	for each (var tile in sel.tiles) 
+		if (tile.internalName == "MobSpawner" || tile.internalName == "MinecartSpawner") {
+			var tag = tile.writeToTag();
+			tag.setShort("SpawnCount", options.get("Spawn Count"));
+			tag.setShort("MinSpawnDelay", options.get("Min Spawn Delay"));
+			tag.setShort("MaxSpawnDelay", options.get("Max Spawn Delay"));
+			tag.setShort("Delay", options.get("Current Spawn Delay"));
+			tag.setShort("MaxNearbyEntities", options.get("Entity Cap"));
+			tag.setShort("RequiredPlayerRange", options.get("Detection Range"));
+			tag.setShort("SpawnRange", options.get("Spawn Radius"));
+			if (entity != "N/A")
+				tag.setString("EntityId", entity);
+			tile.readFromTag(tag);
+			Script.syncTileEntity(tile);
+		}
+}

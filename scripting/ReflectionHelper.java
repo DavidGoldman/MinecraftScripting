@@ -11,7 +11,7 @@ public class ReflectionHelper {
 
 	private static final int POTION_FIELD_INDEX = 51;
 
-	public static Map tileClassToString = null;
+	public static Map<Class<?>, String> tileClassToString = null;
 	public static Field potionsNeedUpdate = null;
 
 	public static void init() throws RuntimeException {

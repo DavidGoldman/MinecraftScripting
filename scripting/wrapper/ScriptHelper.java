@@ -2,6 +2,7 @@ package scripting.wrapper;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 
 import org.mozilla.javascript.ContinuationPending;
@@ -32,6 +33,15 @@ public class ScriptHelper {
 			ReflectionHelper.potionsNeedUpdate.setBoolean(entity.entity, true);
 	}
 
+	
+	/**
+	 * Sync the tile entity using NBT tags
+	 * 
+	 * @deprecated As of mod version 1.0.1, replaced by {@link #syncTileEntity(ScriptTileEntity)}, which uses vanilla methods to sync tiles.
+	 * @param te ScripTileEntity to sync
+	 * @throws IllegalAccessException When called from the client
+	 */
+	@Deprecated
 	public static void syncTileEntityNBT(ScriptTileEntity te) throws IllegalAccessException {
 		if (ScriptingMod.instance.isClient())
 			throw new IllegalAccessException("Can only sync NBT from server");
@@ -43,4 +53,17 @@ public class ScriptHelper {
 				tile.xCoord, tile.yCoord, tile.zCoord, tag), dim);
 	}
 
+	/**
+	 * Syncs the tile entity using the vanilla method (preferred).
+	 * 
+	 * @param te ScripTileEntity to sync
+	 * @throws IllegalAccessException When called from the client
+	 */
+	public static void syncTileEntity(ScriptTileEntity te) throws IllegalAccessException {
+		if (ScriptingMod.instance.isClient())
+			throw new IllegalAccessException("Can only sync from server");
+		Packet p = te.tile.getDescriptionPacket();
+		if (p != null)
+			PacketDispatcher.sendPacketToAllInDimension(p, te.tile.worldObj.provider.dimensionId);
+	}
 }

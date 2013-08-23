@@ -18,8 +18,8 @@ public class ScriptTileEntity {
 		return (te != null) ? new ScriptTileEntity(te) : null;
 	}
 	
-	public static List<String> getAllTileNames() {
-		return new ArrayList<String>(ReflectionHelper.tileClassToString.values());
+	public static String[] getAllTileNames() {
+		return ReflectionHelper.tileClassToString.values().toArray(new String[0]);
 	}
 	
 	public final TileEntity tile;

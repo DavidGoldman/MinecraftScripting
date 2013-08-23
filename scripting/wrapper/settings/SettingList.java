@@ -1,5 +1,7 @@
 package scripting.wrapper.settings;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import scripting.packet.ScriptPacket;
 
 import com.google.common.io.ByteArrayDataInput;
@@ -24,6 +26,10 @@ public class SettingList extends Setting {
 		if (options.length == 0)
 			throw new IllegalArgumentException("Must have at least 1 option!");
 		selected = options[0];
+	}
+	
+	public SettingList(String display, String firstOption, String... options) {
+		this(display, ArrayUtils.addAll(new String[] { firstOption }, options));
 	}
 
 	@Override
