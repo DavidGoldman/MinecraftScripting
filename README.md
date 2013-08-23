@@ -4,8 +4,8 @@ In-Game MCEdit Filters & Scripts
 Forum Link: http://www.minecraftforum.net/topic/1951378-/
 
 Currently this mod requires:
-* Mozilla Rhino
-* GuiLib (Minecraft mod/library)
+* [Mozilla Rhino](https://github.com/mozilla/rhino)
+* [GuiLib](https://github.com/DavidGoldman/GuiLib)
 
 This mod adds Javascript support to Minecraft via Mozilla Rhino.
 
