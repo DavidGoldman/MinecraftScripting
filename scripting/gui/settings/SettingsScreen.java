@@ -1,13 +1,13 @@
 package scripting.gui.settings;
 
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.network.MemoryConnection;
 import scripting.Config;
 import scripting.gui.ScriptScreen;
 import scripting.packet.ScriptPacket;
 import scripting.packet.ScriptPacket.PacketType;
 import scripting.packet.SettingsPacket;
 import scripting.wrapper.settings.Setting;
+import scripting.wrapper.settings.SettingBlock;
 import scripting.wrapper.settings.SettingBoolean;
 import scripting.wrapper.settings.SettingFloat;
 import scripting.wrapper.settings.SettingInt;
@@ -91,6 +91,8 @@ public class SettingsScreen extends ScriptScreen {
 			return new SetFloatTextField((SettingFloat)s);
 		if (s instanceof SettingString)
 			return new SetStringTextField((SettingString)s);
+		if (s instanceof SettingBlock)
+			return new SetBlockButton((SettingBlock)s);
 		return new SetListButton((SettingList)s);
 	}
 	

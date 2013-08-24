@@ -1,5 +1,6 @@
 package scripting.gui.settings.items;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
@@ -27,14 +28,20 @@ public class ItemTooltip extends Widget {
 	public ItemTooltip(ItemStack stack, GuiScreen parent) {
 		super(0, 0);
 
-		tooltips = stack.getTooltip(mc.thePlayer, mc.gameSettings.advancedItemTooltips);
-		if (!tooltips.isEmpty()) {
-			tooltips.set(0, ScriptingMod.SECTION + Integer.toHexString(stack.getRarity().rarityColor) + tooltips.get(0));
-			for (int i = 1; i < tooltips.size(); ++i)
-				tooltips.set(i, EnumChatFormatting.GRAY + tooltips.get(i));
+		if (stack.itemID != 0) {
+			tooltips = stack.getTooltip(mc.thePlayer, mc.gameSettings.advancedItemTooltips);
+			if (!tooltips.isEmpty()) {
+				tooltips.set(0, ScriptingMod.SECTION + Integer.toHexString(stack.getRarity().rarityColor) + tooltips.get(0));
+				for (int i = 1; i < tooltips.size(); ++i)
+					tooltips.set(i, EnumChatFormatting.GRAY + tooltips.get(i));
+			}
+			FontRenderer itemRenderer = stack.getItem().getFontRenderer(stack);
+			font = (itemRenderer == null) ? mc.fontRenderer : itemRenderer;
 		}
-		FontRenderer itemRenderer = stack.getItem().getFontRenderer(stack);
-		font = (itemRenderer == null) ? mc.fontRenderer : itemRenderer;
+		else {
+			tooltips = Arrays.asList("Air");
+			font = mc.fontRenderer;
+		}
 		this.parent = parent;
 		this.width = getMaxStringWidth();
 		this.height = (tooltips.size() > 1) ? tooltips.size()*10 : 8; 
