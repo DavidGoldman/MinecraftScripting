@@ -1,5 +1,7 @@
 package scripting.gui.settings;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.GuiScreen;
 import scripting.Config;
 import scripting.gui.ScriptScreen;

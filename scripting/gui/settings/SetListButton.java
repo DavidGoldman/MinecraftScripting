@@ -43,7 +43,7 @@ public class SetListButton extends ButtonVanilla implements ISetting, Shiftable 
 	@Override
 	public void handleClick(int mx, int my) {
 		mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-		mc.displayGuiScreen(new PopupScreen(this, setting.options, (SettingsScreen)mc.currentScreen));
+		mc.displayGuiScreen(new PopupDropdown(this, setting.options, (SettingsScreen)mc.currentScreen));
 	}
 
 	@Override

@@ -13,7 +13,7 @@ import com.mcf.davidee.guilib.vanilla.ScrollbarVanilla;
  * A hack-ish way to implement a nice looking drop-down menu with GuiLib.
  *
  */
-public class PopupScreen extends OverlayScreen {
+public class PopupDropdown extends OverlayScreen {
 	
 	private final SetListButton button;
 	private final String[] options;
@@ -23,7 +23,7 @@ public class PopupScreen extends OverlayScreen {
 	private int x, y;
 	private int cWidth, cHeight;
 
-	public PopupScreen(SetListButton button, String[] options, BasicScreen bg) {
+	public PopupDropdown(SetListButton button, String[] options, BasicScreen bg) {
 		super(bg);
 		
 		this.button = button;

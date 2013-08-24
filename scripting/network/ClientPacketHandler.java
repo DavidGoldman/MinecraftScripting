@@ -8,7 +8,7 @@ import scripting.Selection;
 import scripting.gui.MainScreen;
 import scripting.gui.ScriptScreen;
 import scripting.gui.ServerMenu;
-import scripting.gui.settings.PopupScreen;
+import scripting.gui.settings.PopupDropdown;
 import scripting.gui.settings.SettingsScreen;
 import scripting.packet.CloseGUIPacket;
 import scripting.packet.EntityNBTPacket;
@@ -54,7 +54,7 @@ public class ClientPacketHandler extends ScriptPacketHandler {
 
 	@Override
 	public void handleCloseGUI(CloseGUIPacket pkt, Player player) {
-		if (mc.currentScreen instanceof ScriptScreen || mc.currentScreen instanceof PopupScreen)
+		if (mc.currentScreen instanceof ScriptScreen || mc.currentScreen instanceof PopupDropdown)
 			mc.displayGuiScreen(null);
 	}
 

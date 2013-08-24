@@ -48,10 +48,10 @@ public class ItemTooltip extends Widget {
 	}
 
 	@Override
-	public void setPosition(int x, int y) {
-		this.x = x + 12;
-		this.y = y - 12;
-		if (x + width > parent.width)
+	public void setPosition(int newX, int newY) {
+		this.x = newX + 12;
+		this.y = newY - 12;
+		if (x + width + 6 > parent.width)
 			x -= 28 + width;
 		if (y + height + 6 > parent.height)
 			y = parent.height - height - 6;
@@ -64,6 +64,7 @@ public class ItemTooltip extends Widget {
 	@Override
 	public void draw(int mx, int my) { 
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDisable(GL11.GL_LIGHTING);
 		if (!tooltips.isEmpty()) {
 			final int outlineColor = 0xf0100010;
 			drawRect(x - 3, y - 4, x + width + 3, y - 3, outlineColor);
@@ -84,6 +85,7 @@ public class ItemTooltip extends Widget {
 				y += 10;
 			}
 		}
+		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
