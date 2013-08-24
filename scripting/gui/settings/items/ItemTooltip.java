@@ -64,7 +64,6 @@ public class ItemTooltip extends Widget {
 	@Override
 	public void draw(int mx, int my) { 
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glDisable(GL11.GL_LIGHTING);
 		if (!tooltips.isEmpty()) {
 			final int outlineColor = 0xf0100010;
 			drawRect(x - 3, y - 4, x + width + 3, y - 3, outlineColor);
@@ -85,7 +84,6 @@ public class ItemTooltip extends Widget {
 				y += 10;
 			}
 		}
-		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 

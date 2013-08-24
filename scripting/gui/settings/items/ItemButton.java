@@ -64,6 +64,7 @@ public class ItemButton extends Button implements Shiftable {
 			itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.func_110434_K() /*TextureManager*/, item, x + 1, y + 1);
 			itemRenderer.zLevel = 0;
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+			RenderHelper.disableStandardItemLighting();
 		}
 		else //Air
 			drawString(mc.fontRenderer, "Air" , x + 3, y + 5, -1);
