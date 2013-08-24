@@ -57,13 +57,13 @@ public class ItemPopup extends ScriptOverlay implements ButtonHandler {
 		List<Widget> widgets = container.getWidgets();
 
 		int xButtons = width/ItemButton.WIDTH - 6;
-		int yButtons = height/ItemButton.HEIGHT - 6;
+		int yButtons = height/ItemButton.HEIGHT - 5;
 
 		int lines = widgets.size() / xButtons;
 		if (widgets.size() % xButtons != 0)
 			++lines;
-		if (lines > 7)
-			lines = 7;
+		if (lines > 8)
+			lines = 8;
 		yButtons = MathHelper.clamp_int(yButtons, 1, lines);
 
 		int cWidth = xButtons*(ItemButton.WIDTH) + SCROLLBAR_WIDTH;
