@@ -9,7 +9,7 @@ public class Config {
 	private static boolean opOnly = true;
 	private static String[] whitelist = new String[0];
 	
-	public static boolean filtersPauseGame = true;
+	public static boolean filtersPauseGame = false;
 	public static boolean defaultFilters = true;
 	public static int selectorID = 4987;
 	

@@ -10,6 +10,7 @@ import scripting.gui.ScriptScreen;
 import scripting.gui.ServerMenu;
 import scripting.gui.settings.PopupDropdown;
 import scripting.gui.settings.SettingsScreen;
+import scripting.gui.settings.items.ItemPopup;
 import scripting.packet.CloseGUIPacket;
 import scripting.packet.EntityNBTPacket;
 import scripting.packet.HasScriptsPacket;
@@ -54,7 +55,7 @@ public class ClientPacketHandler extends ScriptPacketHandler {
 
 	@Override
 	public void handleCloseGUI(CloseGUIPacket pkt, Player player) {
-		if (mc.currentScreen instanceof ScriptScreen || mc.currentScreen instanceof PopupDropdown)
+		if (mc.currentScreen instanceof ScriptScreen || mc.currentScreen instanceof PopupDropdown || mc.currentScreen instanceof ItemPopup)
 			mc.displayGuiScreen(null);
 	}
 

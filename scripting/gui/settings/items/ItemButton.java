@@ -6,10 +6,12 @@ import java.util.List;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.mcf.davidee.guilib.core.Button;
 import com.mcf.davidee.guilib.core.Scrollbar.Shiftable;
@@ -56,10 +58,12 @@ public class ItemButton extends Button implements Shiftable {
 		}
 		if (item.itemID != 0) {
 			RenderHelper.enableGUIStandardItemLighting();
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 0, 0);
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
+			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 			itemRenderer.zLevel = this.zLevel;
 			itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.func_110434_K() /*TextureManager*/, item, x + 1, y + 1);
 			itemRenderer.zLevel = 0;
+			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		}
 		else //Air
 			drawString(mc.fontRenderer, "Air" , x + 3, y + 5, -1);
