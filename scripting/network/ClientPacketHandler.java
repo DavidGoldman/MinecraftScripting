@@ -6,11 +6,10 @@ import net.minecraft.tileentity.TileEntity;
 import scripting.ScriptingMod;
 import scripting.Selection;
 import scripting.gui.MainScreen;
+import scripting.gui.ScriptOverlay;
 import scripting.gui.ScriptScreen;
 import scripting.gui.ServerMenu;
-import scripting.gui.settings.PopupDropdown;
 import scripting.gui.settings.SettingsScreen;
-import scripting.gui.settings.items.ItemPopup;
 import scripting.packet.CloseGUIPacket;
 import scripting.packet.EntityNBTPacket;
 import scripting.packet.HasScriptsPacket;
@@ -55,7 +54,7 @@ public class ClientPacketHandler extends ScriptPacketHandler {
 
 	@Override
 	public void handleCloseGUI(CloseGUIPacket pkt, Player player) {
-		if (mc.currentScreen instanceof ScriptScreen || mc.currentScreen instanceof PopupDropdown || mc.currentScreen instanceof ItemPopup)
+		if (mc.currentScreen instanceof ScriptScreen || mc.currentScreen instanceof ScriptOverlay)
 			mc.displayGuiScreen(null);
 	}
 

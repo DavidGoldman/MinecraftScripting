@@ -1,32 +1,26 @@
 package scripting.gui.settings.items;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import scripting.gui.ScriptOverlay;
 import scripting.gui.settings.SetBlockButton;
-import scripting.gui.settings.SetLabel;
+import scripting.gui.settings.SettingsScreen;
+import scripting.wrapper.settings.SettingString;
 
 import com.mcf.davidee.guilib.basic.BasicScreen;
-import com.mcf.davidee.guilib.basic.OverlayScreen;
 import com.mcf.davidee.guilib.core.Button;
 import com.mcf.davidee.guilib.core.Button.ButtonHandler;
 import com.mcf.davidee.guilib.core.Container;
 import com.mcf.davidee.guilib.core.Scrollbar;
 import com.mcf.davidee.guilib.core.Widget;
-import com.mcf.davidee.guilib.focusable.FocusableWidget;
 import com.mcf.davidee.guilib.vanilla.ScrollbarVanilla;
 
-public class ItemPopup extends OverlayScreen implements ButtonHandler {
+public class ItemPopup extends ScriptOverlay implements ButtonHandler {
 
 	private final int SCROLLBAR_WIDTH = 10;
 	private final List<ItemStack> options;
@@ -75,7 +69,7 @@ public class ItemPopup extends OverlayScreen implements ButtonHandler {
 		int cWidth = xButtons*(ItemButton.WIDTH) + SCROLLBAR_WIDTH;
 		int cHeight = yButtons*(ItemButton.HEIGHT);
 		int startX = (width - cWidth)/2;
-		int startY = (height - cHeight)/2;
+		int startY = SettingsScreen.getStartY(height) + SettingsScreen.CONTAINER_HEIGHT/2 - cHeight/2;
 
 		int lineCount = 0;
 		int x = startX;
@@ -120,17 +114,6 @@ public class ItemPopup extends OverlayScreen implements ButtonHandler {
 			else
 				close();
 		}
-	}
-
-	@Override
-	public boolean doesGuiPauseGame() {
-		return getParent().doesGuiPauseGame();
-	}
-
-	@Override
-	protected void unhandledKeyTyped(char c, int code) {
-		if (code == Keyboard.KEY_ESCAPE || c == '\r')
-			close();
 	}
 
 	@Override

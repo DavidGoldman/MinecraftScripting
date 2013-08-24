@@ -2,8 +2,9 @@ package scripting.gui.settings;
 
 import org.lwjgl.input.Keyboard;
 
+import scripting.gui.ScriptOverlay;
+
 import com.mcf.davidee.guilib.basic.BasicScreen;
-import com.mcf.davidee.guilib.basic.OverlayScreen;
 import com.mcf.davidee.guilib.core.Container;
 import com.mcf.davidee.guilib.core.Scrollbar;
 import com.mcf.davidee.guilib.focusable.FocusableWidget;
@@ -13,7 +14,7 @@ import com.mcf.davidee.guilib.vanilla.ScrollbarVanilla;
  * A hack-ish way to implement a nice looking drop-down menu with GuiLib.
  *
  */
-public class PopupDropdown extends OverlayScreen {
+public class PopupDropdown extends ScriptOverlay {
 	
 	private final SetListButton button;
 	private final String[] options;
@@ -74,17 +75,6 @@ public class PopupDropdown extends OverlayScreen {
 			button.setSelectedText( ((SetLabel)container.getFocusedWidget()).getText() );
 			close();
 		}
-	}
-	
-	@Override
-	public boolean doesGuiPauseGame() {
-		return getParent().doesGuiPauseGame();
-	}
-	
-	@Override
-	protected void unhandledKeyTyped(char c, int code) {
-		if (code == Keyboard.KEY_ESCAPE || c == '\r')
-			close();
 	}
 
 	@Override

@@ -28,6 +28,14 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class SettingsScreen extends ScriptScreen {
 	
+	public static final int SCROLLBAR_WIDTH = 10;
+	public static final int CONTAINER_WIDTH = 260;
+	public static final int CONTAINER_HEIGHT = 145;
+	
+	public static int getStartY(int height) {
+		return height/4 - 15;
+	}
+	
 	private final SettingsPacket pkt;
 	
 	private Scrollbar scrollbar;
@@ -44,19 +52,21 @@ public class SettingsScreen extends ScriptScreen {
 
 	@Override
 	protected void revalidateGui() {
-		title.setPosition(width/2, height/4 - 30);
-		save.setPosition(width/2 - 70, height/4 + 140);
-		close.setPosition(width/2 + 20, height/4 + 140);
+		int startY = getStartY(height);
+		title.setPosition(width/2, startY - 15);
+		save.setPosition(width/2 - 70, startY + 155);
+		close.setPosition(width/2 + 20, startY + 155);
 		mainC.revalidate(0, 0, width, height);
 		
-		int y = height/4  - 13;
+		int y = startY + 2;
 		for (Widget w : setC.getWidgets()) {
 			w.setPosition(width/2, y);
 			y += w.getHeight() + 5;
 		}
 		
-		scrollbar.setPosition(width/2 + 125, height/4 - 15);
-		setC.revalidate(width/2 - 125, height/4 - 15, 260, 145);
+		final int realWidth = CONTAINER_WIDTH - SCROLLBAR_WIDTH;
+		scrollbar.setPosition(width/2 + realWidth/2, startY);
+		setC.revalidate(width/2 - realWidth/2, startY, CONTAINER_WIDTH, CONTAINER_HEIGHT);
 	}
 
 	@Override
@@ -67,7 +77,7 @@ public class SettingsScreen extends ScriptScreen {
 		save = new ButtonVanilla(50, 20, "Filter", this);
 		mainC.addWidgets(title, save, close);
 		
-		scrollbar = new ScrollbarVanilla(10);
+		scrollbar = new ScrollbarVanilla(SCROLLBAR_WIDTH);
 		setC = new Container(scrollbar, 10, 4);
 		Widget[] widgets = new Widget[pkt.settings.length];
 		for (int i = 0; i < widgets.length; ++i) 

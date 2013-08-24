@@ -3,8 +3,6 @@ package scripting.gui.settings;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -67,7 +65,10 @@ public class SetBlockButton extends ItemButton implements ISetting, Shiftable {
 		if (blocks == null){
 			blocks = new ArrayList<ItemStack>();
 			blocks.add(new ItemStack(0, 0, 0)); //Add air
-			CreativeTabs.tabBlock.displayAllReleventItems(blocks);
+			for (Item item : Item.itemsList)
+				if (item instanceof ItemBlock)
+					item.getSubItems(item.itemID, null, blocks);
+			//CreativeTabs.tabBlock.displayAllReleventItems(blocks);
 		}
 		return blocks;
 	}
