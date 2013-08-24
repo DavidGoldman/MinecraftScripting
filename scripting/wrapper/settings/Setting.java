@@ -26,6 +26,7 @@ public abstract class Setting {
 		case 2: return new SettingFloat(in);
 		case 3: return new SettingString(in);
 		case 4: return new SettingList(in);
+		case 5: return new SettingBlock(in);
 		default: return null;
 		}
 	}
@@ -53,6 +54,11 @@ public abstract class Setting {
 		}
 		if (setting instanceof SettingList) {
 			out.write(4);
+			out.writeUTF(setting.display);
+			setting.write(out);
+		}
+		if (setting instanceof SettingBlock) {
+			out.write(5);
 			out.writeUTF(setting.display);
 			setting.write(out);
 		}

@@ -46,6 +46,7 @@ import scripting.wrapper.nbt.TAG_Long;
 import scripting.wrapper.nbt.TAG_Short;
 import scripting.wrapper.nbt.TAG_String;
 import scripting.wrapper.settings.Setting;
+import scripting.wrapper.settings.SettingBlock;
 import scripting.wrapper.settings.SettingBoolean;
 import scripting.wrapper.settings.SettingFloat;
 import scripting.wrapper.settings.SettingInt;
@@ -158,6 +159,7 @@ public class ScriptingMod {
 		addAbbreviation("SettingFloat", SettingFloat.class);
 		addAbbreviation("SettingString", SettingString.class);
 		addAbbreviation("SettingList", SettingList.class);
+		addAbbreviation("SettingBlock", SettingBlock.class);
 		
 		addAbbreviation("DataWatcher", ScriptDataWatcher.class);
 		addAbbreviation("Entity", ScriptEntity.class);
