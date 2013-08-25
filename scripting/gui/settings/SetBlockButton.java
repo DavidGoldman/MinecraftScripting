@@ -23,7 +23,7 @@ public class SetBlockButton extends ItemButton implements ISetting, Shiftable {
 		super(new ItemStack(setting.blockID, 1, setting.blockData), null);
 		
 		this.setting = setting;
-		this.zLevel = 0;
+		this.zLevel = 50;
 	}
 	
 	@Override
