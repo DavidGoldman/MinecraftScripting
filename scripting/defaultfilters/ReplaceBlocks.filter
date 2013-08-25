@@ -1,0 +1,30 @@
+/*
+ * By Davidee, a simple filter that finds and replaces blocks within the selected region.
+ */
+
+ var inputs = Setting.toArray( 
+		new SettingBoolean("Find all subtypes", false),
+		new SettingBlock("Find", 0),
+		new SettingBlock("Replace with", 0)
+	);
+
+function run(player, world, sel, options) {
+	if (!sel.isRegion()) { 
+		player.addChatMessage("§cMust select a region!");
+		return;
+	}
+	var ignoreMetadata = options.get("Find all subtypes").booleanValue(); //Rhino will treat a java.lang.Boolean as true
+	var find = options.get("Find");
+	var replace = options.get("Replace with");
+
+	if (find.blockID == replace.blockID && find.blockData == replace.blockData && !ignoreMetadata) 
+		return;
+	
+	for (var x in new Range(sel.minX, sel.maxX))
+		for (var y in new Range(sel.minY, sel.maxY))
+			for (var z in new Range(sel.minZ, sel.maxZ)) 
+				if (world.getBlockID(x, y, z) == find.blockID && (ignoreMetadata || world.getBlockMetadata(x, y, z) == find.blockData)) {
+					world.removeTileEntity(x, y, z);
+					world.setBlock(x, y, z, replace);
+				}
+}

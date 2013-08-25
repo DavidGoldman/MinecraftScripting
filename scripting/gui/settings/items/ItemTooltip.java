@@ -1,21 +1,46 @@
 package scripting.gui.settings.items;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockEndPortal;
+import net.minecraft.block.BlockPistonExtension;
+import net.minecraft.block.BlockPistonMoving;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+
+import org.lwjgl.opengl.GL11;
+
 import scripting.ScriptingMod;
 
 import com.mcf.davidee.guilib.core.Widget;
 
 public class ItemTooltip extends Widget {
+	
+	public static final Map<Class<?>, String> NAME_MAP = new HashMap<Class<?>, String>();
+	
+	static {
+		NAME_MAP.put(BlockPistonExtension.class, "Piston Extension");
+		NAME_MAP.put(BlockPistonMoving.class, "Piston Moving");
+		NAME_MAP.put(BlockEndPortal.class, "End Portal");
+	}
+	
+	private static String getUnknownName(ItemStack stack) {
+		Item item = stack.getItem();
+		if (item instanceof ItemBlock) {
+			int id = ((ItemBlock)item).getBlockID();
+			Class c = Block.blocksList[id].getClass();
+			return NAME_MAP.containsKey(c) ? NAME_MAP.get(c) : "Unknown";
+		}
+		return "Unknown";
+	}
 
 	private final List<String> tooltips;
 	private final FontRenderer font;
@@ -31,7 +56,10 @@ public class ItemTooltip extends Widget {
 		if (stack.itemID != 0) {
 			tooltips = stack.getTooltip(mc.thePlayer, mc.gameSettings.advancedItemTooltips);
 			if (!tooltips.isEmpty()) {
-				tooltips.set(0, ScriptingMod.SECTION + Integer.toHexString(stack.getRarity().rarityColor) + tooltips.get(0));
+				String name = tooltips.get(0);
+				if (name.equals("tile.null.name"))
+					name = getUnknownName(stack);
+				tooltips.set(0, ScriptingMod.SECTION + Integer.toHexString(stack.getRarity().rarityColor) + name);
 				for (int i = 1; i < tooltips.size(); ++i)
 					tooltips.set(i, EnumChatFormatting.GRAY + tooltips.get(i));
 			}

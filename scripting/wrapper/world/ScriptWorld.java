@@ -17,9 +17,17 @@ public class ScriptWorld {
 	public int getBlockID(int x, int y, int z) {
 		return world.getBlockId(x, y, z);
 	}
+	
+	public ScriptBlock getBlock(int x, int y, int z) {
+		return new ScriptBlock(world.getBlockId(x, y, z), world.getBlockMetadata(x, y, z));
+	}
 
 	public void setBlockID(int x, int y, int z, int blockID) {
 		world.setBlock(x, y, z, blockID);
+	}
+	
+	public void setBlock(int x, int y, int z, ScriptBlock block) {
+		world.setBlock(x, y, z, block.blockID, block.blockData, 2);
 	}
 
 	public int getBlockMetadata(int x, int y, int z) {

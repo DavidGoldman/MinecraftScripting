@@ -53,6 +53,7 @@ import scripting.wrapper.settings.SettingInt;
 import scripting.wrapper.settings.SettingList;
 import scripting.wrapper.settings.SettingString;
 import scripting.wrapper.tileentity.ScriptTileEntity;
+import scripting.wrapper.world.ScriptBlock;
 import scripting.wrapper.world.ScriptBlockID;
 import scripting.wrapper.world.ScriptItemID;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -132,7 +133,7 @@ public class ScriptingMod {
 				+ "\nFor more information, visit the URL above.";
 		modMeta.url = "http://www.minecraftforum.net/topic/1951378-/";
 	}
-
+	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		/*
@@ -150,6 +151,7 @@ public class ScriptingMod {
 		addAbbreviation("IO", ScriptIO.class);
 		addAbbreviation("Script", ScriptHelper.class);
 		
+		addAbbreviation("Block", ScriptBlock.class);
 		addAbbreviation("BlockID", ScriptBlockID.class);
 		addAbbreviation("ItemID", ScriptItemID.class);
 		
