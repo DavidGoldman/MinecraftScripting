@@ -45,7 +45,7 @@ public class ItemButton extends Button implements Shiftable {
 	}
 
 	/**
-	 * Draws the item. Currently bugged.
+	 * Draws the item or string "Air" if itemID = 0.
 	 */
 	@Override
 	public void draw(int mx, int my) {
