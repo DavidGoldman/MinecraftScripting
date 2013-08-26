@@ -1,7 +1,5 @@
 package scripting.gui.settings;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.gui.GuiScreen;
 import scripting.Config;
 import scripting.gui.ScriptScreen;
@@ -13,6 +11,7 @@ import scripting.wrapper.settings.SettingBlock;
 import scripting.wrapper.settings.SettingBoolean;
 import scripting.wrapper.settings.SettingFloat;
 import scripting.wrapper.settings.SettingInt;
+import scripting.wrapper.settings.SettingItem;
 import scripting.wrapper.settings.SettingList;
 import scripting.wrapper.settings.SettingString;
 
@@ -105,6 +104,8 @@ public class SettingsScreen extends ScriptScreen {
 			return new SetStringTextField((SettingString)s);
 		if (s instanceof SettingBlock)
 			return new SetBlockButton((SettingBlock)s);
+		if (s instanceof SettingItem)
+			return new SetItemButton((SettingItem)s);
 		return new SetListButton((SettingList)s);
 	}
 	

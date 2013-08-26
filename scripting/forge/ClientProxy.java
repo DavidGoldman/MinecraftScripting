@@ -97,7 +97,7 @@ public class ClientProxy extends Proxy {
 			}
 		}
 	}
-
+	
 	private void drawBoundingBox(RenderGlobal r, float f, TileEntity tile, RenderSetting[] settings) {
 		if (tile.worldObj.provider.dimensionId == mc.thePlayer.dimension) {
 			int blockID = tile.worldObj.getBlockId(tile.xCoord, tile.yCoord, tile.zCoord);

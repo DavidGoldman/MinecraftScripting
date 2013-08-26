@@ -50,6 +50,7 @@ import scripting.wrapper.settings.SettingBlock;
 import scripting.wrapper.settings.SettingBoolean;
 import scripting.wrapper.settings.SettingFloat;
 import scripting.wrapper.settings.SettingInt;
+import scripting.wrapper.settings.SettingItem;
 import scripting.wrapper.settings.SettingList;
 import scripting.wrapper.settings.SettingString;
 import scripting.wrapper.tileentity.ScriptTileEntity;
@@ -88,7 +89,7 @@ public class ScriptingMod {
 
 	public static final String MOD_ID = "Scripting";
 	public static final String NAME = "In-Game MCEdit Filters & Scripts";
-	public static final String VERSION = "1.0.1";
+	public static final String VERSION = "1.0.2";
 	public static final char SECTION = '\u00A7';
 
 	@Instance("Scripting")
@@ -162,6 +163,7 @@ public class ScriptingMod {
 		addAbbreviation("SettingString", SettingString.class);
 		addAbbreviation("SettingList", SettingList.class);
 		addAbbreviation("SettingBlock", SettingBlock.class);
+		addAbbreviation("SettingItem", SettingItem.class);
 		
 		addAbbreviation("DataWatcher", ScriptDataWatcher.class);
 		addAbbreviation("Entity", ScriptEntity.class);

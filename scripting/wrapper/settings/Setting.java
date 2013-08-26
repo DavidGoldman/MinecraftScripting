@@ -3,6 +3,9 @@ package scripting.wrapper.settings;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
+/*
+ * TODO Add ID map
+ */
 public abstract class Setting {
 	
 	public final String display;
@@ -27,6 +30,7 @@ public abstract class Setting {
 		case 3: return new SettingString(in);
 		case 4: return new SettingList(in);
 		case 5: return new SettingBlock(in);
+		case 6: return new SettingItem(in);
 		default: return null;
 		}
 	}
@@ -59,6 +63,11 @@ public abstract class Setting {
 		}
 		if (setting instanceof SettingBlock) {
 			out.write(5);
+			out.writeUTF(setting.display);
+			setting.write(out);
+		}
+		if (setting instanceof SettingItem) {
+			out.write(6);
 			out.writeUTF(setting.display);
 			setting.write(out);
 		}

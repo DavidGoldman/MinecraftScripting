@@ -8,9 +8,8 @@ import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 import scripting.gui.ScriptOverlay;
-import scripting.gui.settings.SetBlockButton;
+import scripting.gui.settings.SetAbstractItemButton;
 import scripting.gui.settings.SettingsScreen;
-import scripting.wrapper.settings.SettingString;
 
 import com.mcf.davidee.guilib.basic.BasicScreen;
 import com.mcf.davidee.guilib.core.Button;
@@ -24,16 +23,16 @@ public class ItemPopup extends ScriptOverlay implements ButtonHandler {
 
 	private final int SCROLLBAR_WIDTH = 10;
 	private final List<ItemStack> options;
-	private final SetBlockButton blockButton;
+	private final SetAbstractItemButton itemButton;
 
 	private Scrollbar scrollbar;
 	private Container container;
 	private int x, y;
 
-	public ItemPopup(SetBlockButton blockButton, List<ItemStack> options, BasicScreen bg) {
+	public ItemPopup(SetAbstractItemButton itemButton, List<ItemStack> options, BasicScreen bg) {
 		super(bg);
 
-		this.blockButton = blockButton;
+		this.itemButton = itemButton;
 		this.options = options;
 	}
 
@@ -118,7 +117,7 @@ public class ItemPopup extends ScriptOverlay implements ButtonHandler {
 
 	@Override
 	public void buttonClicked(Button button) {
-		blockButton.setItem(((ItemButton)button).item);
+		itemButton.setItem(((ItemButton)button).item);
 		close();
 	}
 
