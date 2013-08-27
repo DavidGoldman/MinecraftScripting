@@ -19,7 +19,7 @@ public abstract class SetAbstractItemButton extends ItemButton implements ISetti
 	@Override
 	public void setItem(ItemStack item) {
 		super.setItem(item);
-		this.zLevel = (item.hasEffect(0)) ? 50 : 0;
+		this.zLevel = (item.itemID != 0 && item.hasEffect(0)) ? 50 : 0;
 	}
 	
 	@Override
