@@ -55,7 +55,7 @@ public class SetFloatTextField extends TextFieldVanilla implements ISetting, Shi
 		}
 
 		public boolean isAllowedCharacter(char c) {
-			return Character.isDigit(c) || c == '.';
+			return Character.isDigit(c) || c == '.' || c == '-';
 		}
 	}
 }

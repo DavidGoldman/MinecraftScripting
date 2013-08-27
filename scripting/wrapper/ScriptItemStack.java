@@ -1,7 +1,8 @@
 package scripting.wrapper;
 
-import scripting.wrapper.nbt.TAG_Compound;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import scripting.wrapper.nbt.TAG_Compound;
 
 public class ScriptItemStack {
 	
@@ -50,4 +51,13 @@ public class ScriptItemStack {
 	public void setTagCompound(TAG_Compound tag) {
 		stack.setTagCompound((tag == null) ? null : tag.tag);
 	}
+	
+	public TAG_Compound writeToTag() {
+		return new TAG_Compound(stack.writeToNBT(new NBTTagCompound()));
+	}
+	
+	public void readFromTag(TAG_Compound tag) {
+		stack.readFromNBT(tag.tag);
+	}
+	
 }

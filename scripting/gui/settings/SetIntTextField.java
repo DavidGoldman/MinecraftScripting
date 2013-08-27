@@ -1,7 +1,6 @@
 package scripting.gui.settings;
 
 import scripting.utils.Utils;
-import scripting.wrapper.settings.Setting;
 import scripting.wrapper.settings.SettingInt;
 
 import com.mcf.davidee.guilib.core.Scrollbar.Shiftable;
@@ -13,7 +12,7 @@ public class SetIntTextField extends TextFieldVanilla implements ISetting, Shift
 	private int textX;
 
 	public SetIntTextField(SettingInt setting) {
-		super(60, 14, new NumberFilter());
+		super(60, 14, new IntFilter());
 
 		setMaxLength(15);
 		setText("" + setting.val);
@@ -44,4 +43,18 @@ public class SetIntTextField extends TextFieldVanilla implements ISetting, Shift
 		this.y += dy;
 	}
 
+	public static class IntFilter implements CharacterFilter {
+		public String filter(String s) {
+			StringBuilder sb = new StringBuilder();
+			for (char c : s.toCharArray())
+				if (isAllowedCharacter(c))
+					sb.append(c);
+			return sb.toString();
+		}
+
+		public boolean isAllowedCharacter(char c) {
+			return Character.isDigit(c) || c == '-';
+		}
+	}
+	
 }

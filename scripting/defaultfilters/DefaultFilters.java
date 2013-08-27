@@ -17,7 +17,7 @@ import scripting.utils.Utils;
 public class DefaultFilters {
 	
 	public static final String[] FILTERS = { "AddAttribute", "AddPotionEffect", 
-		"ChangeMobs", "ChangeSpawners", "CreateShops", "CreateSpawners", 
+		"ChangeMobs", "ChangeSpawners", "CreateShops", "CreateSpawners", "FillDispensers", 
 		"RemoveBlocks", "RemoveEntities", "ReplaceBlocks", "StackEntities" };
 
 	public static void init(File dir) {
