@@ -57,8 +57,8 @@ public class ItemTooltip extends Widget {
 			tooltips = stack.getTooltip(mc.thePlayer, mc.gameSettings.advancedItemTooltips);
 			if (!tooltips.isEmpty()) {
 				String name = tooltips.get(0);
-				if (name.equals("tile.null.name"))
-					name = getUnknownName(stack);
+				if (name.startsWith("tile.null.name")) 
+					name = name.replace("tile.null.name", getUnknownName(stack));
 				tooltips.set(0, ScriptingMod.SECTION + Integer.toHexString(stack.getRarity().rarityColor) + name);
 				for (int i = 1; i < tooltips.size(); ++i)
 					tooltips.set(i, EnumChatFormatting.GRAY + tooltips.get(i));
