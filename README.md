@@ -3,7 +3,7 @@ In-Game MCEdit Filters & Scripts
 
 Forum Link: http://www.minecraftforum.net/topic/1951378-/
 
-Currently this mod requires:
+If you're trying to clone this repo, be sure to install the following dependencies:
 * [Mozilla Rhino](https://github.com/mozilla/rhino)
 * [GuiLib](https://github.com/DavidGoldman/GuiLib)
 
