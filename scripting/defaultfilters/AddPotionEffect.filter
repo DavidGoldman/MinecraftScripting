@@ -20,7 +20,7 @@ var effects = {
 	"Hunger (no mob effect)": 17,
 	"Invisibility (no effect)": 14,
 	"Night Vision (no effect)": 16,
-	"Wither": 20,
+	"Wither": 20
 	};
  
 var inputs = Setting.toArray( 
