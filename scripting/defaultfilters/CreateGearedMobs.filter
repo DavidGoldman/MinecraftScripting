@@ -1,0 +1,61 @@
+/*
+ * By Davidee, based on Sethbling's CreateGearedMobs filter
+ */
+ 
+var inputs = Setting.toArray( 
+		new SettingList("Mob", "Skeleton", "Zombie", "PigZombie", "Wither Skeleton"),
+		new SettingBoolean("Baby", false),
+		new SettingBoolean("Villager", false),
+		new SettingInt("Held Drop %", 5),
+		new SettingInt("Foot Drop %", 5),
+		new SettingInt("Legs Drop %", 5),
+		new SettingInt("Chest Drop %", 5),
+		new SettingInt("Head Drop %", 5)
+	);
+	
+function run(player, world, sel, options) {
+	if (sel.isEntity()) { 
+		player.addChatMessage("§cMust select a region or tile!");
+		return;
+	}
+	var mob = options.get("Mob");
+	var baby = options.get("Baby").booleanValue();
+	var villager = options.get("Villager").booleanValue();
+	var held = options.get("Held Drop %") / 100.0;
+	var foot = options.get("Foot Drop %") / 100.0;
+	var legs = options.get("Legs Drop %") / 100.0;
+	var body = options.get("Chest Drop %") / 100.0;
+	var head = options.get("Head Drop %") / 100.0;
+	for each (var tile in sel.tiles) { //For each can iterate through native java arrays
+		var tileTag = tile.writeToTag();
+		if (tile.internalName == "Chest") {
+			var slots = {};
+			for (var item in new TagItr(tileTag.getTag("Items")))
+				slots[item.getByte("Slot")] = item;
+			var entity = (mob == "Wither Skeleton") ? Entity.createEntityByName("Skeleton", world) : Entity.createEntityByName(mob, world);
+			var entityTag = entity.writeToTag();
+			if (mob == "Wither Skeleton")
+				entityTag.setByte("SkeletonType", 1);
+			if (villager)
+				entityTag.setByte("IsVillager", 1);
+			if (baby)
+				entityTag.setByte("IsBaby", 1);
+			var equipment = new TAG_List();
+			for (var slot in new Range(5))
+				if (!slots.hasOwnProperty(slot))
+					equipment.appendTag(new TAG_Compound());
+				else
+					equipment.appendTag(slots[slot]);
+			entityTag.setTag("Equipment", equipment);
+			entityTag.setTag("DropChances", TAG_List.newFloatList(held, foot, legs, body, head));
+			entityTag.setTag("Pos", TAG_List.newDoubleList(tile.x + 0.5, tile.y, tile.z + 0.5)); 
+
+			world.removeTileEntity(tile.x, tile.y, tile.z);
+			world.setBlockID(tile.x, tile.y, tile.z, 0);
+
+			entity.readFromTag(entityTag);
+			world.spawnEntityInWorld(entity);
+			Script.syncEntityNBT(entity);
+		}
+	}
+}
