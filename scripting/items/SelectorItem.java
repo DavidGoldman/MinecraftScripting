@@ -1,7 +1,7 @@
 package scripting.items;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -38,7 +38,7 @@ public class SelectorItem extends SItem {
 	}
 
 	@Override
-	public boolean func_111207_a(ItemStack itemstack, EntityPlayer player, EntityLivingBase entity) {
+	public boolean onLeftClickEntity(ItemStack itemstack, EntityPlayer player, Entity entity) {
 		if (player instanceof EntityPlayerMP) {
 			Selection sel = ScriptingMod.instance.getSelection((EntityPlayerMP)player); 
 			sel.setSelectedEntity(entity);

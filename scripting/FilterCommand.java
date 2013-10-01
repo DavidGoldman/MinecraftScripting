@@ -32,7 +32,7 @@ public class FilterCommand extends CommandBase {
 				if (it.hasNext())
 					str += ", ";
 			}
-			icommandsender.sendChatToPlayer(ChatMessageComponent.func_111077_e(str));
+			icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(str));
 		}
 		else if (args.length == 1) 
 			ScriptingMod.instance.getServerCore().runFilter((EntityPlayerMP)icommandsender, args[0]);

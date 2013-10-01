@@ -187,13 +187,10 @@ public class ScriptBlockID {
 	public static final int stairsNetherQuartz = Block.stairsNetherQuartz.blockID;
 	public static final int railActivator = Block.railActivator.blockID;
 	public static final int dropper = Block.dropper.blockID;
-	/*
-	 * Since these blocks are obfuscated, we use their unlocalized names (UN)
-	 */
-	public static final int clayHardenedStained = Block.field_111039_cA.blockID; /*ID 159; UN:clayHardenedStained*/
-	public static final int hayBlock = Block.field_111038_cB.blockID; /*ID 170; UN:hayBlock*/
-	public static final int woolCarpet = Block.field_111031_cC.blockID; /*ID 171; UN:woolCarpet*/
-	public static final int clayHardened = Block.field_111032_cD.blockID; /*ID 172; UN:clayHardened*/
-	public static final int blockCoal = Block.field_111034_cE.blockID; /*ID 173; UN:blockCoal*/
+	public static final int stainedClay = Block.stainedClay.blockID; 
+	public static final int hay = Block.hay.blockID;
+	public static final int carpet = Block.carpet.blockID;
+	public static final int hardenedClay = Block.hardenedClay.blockID; 
+	public static final int coalBlock = Block.coalBlock.blockID; 
 
 }

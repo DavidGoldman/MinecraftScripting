@@ -26,7 +26,7 @@ public class Config {
 	}
 	
 	public static boolean hasPermission(EntityPlayer player) {
-		return MinecraftServer.getServer().getConfigurationManager().areCommandsAllowed(player.username) || (!opOnly && whitelisted(player.username));
+		return MinecraftServer.getServer().getConfigurationManager().isPlayerOpped(player.username) || (!opOnly && whitelisted(player.username));
 	}
 	
 	private static boolean whitelisted(String username) {

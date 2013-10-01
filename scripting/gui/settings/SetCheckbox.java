@@ -50,7 +50,7 @@ public class SetCheckbox extends Checkbox implements ISetting, Shiftable {
 
 	@Override
 	public void draw(int mx, int my) {
-		mc.renderEngine.func_110577_a(TEXTURE);
+		mc.renderEngine.bindTexture(TEXTURE);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		drawTexturedModalRect(x + width - SIZE - 1, y, 0, check ? SIZE : 0, SIZE, SIZE);
 		mc.fontRenderer.drawStringWithShadow(str, x + 2, y + 1, (inBounds(mx, my)) ? 16777120 : 0xffffff);

@@ -17,12 +17,12 @@ public class ScriptEntityLivingBase extends ScriptEntity {
 		this.entityLivingBase = entityLivingBase;
 	}
 	
-	public void setEntityHealth(float health) {
-		entityLivingBase.setEntityHealth(health);
+	public void setHealth(float health) {
+		entityLivingBase.setHealth(health);
 	}
 	
-	public float getEntityhealth() {
-		return entityLivingBase.func_110143_aJ();
+	public float getHealth() {
+		return entityLivingBase.getHealth();
 	}
 	
 	public boolean isChild() {

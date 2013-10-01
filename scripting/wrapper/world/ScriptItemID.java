@@ -183,14 +183,11 @@ public class ScriptItemID {
 	public static final int netherQuartz = Item.netherQuartz.itemID;
 	public static final int minecartTnt = Item.minecartTnt.itemID;
 	public static final int minecartHopper = Item.minecartHopper.itemID;
-	/*
-	 * Since these items are obfuscated, we use their unlocalized names (UN)
-	 */
-	public static final int horsearmormetal = Item.field_111215_ce.itemID;
-	public static final int horsearmorgold = Item.field_111216_cf.itemID;
-	public static final int horsearmordiamond = Item.field_111213_cg.itemID;
-	public static final int leash = Item.field_111214_ch.itemID;
-	public static final int nameTag = Item.field_111212_ci.itemID;
+	public static final int horseArmorIron = Item.horseArmorIron.itemID;
+	public static final int horseArmorGold = Item.horseArmorGold.itemID;
+	public static final int horseArmorDiamond = Item.horseArmorDiamond.itemID;
+	public static final int leash = Item.leash.itemID;
+	public static final int nameTag = Item.nameTag.itemID;
 	
 	public static final int record13 = Item.record13.itemID;
 	public static final int recordCat = Item.recordCat.itemID;

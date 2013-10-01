@@ -33,7 +33,7 @@ public class ScriptDataWatcher {
 	}
 
 	public float getWatchableObjectFloat(int id) {
-		return watcher.func_111145_d(id);
+		return watcher.getWatchableObjectFloat(id);
 	}
 
 	public String getWatchableObjectString(int id) {
