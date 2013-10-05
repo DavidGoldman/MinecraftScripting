@@ -19,4 +19,11 @@ This mod adds Javascript support to Minecraft via Mozilla Rhino.
 
 * To see what functions are available to the scripts, check out all of the classes inside the "scripting.wrapper" package. Note that some of the class names may be abbreviated to the scripts - check "scripting.ScriptingMod.java" to see which classes have shortened names. 
 
-
+Build Instructions:
+* Download the **dependencies** mentioned above along with this mod
+* Download the [Forge src](http://files.minecraftforge.net/). Be sure to get the correct version!
+* Extract the **Forge src** to a desired workspace-containing folder
+* Navigate into the forge folder and run the correct **install** file for your system
+* Once the installer finishes, your Forge workspace is set up at "extract-dir/forge/mcp/"
+* You can place the source files for all dependencies and this mod inside the "src/minecraft/" folder found in the workspace
+* To build in eclipse, select the "eclipse" folder found in the workspace ("extract-dir/forge/mcp/eclipse")
