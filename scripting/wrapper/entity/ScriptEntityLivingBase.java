@@ -38,13 +38,11 @@ public class ScriptEntityLivingBase extends ScriptEntity {
 	}
 	
 	public ScriptItemStack getHeldItem() {
-		ItemStack is = entityLivingBase.getHeldItem();
-		return (is == null) ? null : new ScriptItemStack(is);
+		return ScriptItemStack.fromItemStack(entityLivingBase.getHeldItem());
 	}
 	
 	public ScriptItemStack getCurrentItemOrArmor(int slot) {
-		ItemStack is = entityLivingBase.getCurrentItemOrArmor(slot);
-		return (is == null) ? null : new ScriptItemStack(is);
+		return ScriptItemStack.fromItemStack(entityLivingBase.getEquipmentInSlot(slot));
 	}
 	
 	public void setCurrentItemOrArmor(int slot, ScriptItemStack is) {

@@ -3,13 +3,13 @@ package scripting;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
 
 public class ReflectionHelper {
 
 	private static final int POTION_FIELD_INDEX = 51;
+	private static final int CLASS_TO_STRING_INDEX = 2;
 
 	public static Map<Class<?>, String> tileClassToString = null;
 	public static Field potionsNeedUpdate = null;
@@ -18,7 +18,7 @@ public class ReflectionHelper {
 		try {
 			potionsNeedUpdate = EntityLivingBase.class.getDeclaredFields()[POTION_FIELD_INDEX];
 			potionsNeedUpdate.setAccessible(true);
-			tileClassToString = cpw.mods.fml.relauncher.ReflectionHelper.getPrivateValue(TileEntity.class, null, 1);
+			tileClassToString = cpw.mods.fml.relauncher.ReflectionHelper.getPrivateValue(TileEntity.class, null, CLASS_TO_STRING_INDEX);
 		}
 		catch(RuntimeException e) { throw e; }
 		catch(Exception e) {

@@ -1,19 +1,14 @@
 package scripting.wrapper.settings;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-
-import scripting.gui.settings.ISetting;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 
 public class SettingString extends Setting {
 
 	public String str;
 	
-	protected SettingString(ByteArrayDataInput in) {
-		super(in);
-		
-		this.str = in.readUTF();
-	}
+	protected SettingString() { }
 
 	public SettingString(String display, String str) {
 		super(display);
@@ -25,10 +20,18 @@ public class SettingString extends Setting {
 	public Object getValue() {
 		return str;
 	}
+	
+	@Override
+	protected void write(DataOutput out) throws IOException {
+		super.write(out);
+		out.writeUTF(str);
+	}
 
 	@Override
-	protected void write(ByteArrayDataOutput out) {
-		out.writeUTF(str);
+	protected Setting read(DataInput in) throws IOException {
+		super.read(in);
+		str = in.readUTF();
+		return this;
 	}
 
 }

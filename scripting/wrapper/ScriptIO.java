@@ -1,7 +1,5 @@
 package scripting.wrapper;
 
-import net.minecraft.client.Minecraft;
-import scripting.utils.BlockCoord;
 
 public class ScriptIO {
 	

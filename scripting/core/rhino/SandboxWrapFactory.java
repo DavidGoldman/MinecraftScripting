@@ -10,6 +10,7 @@ import org.mozilla.javascript.WrapFactory;
  *
  */
 public class SandboxWrapFactory extends WrapFactory {
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Scriptable wrapAsJavaObject(Context cx, Scriptable scope, Object javaObject, Class staticType) {
 		return new SandboxNativeJavaObject(scope, javaObject, staticType);

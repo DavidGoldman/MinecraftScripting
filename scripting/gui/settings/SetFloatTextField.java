@@ -1,11 +1,9 @@
 package scripting.gui.settings;
 
 import scripting.utils.Utils;
-import scripting.wrapper.settings.Setting;
 import scripting.wrapper.settings.SettingFloat;
 
 import com.mcf.davidee.guilib.core.Scrollbar.Shiftable;
-import com.mcf.davidee.guilib.core.TextField.CharacterFilter;
 import com.mcf.davidee.guilib.vanilla.TextFieldVanilla;
 
 public class SetFloatTextField extends TextFieldVanilla implements ISetting, Shiftable {

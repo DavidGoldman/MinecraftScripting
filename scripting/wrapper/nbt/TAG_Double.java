@@ -1,21 +1,15 @@
 package scripting.wrapper.nbt;
 
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagDouble;
 
 public class TAG_Double extends TAG_Base {
 	
 	public final NBTTagDouble tag;
 
-	public TAG_Double(String name, double data) {
-		super(new NBTTagDouble(name, data));
+	public TAG_Double(double data) {
+		super(new NBTTagDouble(data));
 		
 		this.tag = (NBTTagDouble)base;
-	}
-	
-	public TAG_Double(double data) {
-		this("", data);
 	}
 	
 	public TAG_Double(NBTTagDouble tag) {
@@ -29,10 +23,6 @@ public class TAG_Double extends TAG_Base {
 	}
 	
 	public double getValue(){
-		return tag.data;
-	}
-	
-	public void setValue(double data) {
-		tag.data = data;
+		return tag.func_150286_g();
 	}
 }

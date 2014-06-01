@@ -2,11 +2,15 @@ package scripting.gui.settings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import scripting.gui.settings.items.ItemPopup;
 import scripting.wrapper.settings.SettingItem;
 
@@ -30,7 +34,7 @@ public class SetItemButton extends SetAbstractItemButton {
 	
 	@Override
 	public void handleClick(int mx, int my) {
-		mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+		mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 		mc.displayGuiScreen(new ItemPopup(this, getItems(), (SettingsScreen)mc.currentScreen));
 	}
 	
@@ -53,15 +57,18 @@ public class SetItemButton extends SetAbstractItemButton {
 	/**
 	 * See {@link net.minecraft.client.gui.inventory.GuiContainerCreative#updateCreativeSearch()}
 	 */
+	@SuppressWarnings("unchecked")
 	private static List<ItemStack> getAllItems() {
 		if (items == null){
 			items = new ArrayList<ItemStack>();
-			for (Item item : Item.itemsList)
+			for (Iterator<Item> iterator = (Iterator<Item>)Item.itemRegistry.iterator(); iterator.hasNext();) {
+				Item item = iterator.next();
 				if (item != null && item.getCreativeTab() != null)
-					item.getSubItems(item.itemID, null, items);
+					item.getSubItems(item, null, items);
+			}
 			for (Enchantment ench : Enchantment.enchantmentsList)
 				if (ench != null && ench.type != null)
-					Item.enchantedBook.func_92113_a(ench, items);
+					Items.enchanted_book.func_92113_a(ench, items);
 		}
 		return items;
 	}

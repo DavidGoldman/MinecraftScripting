@@ -21,13 +21,13 @@ public class DefaultFilters {
 		"RemoveBlocks", "RemoveEntities", "ReplaceBlocks", "StackEntities" };
 
 	public static void init(File dir) {
-		if (!Config.defaultFilters)
+		if (!Config.defaultFilters && !Config.forceNewFilters)
 			return;
 		dir.mkdirs();
 		for (String filter : FILTERS) {
 			filter += ".filter";
 			File file = new File(dir, filter);
-			if (!file.exists()) {
+			if (!file.exists() || Config.forceNewFilters) {
 				try {
 					writeScript(file, readScript(filter));
 					System.out.println("[SCRIPTS] Successfully created default Filter \"" + filter + "\"");
@@ -38,6 +38,8 @@ public class DefaultFilters {
 				}
 			}
 		}
+		Config.forceNewFilters = false;
+		Config.save();
 	}
 	
 	private static List<String> readScript(String name) throws IOException {

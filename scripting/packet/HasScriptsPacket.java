@@ -1,12 +1,12 @@
 package scripting.packet;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+
+import java.io.IOException;
+
+import net.minecraft.entity.player.EntityPlayer;
 import scripting.network.ScriptPacketHandler;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-
-import cpw.mods.fml.common.network.Player;
 
 public class HasScriptsPacket extends ScriptPacket {
 	
@@ -18,22 +18,19 @@ public class HasScriptsPacket extends ScriptPacket {
 			hasScripts = (Boolean) data[0];
 		return this;
 	}
-
+	
 	@Override
-	public byte[] generatePacket() {
-		ByteArrayDataOutput out = ByteStreams.newDataOutput();
-		out.writeBoolean(hasScripts);
-		return out.toByteArray();
+	public void encodeInto(ChannelHandlerContext ctx, ByteBuf to) throws IOException { 
+		to.writeBoolean(hasScripts);
 	}
 
 	@Override
-	public ScriptPacket readPacket(ByteArrayDataInput pkt) {
-		hasScripts = pkt.readBoolean();
-		return this;
+	public void decodeFrom(ChannelHandlerContext ctx, ByteBuf from) throws IOException { 
+		hasScripts = from.readBoolean();
 	}
 
 	@Override
-	public void execute(ScriptPacketHandler handler, Player player) {
+	public void execute(ScriptPacketHandler handler, EntityPlayer player) {
 		handler.handleHasScripts(this, player);
 	}
 

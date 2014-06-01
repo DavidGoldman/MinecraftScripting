@@ -2,7 +2,8 @@ package scripting.wrapper;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
+import net.minecraft.network.Packet;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 
 import org.mozilla.javascript.ContinuationPending;
@@ -13,7 +14,6 @@ import scripting.packet.ScriptPacket;
 import scripting.packet.ScriptPacket.PacketType;
 import scripting.wrapper.entity.ScriptEntity;
 import scripting.wrapper.tileentity.ScriptTileEntity;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ScriptHelper {
 
@@ -27,8 +27,8 @@ public class ScriptHelper {
 		NBTTagCompound tag = new NBTTagCompound();
 		entity.entity.writeToNBT(tag);
 		int dim = entity.entity.dimension;
-		PacketDispatcher.sendPacketToAllInDimension(ScriptPacket.getPacket(PacketType.ENTITY_NBT,
-				 entity.entity.entityId, tag), dim);
+		ScriptingMod.DISPATCHER.sendToDimension(ScriptPacket.getPacket(PacketType.ENTITY_NBT,
+				 entity.entity.getEntityId(), tag), dim);
 		if (entity.entity instanceof EntityLivingBase) 
 			ReflectionHelper.potionsNeedUpdate.setBoolean(entity.entity, true);
 	}
@@ -48,8 +48,8 @@ public class ScriptHelper {
 		TileEntity tile = te.tile;
 		NBTTagCompound tag = new NBTTagCompound();
 		tile.writeToNBT(tag);
-		int dim = tile.worldObj.provider.dimensionId;
-		PacketDispatcher.sendPacketToAllInDimension(ScriptPacket.getPacket(PacketType.TILE_NBT, 
+		int dim = tile.getWorldObj().provider.dimensionId;
+		ScriptingMod.DISPATCHER.sendToDimension(ScriptPacket.getPacket(PacketType.TILE_NBT, 
 				tile.xCoord, tile.yCoord, tile.zCoord, tag), dim);
 	}
 
@@ -63,7 +63,9 @@ public class ScriptHelper {
 		if (ScriptingMod.instance.isClient())
 			throw new IllegalAccessException("Can only sync from server");
 		Packet p = te.tile.getDescriptionPacket();
-		if (p != null)
-			PacketDispatcher.sendPacketToAllInDimension(p, te.tile.worldObj.provider.dimensionId);
+		if (p != null) {
+			int dim = te.tile.getWorldObj().provider.dimensionId;
+			MinecraftServer.getServer().getConfigurationManager().sendPacketToAllPlayersInDimension(p, dim);
+		}
 	}
 }

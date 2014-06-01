@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.client.gui.GuiScreen;
 import scripting.ScriptingMod;
 import scripting.core.ScriptCore.State;
-import scripting.core.script.JSScript;
 
 import com.mcf.davidee.guilib.basic.FocusedContainer;
 import com.mcf.davidee.guilib.basic.Label;

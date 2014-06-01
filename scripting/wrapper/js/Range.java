@@ -1,7 +1,5 @@
 package scripting.wrapper.js;
 
-import java.util.Arrays;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.JavaScriptException;
@@ -11,8 +9,6 @@ import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.annotations.JSConstructor;
 import org.mozilla.javascript.annotations.JSFunction;
 import org.mozilla.javascript.annotations.JSGetter;
-
-import scripting.ScriptingMod;
 
 /**
  * This class represents an integer range (inclusive).
@@ -27,6 +23,10 @@ import scripting.ScriptingMod;
  */
 public class Range extends ScriptableObject {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	int current, low, high;
 
 	public Range() { }

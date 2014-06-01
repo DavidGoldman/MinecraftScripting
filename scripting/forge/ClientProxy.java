@@ -14,36 +14,41 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeSubscribe;
 
 import org.lwjgl.opengl.GL11;
 
 import scripting.Selection;
 import scripting.core.ScriptCore;
+import scripting.network.ClientPacketHandler;
+import scripting.network.ScriptPacketHandler;
 import scripting.utils.RenderSetting;
 import scripting.utils.Utils;
-import cpw.mods.fml.client.registry.KeyBindingRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
-import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ClientProxy extends Proxy {
+	
 
 	public final float XPAN = .010f;
+	protected final ScriptPacketHandler client;
 
 	private Minecraft mc;
-
 	private Selection sel;
 	private AxisAlignedBB aabb;
 	private List<Entity> entities;
 	private List<TileEntity> tiles;
-	
 	private ClientTickHandler ticker;
 
+	public ClientProxy() {
+		client = new ClientPacketHandler();
+	}
 
+	@Override
 	public File getMinecraftDir() {
 		return Minecraft.getMinecraft().mcDataDir;
 	}
 
+	@Override
 	public void setSelection(Selection s) { 
 		this.sel = s;
 		if (sel.isRegionSelection()) {
@@ -54,29 +59,38 @@ public class ClientProxy extends Proxy {
 		}
 	}
 
+	@Override
 	public void update() {
 		if (sel != null && sel.isRegionSelection()) {
 			entities = sel.getEntitiesWithinAABB(mc.thePlayer);
 			tiles = sel.getTilesWithinAABB(mc.thePlayer);
 		}
 	}
+	
+	@Override
+	public ScriptPacketHandler getClientHandler() {
+		return client;
+	}
 
 	/**
 	 * This will only be called from the Minecraft main thread, so we can safely create our tickHandler (which creates the client core).
 	 */
+	@SuppressWarnings("unchecked")
+	@Override
 	public void postInit(Object... args) {
 		ticker = new ClientTickHandler((File) args[0], (Map<String, Object>) args[1], (Map<String, Class<?>>)args[2]);
-		TickRegistry.registerScheduledTickHandler(ticker, Side.CLIENT);
-		KeyBindingRegistry.registerKeyBinding(new KeyListener());
+		FMLCommonHandler.instance().bus().register(ticker);
+		FMLCommonHandler.instance().bus().register(new KeyListener());
 		mc = Minecraft.getMinecraft();
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
+	@Override
 	public ScriptCore getClientCore() {
 		return ticker.getClientCore();
 	}
 
-	@ForgeSubscribe
+	@SubscribeEvent
 	public void renderWorldLast(RenderWorldLastEvent event){
 		if (sel != null && !sel.isEmpty() && mc.thePlayer.dimension == sel.getDimension()) {
 			if (sel.isEntitySelection()) 
@@ -99,11 +113,11 @@ public class ClientProxy extends Proxy {
 	}
 	
 	private void drawBoundingBox(RenderGlobal r, float f, TileEntity tile, RenderSetting[] settings) {
-		if (tile.worldObj.provider.dimensionId == mc.thePlayer.dimension) {
-			int blockID = tile.worldObj.getBlockId(tile.xCoord, tile.yCoord, tile.zCoord);
-			if (blockID > 0) {
-				Block.blocksList[blockID].setBlockBoundsBasedOnState(tile.worldObj, tile.xCoord, tile.yCoord, tile.zCoord);
-				AxisAlignedBB aabb = Block.blocksList[blockID].getSelectedBoundingBoxFromPool(tile.worldObj, tile.xCoord, tile.yCoord, tile.zCoord);
+		if (tile.getWorldObj().provider.dimensionId == mc.thePlayer.dimension) {
+			Block block = tile.getWorldObj().getBlock(tile.xCoord, tile.yCoord, tile.zCoord);
+			if (block != null) {
+				block.setBlockBoundsBasedOnState(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
+				AxisAlignedBB aabb = block.getSelectedBoundingBoxFromPool(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
 
 				EntityPlayer player = mc.thePlayer;
 				double playerX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)f;

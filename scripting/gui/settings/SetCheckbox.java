@@ -1,10 +1,11 @@
 package scripting.gui.settings;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
-import scripting.wrapper.settings.Setting;
 import scripting.wrapper.settings.SettingBoolean;
 
 import com.mcf.davidee.guilib.core.Checkbox;
@@ -43,7 +44,7 @@ public class SetCheckbox extends Checkbox implements ISetting, Shiftable {
 	
 	@Override
 	public void handleClick(int mx, int my) {
-		mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+		mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 		super.handleClick(mx, my);
 	}
 

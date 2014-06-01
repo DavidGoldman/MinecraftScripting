@@ -12,7 +12,6 @@ import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.ServerConfigurationManager;
 import scripting.Config;
 import scripting.ScriptingMod;
 import scripting.Selection;
@@ -26,7 +25,6 @@ import scripting.wrapper.ScriptSelection;
 import scripting.wrapper.entity.ScriptPlayer;
 import scripting.wrapper.settings.Setting;
 import scripting.wrapper.world.ScriptWorld;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ServerCore extends ScriptCore {
 
@@ -58,18 +56,18 @@ public class ServerCore extends ScriptCore {
 	/**
 	 * Notifies OPs/whitelisted users of the script crash.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void notifyCrash(JSScript script, Exception e) {
-		PacketDispatcher.sendPacketToAllPlayers(ScriptPacket.getPacket(PacketType.CLOSE_GUI));
+		ScriptingMod.DISPATCHER.sendToAll(ScriptPacket.getPacket(PacketType.CLOSE_GUI));
 
-		ServerConfigurationManager manager = MinecraftServer.getServer().getConfigurationManager();
 		List<EntityPlayer> players = (List<EntityPlayer>) MinecraftServer.getServer().getConfigurationManager().playerEntityList;
 		for (EntityPlayer p : players) 
 			if(Config.hasPermission(p)) {
-				p.addChatMessage(SECTION + "cServer script \"" + script.name + "\" has crashed");
-				p.addChatMessage(SECTION + "cCheck the console/log for more information");
-				p.addChatMessage(SECTION + "cFor now, the script has been disabled");
-				p.addChatMessage(SECTION + "cFix the script and restart the server to reload it");
+				sendMessageToPlayer(SECTION + "cServer script \"" + script.name + "\" has crashed", p);
+				sendMessageToPlayer(SECTION + "cCheck the console/log for more information", p);
+				sendMessageToPlayer(SECTION + "cFor now, the script has been disabled", p);
+				sendMessageToPlayer(SECTION + "cFix the script and restart the server to reload it", p);
 			}
 
 	}
@@ -82,14 +80,14 @@ public class ServerCore extends ScriptCore {
 			FilterScript fs = (FilterScript) script;
 			Selection sel = ScriptingMod.instance.getSelection(player);
 			if (sel.isEmpty()) 
-				player.addChatMessage(SECTION + "cNo selection! Unable to run filter");
+				sendMessageToPlayer(SECTION + "cNo selection! Unable to run filter", player);
 			else if (fs.hasOptions()) 
 				sendFilterOptions(player, fs);
 			else 
 				runFilter(player, sel, null, fs);
 		}
 		else
-			player.addChatMessage(SECTION + "cUnknown filter \"" + name + "\"");
+			sendMessageToPlayer(SECTION + "cUnknown filter \"" + name + "\"", player);
 	}
 
 	public void runFilter(EntityPlayerMP player, SettingsPacket pkt) {
@@ -97,7 +95,7 @@ public class ServerCore extends ScriptCore {
 		if (script instanceof FilterScript) {
 			Selection sel = ScriptingMod.instance.getSelection(player);
 			if (sel.isEmpty()) 
-				player.addChatMessage(SECTION + "cNo selection! Unable to run filter");
+				sendMessageToPlayer(SECTION + "cNo selection! Unable to run filter", player);
 			else {
 				Map<String, Object> options = new HashMap<String, Object>();
 				for (Setting s : pkt.settings)
@@ -106,11 +104,11 @@ public class ServerCore extends ScriptCore {
 			}
 		}
 		else
-			player.addChatMessage(SECTION + "cError finding \"" + pkt.script  + "\". It must have crashed.");
+			sendMessageToPlayer(SECTION + "cError finding \"" + pkt.script  + "\". It must have crashed.", player);
 	}
 
 	private void sendFilterOptions(EntityPlayerMP player, FilterScript fs) {
-		player.playerNetServerHandler.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.SETTINGS, fs.name, fs.getOptions()));
+		ScriptingMod.DISPATCHER.sendTo(ScriptPacket.getPacket(PacketType.SETTINGS, fs.name, fs.getOptions()), player);
 	}
 
 	/**

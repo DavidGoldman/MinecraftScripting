@@ -15,52 +15,50 @@ import scripting.packet.SelectionPacket;
 import scripting.packet.SettingsPacket;
 import scripting.packet.StatePacket;
 import scripting.packet.TileNBTPacket;
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
 
 public class ServerPacketHandler extends ScriptPacketHandler {
 	
 	@Override
-	protected boolean hasPermission(Player player) {
+	protected boolean hasPermission(EntityPlayer player) {
 		return Config.hasPermission((EntityPlayer)player);
 	}
 
 	@Override
-	public void handleSelection(SelectionPacket pkt, Player player) { }
+	public void handleSelection(SelectionPacket pkt, EntityPlayer player) { }
 	@Override
-	public void handleCloseGUI(CloseGUIPacket pkt, Player player) { }
+	public void handleCloseGUI(CloseGUIPacket pkt, EntityPlayer player) { }
 	
 	@Override
-	public void handleEntityNBT(EntityNBTPacket pkt, Player player) { }
+	public void handleEntityNBT(EntityNBTPacket pkt, EntityPlayer player) { }
 	@Override
-	public void handleTileNBT(TileNBTPacket pkt, Player player) { }
+	public void handleTileNBT(TileNBTPacket pkt, EntityPlayer player) { }
 	
 
 	@Override
-	public void handleHasScripts(HasScriptsPacket pkt, Player player) {
+	public void handleHasScripts(HasScriptsPacket pkt, EntityPlayer player) {
 		boolean hasScripts = ScriptingMod.instance.getServerCore().hasScripts();
-		PacketDispatcher.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.HAS_SCRIPTS, hasScripts), player);
+		ScriptingMod.DISPATCHER.sendTo(ScriptPacket.getPacket(PacketType.HAS_SCRIPTS, hasScripts), (EntityPlayerMP)player);
 	}
 	
 	//Toggle script
 	@Override
-	public void handleState(StatePacket pkt, Player player) { 
+	public void handleState(StatePacket pkt, EntityPlayer player) { 
 		ServerCore core = ScriptingMod.instance.getServerCore();
 		State state = pkt.states[0];
 		boolean wasRunning = state.running;
 		if (wasRunning && core.isScriptRunning(state.script) || !wasRunning && !core.isScriptRunning(state.script))
 			core.toggleScript(state.script);
 		State[] arr =  core.getBasicScripts().toArray(new State[0]);
-		PacketDispatcher.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.STATE, (Object)arr), player);
+		ScriptingMod.DISPATCHER.sendTo(ScriptPacket.getPacket(PacketType.STATE, (Object)arr), (EntityPlayerMP)player);
 	}
 	
 
 	@Override
-	public void handleRequest(PacketType type, String dat, Player player) {
+	public void handleRequest(PacketType type, String dat, EntityPlayer player) {
 		switch(type){
 		case STATE:
 			State[] arr =  ScriptingMod.instance.getServerCore().getBasicScripts().toArray(new State[0]);
-			PacketDispatcher.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.STATE, (Object)arr), player);
+			ScriptingMod.DISPATCHER.sendTo(ScriptPacket.getPacket(PacketType.STATE, (Object)arr), (EntityPlayerMP)player);
 			break;
 		default:
 			break;
@@ -68,7 +66,7 @@ public class ServerPacketHandler extends ScriptPacketHandler {
 	}
 	
 	@Override
-	public void handleSettings(SettingsPacket pkt, Player player) {
+	public void handleSettings(SettingsPacket pkt, EntityPlayer player) {
 		ScriptingMod.instance.getServerCore().runFilter((EntityPlayerMP)player, pkt);
 	}
 

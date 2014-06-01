@@ -1,7 +1,8 @@
 package scripting.wrapper.entity;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.EnumGameType;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.WorldSettings.GameType;
 
 public class ScriptPlayer extends ScriptEntityLivingBase {
 	
@@ -14,7 +15,7 @@ public class ScriptPlayer extends ScriptEntityLivingBase {
 	}
 	
 	public String getUsername() {
-		return player.username;
+		return player.getCommandSenderName();
 	}
 	
 	public void addXPLevels(int levels) {
@@ -38,17 +39,17 @@ public class ScriptPlayer extends ScriptEntityLivingBase {
 	}
 	
 	 public void addChatMessage(String str) {
-		 player.addChatMessage(str);
+		 player.addChatComponentMessage(new ChatComponentText(str));
 	 }
 	
 	public void setGameType(int id) {
-		player.setGameType(EnumGameType.getByID(id));
+		player.setGameType(GameType.getByID(id));
 	}
 	
 	public void setDead() { }
 	
 	//Case in-sensitive 
 	public void setGameType(String name) {
-		player.setGameType(EnumGameType.getByName(name.toLowerCase()));
+		player.setGameType(GameType.getByName(name.toLowerCase()));
 	}
 }

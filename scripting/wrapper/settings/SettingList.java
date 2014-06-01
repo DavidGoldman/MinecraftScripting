@@ -1,23 +1,19 @@
 package scripting.wrapper.settings;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import scripting.packet.ScriptPacket;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-
 public class SettingList extends Setting {
 	
-	public final String[] options;
+	public String[] options;
 	public String selected;
 	
-	protected SettingList(ByteArrayDataInput in) {
-		super(in);
-		
-		this.options = ScriptPacket.readStringArray(in);
-		this.selected = in.readUTF();
-	}
+	protected SettingList() { }
 	
 	public SettingList(String display, String... options) throws IllegalArgumentException {
 		super(display);
@@ -38,8 +34,18 @@ public class SettingList extends Setting {
 	}
 	
 	@Override
-	protected void write(ByteArrayDataOutput out) {
+	protected void write(DataOutput out) throws IOException {
+		super.write(out);
 		ScriptPacket.writeStringArray(options, out);
 		out.writeUTF(selected);
 	}
+
+	@Override
+	protected Setting read(DataInput in) throws IOException {
+		super.read(in);
+		options = ScriptPacket.readStringArray(in);
+		selected = in.readUTF();
+		return this;
+	}
+	
 }

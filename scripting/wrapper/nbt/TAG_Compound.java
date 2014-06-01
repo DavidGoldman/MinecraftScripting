@@ -1,6 +1,8 @@
 package scripting.wrapper.nbt;
 
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ReportedException;
 
 public class TAG_Compound extends TAG_Base {
@@ -9,12 +11,6 @@ public class TAG_Compound extends TAG_Base {
 
 	public TAG_Compound() {
 		super(new NBTTagCompound());
-		
-		this.tag = (NBTTagCompound)base;
-	}
-
-	public TAG_Compound(String name) {
-		super(new NBTTagCompound(name));
 		
 		this.tag = (NBTTagCompound)base;
 	}
@@ -76,7 +72,7 @@ public class TAG_Compound extends TAG_Base {
 	}
 
 	public void setCompoundTag(String name, TAG_Compound tag) {
-		this.tag.setCompoundTag(name, (NBTTagCompound) tag.base);
+		this.tag.setTag(name, tag.base);
 	}
 
 	public void setBoolean(String name, boolean data) {
@@ -130,7 +126,10 @@ public class TAG_Compound extends TAG_Base {
 	}
 	
 	public TAG_List getTagList(String name) throws ReportedException {
-		return new TAG_List(tag.getTagList(name));
+		NBTBase list = tag.getTag(name);
+		if (!(list instanceof NBTTagList))
+			list = new NBTTagList();
+		return new TAG_List((NBTTagList)list);
 	}
 	
 	public boolean getBoolean(String name) throws ReportedException {

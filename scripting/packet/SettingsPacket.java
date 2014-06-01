@@ -1,13 +1,15 @@
 package scripting.packet;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.ByteBufOutputStream;
+import io.netty.channel.ChannelHandlerContext;
+
+import java.io.IOException;
+
+import net.minecraft.entity.player.EntityPlayer;
 import scripting.network.ScriptPacketHandler;
 import scripting.wrapper.settings.Setting;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-
-import cpw.mods.fml.common.network.Player;
 
 public class SettingsPacket extends ScriptPacket {
 
@@ -20,28 +22,27 @@ public class SettingsPacket extends ScriptPacket {
 		settings = (Setting[]) data[1];
 		return this;
 	}
-
+	
 	@Override
-	public byte[] generatePacket() {
-		ByteArrayDataOutput out = ByteStreams.newDataOutput();
-		out.writeUTF(script);
-		out.writeInt(settings.length);
+	public void encodeInto(ChannelHandlerContext ctx, ByteBuf to) throws IOException {
+		ByteBufOutputStream bos = new ByteBufOutputStream(to);
+		bos.writeUTF(script);
+		bos.writeInt(settings.length);
 		for (Setting s : settings)
-			Setting.write(s, out);
-		return out.toByteArray();
+			Setting.write(s, bos);
 	}
 
 	@Override
-	public ScriptPacket readPacket(ByteArrayDataInput pkt) {
-		script = pkt.readUTF();
-		settings = new Setting[pkt.readInt()];
+	public void decodeFrom(ChannelHandlerContext ctx, ByteBuf from) throws IOException { 
+		ByteBufInputStream bis = new ByteBufInputStream(from);
+		script = bis.readUTF();
+		settings = new Setting[bis.readInt()];
 		for (int i = 0; i < settings.length; ++i)
-			settings[i] = Setting.read(pkt);
-		return this;
+			settings[i] = Setting.readSetting(bis);
 	}
 
 	@Override
-	public void execute(ScriptPacketHandler handler, Player player) {
+	public void execute(ScriptPacketHandler handler, EntityPlayer player) {
 		handler.handleSettings(this, player);
 	}
 }

@@ -1,17 +1,17 @@
 package scripting.forge;
 
 import java.io.File;
-import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.client.Minecraft;
 import scripting.ScriptingMod;
 import scripting.core.ClientCore;
 import scripting.core.ScriptCore;
-import cpw.mods.fml.common.IScheduledTickHandler;
-import cpw.mods.fml.common.TickType;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 
-public class ClientTickHandler implements IScheduledTickHandler {
+public class ClientTickHandler {
 
 	private static final int SELECTION_UPDATE = 5;
 
@@ -22,32 +22,16 @@ public class ClientTickHandler implements IScheduledTickHandler {
 		this.clientCore = new ClientCore(new File(scriptDir, "client"), props, abbreviations);
 	}
 
-	@Override
-	public void tickStart(EnumSet<TickType> type, Object... tickData) { }
+	@SubscribeEvent
+	public void tick(ClientTickEvent event) {
+		if (event.phase == Phase.START && Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().theWorld != null) {
+			clientCore.tick();
 
-	@Override
-	public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-		clientCore.tick();
-
-		if (++counter == SELECTION_UPDATE) {
-			ScriptingMod.proxy.update();
-			counter = 0;
+			if (++counter == SELECTION_UPDATE) {
+				ScriptingMod.proxy.update();
+				counter = 0;
+			}
 		}
-	}
-
-	@Override
-	public EnumSet<TickType> ticks() {
-		return EnumSet.of(TickType.PLAYER);
-	}
-
-	@Override
-	public String getLabel() {
-		return "scripting.client";
-	}
-
-	@Override
-	public int nextTickSpacing() {
-		return 1;
 	}
 
 	public ScriptCore getClientCore() {

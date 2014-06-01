@@ -1,8 +1,6 @@
 package scripting.gui.settings;
 
-import com.mcf.davidee.guilib.core.Widget;
 import com.mcf.davidee.guilib.core.Scrollbar.Shiftable;
-import com.mcf.davidee.guilib.focusable.FocusableLabel;
 import com.mcf.davidee.guilib.focusable.FocusableWidget;
 
 public class SetLabel extends FocusableWidget implements Shiftable {

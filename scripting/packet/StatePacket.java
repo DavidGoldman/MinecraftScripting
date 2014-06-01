@@ -1,13 +1,13 @@
 package scripting.packet;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+
+import java.io.IOException;
+
+import net.minecraft.entity.player.EntityPlayer;
 import scripting.core.ScriptCore.State;
 import scripting.network.ScriptPacketHandler;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-
-import cpw.mods.fml.common.network.Player;
 
 public class StatePacket extends ScriptPacket {
 	
@@ -18,28 +18,25 @@ public class StatePacket extends ScriptPacket {
 		states = (State[]) data[0];
 		return this;
 	}
-
+	
 	@Override
-	public byte[] generatePacket() {
-		ByteArrayDataOutput out = ByteStreams.newDataOutput();
-		out.writeInt(states.length);
+	public void encodeInto(ChannelHandlerContext ctx, ByteBuf to) throws IOException {
+		to.writeInt(states.length);
 		for (State s : states) {
-			out.writeUTF(s.script);
-			out.writeBoolean(s.running);
+			writeString(s.script, to);
+			to.writeBoolean(s.running);
 		}
-		return out.toByteArray();
 	}
 
 	@Override
-	public ScriptPacket readPacket(ByteArrayDataInput pkt) {
-		states = new State[pkt.readInt()];
+	public void decodeFrom(ChannelHandlerContext ctx, ByteBuf from) throws IOException { 
+		states = new State[from.readInt()];
 		for (int i = 0; i < states.length; ++i)
-			states[i] = new State(pkt.readUTF(), pkt.readBoolean());
-		return this;
+			states[i] = new State(readString(from), from.readBoolean());
 	}
-
+	
 	@Override
-	public void execute(ScriptPacketHandler handler, Player player) {
+	public void execute(ScriptPacketHandler handler, EntityPlayer player) {
 		handler.handleState(this, player);
 	}
 

@@ -16,9 +16,9 @@ function run(player, world, sel, options) {
 		for (var y in new Range(sel.minY, sel.maxY))
 			for (var z in new Range(sel.minZ, sel.maxZ)) 
 				if (world.getTileEntity(x, y, z) == null)
-					world.setBlockID(x, y, z, 0);
+					world.setBlockToAir(x, y, z);
 				else if (removeTiles) {
 					world.removeTileEntity(x, y, z);
-					world.setBlockID(x, y, z, 0);
+					world.setBlockToAir(x, y, z);
 				}
 }

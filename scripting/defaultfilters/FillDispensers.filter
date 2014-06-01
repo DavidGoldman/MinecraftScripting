@@ -5,7 +5,7 @@
  var inputs = Setting.toArray( 
 		new SettingInt("Quantity", 1, -1, 127),
 		new SettingBoolean("Fill empty slots", false),
-		new SettingItem("Fill Item", new ItemStack(1, 1, 0))
+		new SettingItem("Fill Item", new ItemStack(Item.forName("stone"), 1, 0))
 	);
 
 function run(player, world, sel, options) {

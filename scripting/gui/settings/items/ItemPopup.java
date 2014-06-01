@@ -18,6 +18,7 @@ import com.mcf.davidee.guilib.core.Container;
 import com.mcf.davidee.guilib.core.Scrollbar;
 import com.mcf.davidee.guilib.core.Widget;
 import com.mcf.davidee.guilib.vanilla.ScrollbarVanilla;
+import com.mcf.davidee.guilib.vanilla.items.ItemButton;
 
 public class ItemPopup extends ScriptOverlay implements ButtonHandler {
 
@@ -27,7 +28,6 @@ public class ItemPopup extends ScriptOverlay implements ButtonHandler {
 
 	private Scrollbar scrollbar;
 	private Container container;
-	private int x, y;
 
 	public ItemPopup(SetAbstractItemButton itemButton, List<ItemStack> options, BasicScreen bg) {
 		super(bg);
@@ -117,10 +117,8 @@ public class ItemPopup extends ScriptOverlay implements ButtonHandler {
 
 	@Override
 	public void buttonClicked(Button button) {
-		itemButton.setItem(((ItemButton)button).item);
+		itemButton.setItem(((ItemButton)button).getItem());
 		close();
 	}
-
-
 
 }

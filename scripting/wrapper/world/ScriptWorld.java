@@ -1,8 +1,10 @@
 package scripting.wrapper.world;
 
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.storage.WorldInfo;
 import scripting.wrapper.entity.ScriptEntity;
 import scripting.wrapper.tileentity.ScriptTileEntity;
 
@@ -13,21 +15,21 @@ public class ScriptWorld {
 	public ScriptWorld(World world) {
 		this.world = world;
 	}
-
-	public int getBlockID(int x, int y, int z) {
-		return world.getBlockId(x, y, z);
-	}
 	
 	public ScriptBlock getBlock(int x, int y, int z) {
-		return new ScriptBlock(world.getBlockId(x, y, z), world.getBlockMetadata(x, y, z));
-	}
-
-	public void setBlockID(int x, int y, int z, int blockID) {
-		world.setBlock(x, y, z, blockID);
+		return ScriptBlock.atLocation(world, x, y, z);
 	}
 	
 	public void setBlock(int x, int y, int z, ScriptBlock block) {
-		world.setBlock(x, y, z, block.blockID, block.blockData, 2);
+		world.setBlock(x, y, z, block.block);
+	}
+	
+	public void setBlockToAir(int x, int y, int z) {
+		world.setBlockToAir(x, y, z);
+	}
+	
+	public void setBlockAndMetadata(int x, int y, int z, ScriptBlock block) {
+		world.setBlock(x, y, z, block.block, block.blockData, 2);
 	}
 
 	public int getBlockMetadata(int x, int y, int z) {
@@ -40,14 +42,6 @@ public class ScriptWorld {
 
 	public void setBlockMetadataWithNotify(int x, int y, int z, int metadata, int flag) {
 		world.setBlockMetadataWithNotify(x, y, z, metadata, flag);
-	}
-
-	public void setBlockAndMetadata(int x, int y, int z, int blockID, int metadata) {
-		world.setBlock(x, y, z, blockID, metadata, 2);
-	}
-
-	public void setBlockAndMetaDataWithNotify(int x, int y, int z, int blockID, int metadata, int flag) {
-		world.setBlock(x, y, z, blockID, metadata, flag);
 	}
 	
 	public boolean canBlockSeeTheSky(int x, int y, int z) {
@@ -63,11 +57,12 @@ public class ScriptWorld {
 	}
 
 	public boolean hasTileEntity(int x, int y, int z) {
-		return world.blockHasTileEntity(x, y, z);
+		Block b = world.getBlock(x, y, z);
+		return b != null && b.hasTileEntity(world.getBlockMetadata(x, y, z));
 	}
 
 	public ScriptTileEntity getTileEntity(int x, int y, int z) {
-		TileEntity te = world.getBlockTileEntity(x, y, z);
+		TileEntity te = world.getTileEntity(x, y, z);
 		return (te == null) ? null : new ScriptTileEntity(te);
 	}
 
@@ -79,7 +74,7 @@ public class ScriptWorld {
 	}
 
 	public void removeTileEntity(int x, int y, int z) {
-		world.removeBlockTileEntity(x, y, z);
+		world.removeTileEntity(x, y, z);
 	}
 	
 	public void spawnEntityInWorld(ScriptEntity scriptEnt) {
@@ -107,6 +102,7 @@ public class ScriptWorld {
 	}
 	
 	public void toggleRain() {
-		world.toggleRain();
+		WorldInfo worldInfo = world.getWorldInfo();
+		worldInfo.setRaining(!worldInfo.isRaining());
 	}
 }

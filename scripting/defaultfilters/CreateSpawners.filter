@@ -14,7 +14,7 @@ function run(player, world, sel, options) {
 	for each (var entity in sel.entities) { //For each can iterate through native java arrays
 		var includePos = options.get("Include position data").booleanValue(); //Rhino will treat a java.lang.Boolean as true
 		var pos = entity.position;
-		world.setBlockID(pos.x, pos.y, pos.z, BlockID.mobSpawner); //Can also directly use id 52
+		world.setBlock(pos.x, pos.y, pos.z, Block.forName("mob_spawner"));
 		
 		var spawner = new TAG_Compound();
 		spawner.setString("id", "MobSpawner");

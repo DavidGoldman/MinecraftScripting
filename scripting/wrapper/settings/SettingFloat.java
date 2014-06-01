@@ -1,20 +1,15 @@
 package scripting.wrapper.settings;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 
 public class SettingFloat extends Setting {
 	
-	public final float min, max;
+	public float min, max;
 	public float val;
 	
-	protected SettingFloat(ByteArrayDataInput in) {
-		super(in);
-		
-		this.val = in.readFloat();
-		this.min = in.readFloat();
-		this.max = in.readFloat();
-	}
+	protected SettingFloat() { }
 
 	public SettingFloat(String display, float val, float min, float max) {
 		super(display);
@@ -34,10 +29,20 @@ public class SettingFloat extends Setting {
 	}
 	
 	@Override
-	protected void write(ByteArrayDataOutput out) {
+	protected void write(DataOutput out) throws IOException {
+		super.write(out);
 		out.writeFloat(val);
 		out.writeFloat(min);
 		out.writeFloat(max);
+	}
+
+	@Override
+	protected Setting read(DataInput in) throws IOException {
+		super.read(in);
+		val = in.readFloat();
+		min = in.readFloat();
+		max = in.readFloat();
+		return this;
 	}
 
 }

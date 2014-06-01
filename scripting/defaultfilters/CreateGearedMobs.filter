@@ -51,7 +51,7 @@ function run(player, world, sel, options) {
 			entityTag.setTag("Pos", TAG_List.newDoubleList(tile.x + 0.5, tile.y, tile.z + 0.5)); 
 
 			world.removeTileEntity(tile.x, tile.y, tile.z);
-			world.setBlockID(tile.x, tile.y, tile.z, 0);
+			world.setBlockToAir(tile.x, tile.y, tile.z);
 
 			entity.readFromTag(entityTag);
 			world.spawnEntityInWorld(entity);

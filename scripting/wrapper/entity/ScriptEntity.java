@@ -56,11 +56,13 @@ public class ScriptEntity {
 		return new ScriptEntity(entity);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static String[] getAllEntityNames() {
 		return ((Set<String>)EntityList.stringToClassMapping.keySet()).toArray(new String[0]);
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public static String[] getAllLivingEntityNames() {
 		List<String> names = new ArrayList<String>();
 		for (Entry<String, Class<?>> entry : ((Map<String, Class<?>>)EntityList.stringToClassMapping).entrySet()) {
@@ -78,7 +80,7 @@ public class ScriptEntity {
 	}
 
 	public int getEntityID() {
-		return entity.entityId;
+		return entity.getEntityId();
 	}
 	
 	public String getInternalName() {
@@ -86,11 +88,11 @@ public class ScriptEntity {
 	}
 
 	public String getEntityName() {
-		return entity.getEntityName();
+		return entity.getCommandSenderName();
 	}
 	
 	public TAG_Compound writeToTag() {
-		NBTTagCompound tag = new NBTTagCompound("ROOT");
+		NBTTagCompound tag = new NBTTagCompound();
 		entity.writeToNBT(tag);
 		return new TAG_Compound(tag);
 	}
@@ -100,7 +102,7 @@ public class ScriptEntity {
 	}
 
 	public String getTranslatedEntityName() {
-		return entity.getTranslatedEntityName();
+		return getEntityName();
 	}
 
 	public ScriptVec3 getPosition() {

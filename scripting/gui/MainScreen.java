@@ -10,8 +10,6 @@ import com.mcf.davidee.guilib.core.Button;
 import com.mcf.davidee.guilib.core.Container;
 import com.mcf.davidee.guilib.vanilla.ButtonVanilla;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-
 public class MainScreen extends ScriptScreen {
 	
 	public static final int REFRESH_TICKS = 200; //Check every 10 seconds
@@ -20,15 +18,12 @@ public class MainScreen extends ScriptScreen {
 	private Label title;
 	private Button close, client, server;
 	
-	private boolean serverScripts;
-	
 	public MainScreen() {
 		super(null);
 	}
 	
 	public void setServerScripts(boolean flag) {
 		server.setEnabled(flag);
-		serverScripts = flag;
 	}
 
 	@Override
@@ -54,19 +49,19 @@ public class MainScreen extends ScriptScreen {
 		containers.add(container);
 		selectedContainer = container;
 		
-		PacketDispatcher.sendPacketToServer(ScriptPacket.getPacket(PacketType.HAS_SCRIPTS));
+		ScriptingMod.DISPATCHER.sendToServer(ScriptPacket.getPacket(PacketType.HAS_SCRIPTS));
 	}
 	
 	public void buttonClicked(Button button) { 
 		if (button == client)
 			mc.displayGuiScreen(new ClientMenu(this));
 		if (button == server)
-			PacketDispatcher.sendPacketToServer(ScriptPacket.getRequestPacket(PacketType.STATE));
+			ScriptingMod.DISPATCHER.sendToServer(ScriptPacket.getRequestPacket(PacketType.STATE));
 	}
 	
 	@Override
 	public void reopenedGui() {
-		PacketDispatcher.sendPacketToServer(ScriptPacket.getPacket(PacketType.HAS_SCRIPTS));
+		ScriptingMod.DISPATCHER.sendToServer(ScriptPacket.getPacket(PacketType.HAS_SCRIPTS));
 	}
 
 }

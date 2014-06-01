@@ -90,7 +90,7 @@ function createShop(world, chest, emptyTrade, invincible, profession, unlimited)
 		villager.getTag("ActiveEffects").appendTag(resist);
 	}
 	world.removeTileEntity(x, y, z);
-	world.setBlockID(x, y, z, 0);
+	world.setBlockToAir(x, y, z);
 
 	entity.readFromTag(villager);
 	world.spawnEntityInWorld(entity);

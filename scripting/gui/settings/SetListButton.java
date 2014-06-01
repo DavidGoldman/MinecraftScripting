@@ -1,6 +1,8 @@
 package scripting.gui.settings;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.ResourceLocation;
 import scripting.wrapper.settings.SettingList;
 
 import com.mcf.davidee.guilib.core.Scrollbar.Shiftable;
@@ -42,7 +44,7 @@ public class SetListButton extends ButtonVanilla implements ISetting, Shiftable 
 
 	@Override
 	public void handleClick(int mx, int my) {
-		mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+		mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 		mc.displayGuiScreen(new PopupDropdown(this, setting.options, (SettingsScreen)mc.currentScreen));
 	}
 

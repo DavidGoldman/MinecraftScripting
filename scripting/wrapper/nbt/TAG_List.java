@@ -1,10 +1,12 @@
 package scripting.wrapper.nbt;
 
+import java.util.List;
+
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 
 public class TAG_List extends TAG_Base {
 
@@ -12,12 +14,6 @@ public class TAG_List extends TAG_Base {
 
 	public TAG_List() {
 		super(new NBTTagList());
-
-		list = (NBTTagList)base;
-	}
-
-	public TAG_List(String name) {
-		super(new NBTTagList(name));
 
 		list = (NBTTagList)base;
 	}
@@ -40,8 +36,10 @@ public class TAG_List extends TAG_Base {
 		return TAG_Base.createFromNative(list.removeTag(index));
 	}
 
+	//TODO Improve/cache field?
 	public TAG_Base tagAt(int index) {
-		return TAG_Base.createFromNative(list.tagAt(index));
+		List<NBTBase> tagList = ReflectionHelper.getPrivateValue(NBTTagList.class, list, 0);
+		return TAG_Base.createFromNative(tagList.get(index));
 	}
 
 	public int tagCount() {
@@ -51,14 +49,14 @@ public class TAG_List extends TAG_Base {
 	public static TAG_List newFloatList(float... list) {
         NBTTagList tagList = new NBTTagList();
         for (float f : list)
-        	tagList.appendTag(new NBTTagFloat("", f));
+        	tagList.appendTag(new NBTTagFloat(f));
         return new TAG_List(tagList);
     }
 
 	public static TAG_List newDoubleList(double... list) {
         NBTTagList tagList = new NBTTagList();
         for (double d : list)
-        	tagList.appendTag(new NBTTagDouble("", d));
+        	tagList.appendTag(new NBTTagDouble(d));
         return new TAG_List(tagList);
     }
 

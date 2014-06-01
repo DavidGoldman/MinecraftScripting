@@ -1,13 +1,14 @@
 package scripting.packet;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+
+import java.io.IOException;
+
+import net.minecraft.entity.player.EntityPlayer;
 import scripting.network.ScriptPacketHandler;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import com.google.common.primitives.UnsignedBytes;
-
-import cpw.mods.fml.common.network.Player;
 
 public class RequestPacket extends ScriptPacket {
 
@@ -21,24 +22,21 @@ public class RequestPacket extends ScriptPacket {
 			info = (String) data[1];
 		return this;
 	}
-
+	
 	@Override
-	public byte[] generatePacket() {
-		ByteArrayDataOutput dat = ByteStreams.newDataOutput();
-		dat.writeByte(request);
-		dat.writeUTF(info != null ? info : "");
-		return dat.toByteArray();
+	public void encodeInto(ChannelHandlerContext ctx, ByteBuf to) throws IOException { 
+		to.writeByte(request);
+		writeString(info != null ? info : "", to);
 	}
 
 	@Override
-	public ScriptPacket readPacket(ByteArrayDataInput pkt) {
-		request = pkt.readByte();
-		info = pkt.readUTF();
-		return this;
+	public void decodeFrom(ChannelHandlerContext ctx, ByteBuf from) throws IOException { 
+		request = from.readByte();
+		info = readString(from);
 	}
 
 	@Override
-	public void execute(ScriptPacketHandler handler, Player player) {
+	public void execute(ScriptPacketHandler handler, EntityPlayer player) {
 		handler.handleRequest(PacketType.values()[UnsignedBytes.toInt(request)], info, player);
 	}
 

@@ -1,9 +1,11 @@
 package scripting.gui.settings;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.item.ItemStack;
-import scripting.gui.settings.items.ItemButton;
 
 import com.mcf.davidee.guilib.core.Scrollbar.Shiftable;
+import com.mcf.davidee.guilib.vanilla.items.ItemButton;
 
 public abstract class SetAbstractItemButton extends ItemButton implements ISetting, Shiftable {
 
@@ -19,17 +21,20 @@ public abstract class SetAbstractItemButton extends ItemButton implements ISetti
 	@Override
 	public void setItem(ItemStack item) {
 		super.setItem(item);
-		this.zLevel = (item.itemID != 0 && item.hasEffect(0)) ? 50 : 0;
+		this.zLevel = (item.getItem() != null && item.hasEffect(0)) ? 50 : 0;
 	}
 	
 	@Override
 	public void draw(int mx, int my) {
 		mc.fontRenderer.drawString(display, textX, y+3, 0xffffff);
 		super.draw(mx, my);
+		
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		drawRect(x, y, x + width, y + 1, 0xff000000);
 		drawRect(x, y + height - 1, x + width, y + height, 0xff000000);
 		drawRect(x, y, x + 1, y + height, 0xff000000);
 		drawRect(x + width - 1, y, x + width, y + height, 0xff000000);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 	
 	@Override

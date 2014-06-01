@@ -1,6 +1,5 @@
 package scripting.wrapper.entity;
 
-import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.passive.EntityTameable;
 
 public class ScriptEntityTameable extends ScriptEntityAgeable {

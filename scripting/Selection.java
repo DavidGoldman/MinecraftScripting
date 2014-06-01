@@ -121,6 +121,7 @@ public class Selection {
 		return AxisAlignedBB.getAABBPool().getAABB(minX, minY, minZ, maxX, maxY, maxZ);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Entity> getEntitiesWithinAABB(EntityPlayer player) {
 		return (List<Entity>) player.worldObj.getEntitiesWithinAABBExcludingEntity(player, getAABB(), Utils.NO_PLAYERS);
 	}

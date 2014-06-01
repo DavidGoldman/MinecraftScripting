@@ -15,8 +15,8 @@ import scripting.utils.BlockCoord;
 
 public class SelectorItem extends SItem {
 
-	public SelectorItem(int id) {
-		super(id);
+	public SelectorItem() {
+		super();
 
 		bFull3D = true;
 		maxStackSize = 1;
@@ -27,12 +27,12 @@ public class SelectorItem extends SItem {
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer player, World world, int x, int y, int z, int par7, float par8, float par9, float par10){
 		if (player instanceof EntityPlayerMP) {
 			Selection sel = ScriptingMod.instance.getSelection((EntityPlayerMP)player); 
-			TileEntity te = world.getBlockTileEntity(x, y, z);
+			TileEntity te = world.getTileEntity(x, y, z);
 			if (te != null)
 				sel.setTileEntity(te);
 			else
 				sel.addBlockCoord(new BlockCoord(x, y, z));
-			((EntityPlayerMP)player).playerNetServerHandler.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.SELECTION, sel));
+			ScriptingMod.DISPATCHER.sendTo(ScriptPacket.getPacket(PacketType.SELECTION, sel), (EntityPlayerMP)player);
 		}
 		return true;
 	}
@@ -42,7 +42,7 @@ public class SelectorItem extends SItem {
 		if (player instanceof EntityPlayerMP) {
 			Selection sel = ScriptingMod.instance.getSelection((EntityPlayerMP)player); 
 			sel.setSelectedEntity(entity);
-			((EntityPlayerMP)player).playerNetServerHandler.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.SELECTION, sel));
+			ScriptingMod.DISPATCHER.sendTo(ScriptPacket.getPacket(PacketType.SELECTION, sel), (EntityPlayerMP)player);
 		}
 		return true;
 	}

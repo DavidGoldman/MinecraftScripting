@@ -1,17 +1,14 @@
 package scripting.wrapper.settings;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 
 public class SettingBoolean extends Setting {
 
 	public boolean enabled;
 	
-	protected SettingBoolean(ByteArrayDataInput in) {
-		super(in);
-		
-		this.enabled = in.readBoolean();
-	}
+	protected SettingBoolean() { }
 
 	public SettingBoolean(String display, boolean enabled) {
 		super(display);
@@ -27,10 +24,18 @@ public class SettingBoolean extends Setting {
 	public Object getValue() {
 		return enabled; 
 	}
-
+	
 	@Override
-	protected void write(ByteArrayDataOutput out) {
+	protected void write(DataOutput out) throws IOException {
+		super.write(out);
 		out.writeBoolean(enabled);
 	}
 
+	@Override
+	protected Setting read(DataInput in) throws IOException {
+		super.read(in);
+		enabled = in.readBoolean();
+		return this;
+	}
+	
 }

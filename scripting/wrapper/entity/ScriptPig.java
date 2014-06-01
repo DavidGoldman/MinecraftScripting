@@ -1,6 +1,5 @@
 package scripting.wrapper.entity;
 
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityPig;
 
 public class ScriptPig extends ScriptEntityAgeable {

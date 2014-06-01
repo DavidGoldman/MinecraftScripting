@@ -2,6 +2,7 @@ package scripting.gui.settings;
 
 import net.minecraft.client.gui.GuiScreen;
 import scripting.Config;
+import scripting.ScriptingMod;
 import scripting.gui.ScriptScreen;
 import scripting.packet.ScriptPacket;
 import scripting.packet.ScriptPacket.PacketType;
@@ -22,8 +23,6 @@ import com.mcf.davidee.guilib.core.Scrollbar;
 import com.mcf.davidee.guilib.core.Widget;
 import com.mcf.davidee.guilib.vanilla.ButtonVanilla;
 import com.mcf.davidee.guilib.vanilla.ScrollbarVanilla;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class SettingsScreen extends ScriptScreen {
 	
@@ -113,7 +112,7 @@ public class SettingsScreen extends ScriptScreen {
 	public void buttonClicked(Button button) {
 		for (Widget w : setC.getWidgets())
 			((ISetting)w).applySetting();
-		PacketDispatcher.sendPacketToServer(ScriptPacket.getPacket(PacketType.SETTINGS, pkt.script, pkt.settings));
+		ScriptingMod.DISPATCHER.sendToServer(ScriptPacket.getPacket(PacketType.SETTINGS, pkt.script, pkt.settings));
 	}
 	
 	@Override

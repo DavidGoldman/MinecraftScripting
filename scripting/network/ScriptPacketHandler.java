@@ -1,7 +1,6 @@
 package scripting.network;
 
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.entity.player.EntityPlayer;
 import scripting.packet.CloseGUIPacket;
 import scripting.packet.EntityNBTPacket;
 import scripting.packet.HasScriptsPacket;
@@ -11,28 +10,25 @@ import scripting.packet.SelectionPacket;
 import scripting.packet.SettingsPacket;
 import scripting.packet.StatePacket;
 import scripting.packet.TileNBTPacket;
-import cpw.mods.fml.common.network.IPacketHandler;
-import cpw.mods.fml.common.network.Player;
 
-public abstract class ScriptPacketHandler implements IPacketHandler {
+public abstract class ScriptPacketHandler {
 
-	public abstract void handleSelection(SelectionPacket pkt, Player player);
-	public abstract void handleHasScripts(HasScriptsPacket pkt, Player player);
-	public abstract void handleState(StatePacket pkt, Player player);
+	public abstract void handleSelection(SelectionPacket pkt, EntityPlayer player);
+	public abstract void handleHasScripts(HasScriptsPacket pkt, EntityPlayer player);
+	public abstract void handleState(StatePacket pkt, EntityPlayer player);
 
-	public abstract void handleSettings(SettingsPacket pkt, Player player);
+	public abstract void handleSettings(SettingsPacket pkt, EntityPlayer player);
 
-	public abstract void handleEntityNBT(EntityNBTPacket pkt, Player player);
-	public abstract void handleTileNBT(TileNBTPacket pkt, Player player);
+	public abstract void handleEntityNBT(EntityNBTPacket pkt, EntityPlayer player);
+	public abstract void handleTileNBT(TileNBTPacket pkt, EntityPlayer player);
 
-	public abstract void handleCloseGUI(CloseGUIPacket pkt, Player player);
-	public abstract void handleRequest(PacketType type, String info, Player player);
+	public abstract void handleCloseGUI(CloseGUIPacket pkt, EntityPlayer player);
+	public abstract void handleRequest(PacketType type, String info, EntityPlayer player);
 
-	protected abstract boolean hasPermission(Player player);
+	protected abstract boolean hasPermission(EntityPlayer player);
 
-	@Override
-	public final void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
+	public final void handlePacket(ScriptPacket packet, EntityPlayer player) {
 		if (hasPermission(player))
-			ScriptPacket.readPacket(packet.data).execute(this, player);
+			packet.execute(this, player);
 	}
 }

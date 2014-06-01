@@ -22,6 +22,10 @@ import scripting.wrapper.nbt.TAG_List;
  */
 public class TagItr extends ScriptableObject {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	TAG_List list;
 	int index;
 	

@@ -27,15 +27,6 @@ public abstract class TAG_Base {
 	}
 	
 	public abstract TAG_Base copy();
-
-	public TAG_Base setName(String name) {
-		base.setName(name);
-		return this;
-	}
-
-	public String getName() {
-		return base.getName();
-	}
 	
 	public String toString() {
 		return base.toString();

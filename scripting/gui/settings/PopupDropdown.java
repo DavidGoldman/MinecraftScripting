@@ -1,7 +1,5 @@
 package scripting.gui.settings;
 
-import org.lwjgl.input.Keyboard;
-
 import scripting.gui.ScriptOverlay;
 
 import com.mcf.davidee.guilib.basic.BasicScreen;

@@ -3,6 +3,7 @@ package scripting.gui;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiScreen;
+import scripting.ScriptingMod;
 import scripting.core.ScriptCore.State;
 import scripting.packet.ScriptPacket;
 import scripting.packet.ScriptPacket.PacketType;
@@ -17,8 +18,6 @@ import com.mcf.davidee.guilib.focusable.FocusableLabel;
 import com.mcf.davidee.guilib.focusable.FocusableWidget;
 import com.mcf.davidee.guilib.vanilla.ButtonVanilla;
 import com.mcf.davidee.guilib.vanilla.ScrollbarVanilla;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 /*
  * Slightly modified copy of ClientMenu
@@ -46,7 +45,7 @@ public class ServerMenu extends ScriptScreen {
 		super.updateScreen();
 		setToggleText();
 		if (++counter == REFRESH_TICKS) {
-			PacketDispatcher.sendPacketToServer(ScriptPacket.getRequestPacket(PacketType.STATE));
+			ScriptingMod.DISPATCHER.sendToServer(ScriptPacket.getRequestPacket(PacketType.STATE));
 			counter = 0;
 		}
 	}
@@ -109,7 +108,7 @@ public class ServerMenu extends ScriptScreen {
 		String script = ((FocusableLabel)labelC.getFocusedWidget()).getText() + ".js";
 		b.setEnabled(false);
 		State[] state  = new State[] { new State(script, (Boolean) label.getUserData())} ;
-		PacketDispatcher.sendPacketToServer(ScriptPacket.getPacket(PacketType.STATE, (Object) state));
+		ScriptingMod.DISPATCHER.sendToServer(ScriptPacket.getPacket(PacketType.STATE, (Object)state));
 	}
 	
 	//Remove the ".js" ending

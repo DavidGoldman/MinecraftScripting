@@ -1,7 +1,6 @@
 package scripting.wrapper.entity;
 
 import net.minecraft.entity.DataWatcher;
-import net.minecraft.item.ItemStack;
 import scripting.wrapper.ScriptItemStack;
 
 public class ScriptDataWatcher {
@@ -41,8 +40,7 @@ public class ScriptDataWatcher {
 	}
 
 	public ScriptItemStack getWatchableObjectItemStack(int id) {
-		ItemStack stack = watcher.getWatchableObjectItemStack(id);
-		return (stack == null) ? null : new ScriptItemStack(stack);
+		return ScriptItemStack.fromItemStack(watcher.getWatchableObjectItemStack(id));
 	}
 	
 

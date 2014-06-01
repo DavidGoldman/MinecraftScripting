@@ -13,6 +13,11 @@ import org.mozilla.javascript.Scriptable;
  */
 public class SandboxNativeJavaObject extends NativeJavaObject {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public SandboxNativeJavaObject() { }
 	
 	public SandboxNativeJavaObject(Scriptable scope, Object javaObject, Class<?> staticType) {

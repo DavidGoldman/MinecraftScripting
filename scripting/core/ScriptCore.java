@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
+
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContinuationPending;
 import org.mozilla.javascript.ImporterTopLevel;
@@ -119,6 +122,10 @@ public abstract class ScriptCore {
 		System.err.println("[SCRIPTS] Error running script " + script.name);
 		e.printStackTrace();
 		notifyCrash(script, e);
+	}
+	
+	protected void sendMessageToPlayer(String msg, EntityPlayer player) {
+		player.addChatMessage(new ChatComponentText(msg));
 	}
 
 	public void tick() {

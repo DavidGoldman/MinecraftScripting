@@ -1,6 +1,5 @@
 package scripting.gui.settings;
 
-import scripting.utils.Utils;
 import scripting.wrapper.settings.SettingString;
 
 import com.mcf.davidee.guilib.core.Scrollbar.Shiftable;

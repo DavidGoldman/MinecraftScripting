@@ -4,8 +4,8 @@
 
  var inputs = Setting.toArray( 
 		new SettingBoolean("Find all subtypes", false),
-		new SettingBlock("Find", 0),
-		new SettingBlock("Replace with", 0)
+		new SettingBlock("Find", Block.forName("air")),
+		new SettingBlock("Replace with", Block.forName("air"))
 	);
 
 function run(player, world, sel, options) {
@@ -17,13 +17,13 @@ function run(player, world, sel, options) {
 	var find = options.get("Find");
 	var replace = options.get("Replace with");
 
-	if (find.blockID == replace.blockID && find.blockData == replace.blockData && !ignoreMetadata) 
+	if (find == replace && !ignoreMetadata) 
 		return;
 	
 	for (var x in new Range(sel.minX, sel.maxX))
 		for (var y in new Range(sel.minY, sel.maxY))
 			for (var z in new Range(sel.minZ, sel.maxZ)) 
-				if (world.getBlockID(x, y, z) == find.blockID && (ignoreMetadata || world.getBlockMetadata(x, y, z) == find.blockData)) {
+				if (find.equalsIgnoreMetadata(world.getBlock(x, y, z)) && (ignoreMetadata || world.getBlockMetadata(x, y, z) == find.blockData)) {
 					world.removeTileEntity(x, y, z);
 					world.setBlock(x, y, z, replace);
 				}

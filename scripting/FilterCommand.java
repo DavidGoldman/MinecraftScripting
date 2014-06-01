@@ -8,7 +8,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.ChatMessageComponent;
+import net.minecraft.util.ChatComponentText;
 
 public class FilterCommand extends CommandBase {
 
@@ -32,7 +32,7 @@ public class FilterCommand extends CommandBase {
 				if (it.hasNext())
 					str += ", ";
 			}
-			icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(str));
+			icommandsender.addChatMessage(new ChatComponentText(str));
 		}
 		else if (args.length == 1) 
 			ScriptingMod.instance.getServerCore().runFilter((EntityPlayerMP)icommandsender, args[0]);
@@ -40,10 +40,13 @@ public class FilterCommand extends CommandBase {
 			throw new WrongUsageException(getCommandUsage(icommandsender), new Object[0]);
 	}
 
+	@SuppressWarnings("rawtypes")
+	@Override
 	public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] arr)	{
 		return (arr.length == 1) ?  ScriptingMod.instance.getServerCore().getFilterScripts() : null;
 	}
 	
+	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender s){
 		return s instanceof EntityPlayerMP && Config.hasPermission((EntityPlayer)s);
 	}

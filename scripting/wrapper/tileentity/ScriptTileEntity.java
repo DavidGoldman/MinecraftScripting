@@ -1,13 +1,10 @@
 package scripting.wrapper.tileentity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.entity.EntityList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import scripting.ReflectionHelper;
 import scripting.wrapper.nbt.TAG_Compound;
+import scripting.wrapper.world.ScriptBlock;
 import scripting.wrapper.world.ScriptWorld;
 
 
@@ -29,7 +26,7 @@ public class ScriptTileEntity {
 	}
 
 	public ScriptWorld getWorld() {
-		return new ScriptWorld(tile.worldObj);
+		return new ScriptWorld(tile.getWorldObj());
 	}
 	
 	public String getInternalName() {
@@ -37,7 +34,7 @@ public class ScriptTileEntity {
 	}
 
 	public TAG_Compound writeToTag() {
-		NBTTagCompound tag = new NBTTagCompound("ROOT");
+		NBTTagCompound tag = new NBTTagCompound();
 		tile.writeToNBT(tag);
 		return new TAG_Compound(tag);
 	}
@@ -51,11 +48,11 @@ public class ScriptTileEntity {
 	}
 
 	public void onInventoryChanged() {
-		tile.onInventoryChanged();
+		tile.markDirty();
 	}
 
-	public int getBlockID() {
-		return tile.getBlockType().blockID;
+	public ScriptBlock getBlock() {
+		return ScriptBlock.atLocation(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
 	}
 
 	public int getX() {

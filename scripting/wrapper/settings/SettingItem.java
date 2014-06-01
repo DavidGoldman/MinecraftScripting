@@ -1,32 +1,20 @@
 package scripting.wrapper.settings;
 
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
+import scripting.packet.ScriptPacket;
 import scripting.wrapper.ScriptItemStack;
-
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
 
 public class SettingItem extends Setting {
 
 	public ItemStack selected;
 	public ItemStack[] options;
-	private final boolean writeOptions;
+	private boolean writeOptions;
 
-	protected SettingItem(ByteArrayDataInput in) {
-		super(in);
-
-		selected = readStack(in);
-		if (in.readBoolean()) {//has options
-			options = new ItemStack[in.readInt()];
-			for (int i = 0; i < options.length; ++i)
-				options[i] = readStack(in);
-		}
-		writeOptions = false;
-	}
+	protected SettingItem() { }
 
 	public SettingItem(String display, ScriptItemStack selected, ScriptItemStack... options) {
 		super(display);
@@ -43,34 +31,32 @@ public class SettingItem extends Setting {
 
 	@Override
 	public Object getValue() {
-		return new ScriptItemStack(selected);
+		return ScriptItemStack.fromItemStack(selected);
+	}
+	
+	@Override
+	protected void write(DataOutput out) throws IOException {
+		super.write(out);
+		ScriptPacket.writeItemStack(selected, out);
+		out.writeBoolean(writeOptions);
+		if (writeOptions) {
+			out.write(options.length);
+			for (ItemStack stack : options)
+				ScriptPacket.writeItemStack(stack, out);
+		}
 	}
 
 	@Override
-	protected void write(ByteArrayDataOutput out) {
-		writeStack(selected, out);
-		out.writeBoolean(writeOptions);
-		if (writeOptions) {
-			out.writeInt(options.length);
-			for (ItemStack stack : options)
-				writeStack(stack, out);
+	protected Setting read(DataInput in) throws IOException {
+		super.read(in);
+		selected = ScriptPacket.readItemStack(in);
+		if (in.readBoolean()) { //has options
+			options = new ItemStack[in.readInt()];
+			for (int i = 0; i < options.length; ++i)
+				options[i] = ScriptPacket.readItemStack(in);
 		}
-	}
-
-	public static void writeStack(ItemStack stack, ByteArrayDataOutput out) {
-		try {
-			NBTBase.writeNamedTag(stack.writeToNBT(new NBTTagCompound()), out);
-		}
-		catch(IOException e) { } //Should never occur
-	}
-
-	public static ItemStack readStack(ByteArrayDataInput in) {
-		try {
-			return ItemStack.loadItemStackFromNBT((NBTTagCompound)NBTBase.readNamedTag(in));
-		}
-		catch(IOException e) { //Should never occur
-			return null;
-		} 
+		writeOptions = false;
+		return this;
 	}
 
 }

@@ -1,22 +1,17 @@
 package scripting.wrapper.nbt;
 
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagShort;
 
 public class TAG_Short extends TAG_Base {
 
 	public final NBTTagShort tag;
 	
-	public TAG_Short(String name, short data) {
-		super(new NBTTagShort(name, data));
+	public TAG_Short(short data) {
+		super(new NBTTagShort( data));
 		
 		this.tag = (NBTTagShort)base;
 	}
-	
-	public TAG_Short(short data) {
-		this("", data);
-	}
-	
+
 	public TAG_Short(NBTTagShort tag) {
 		super(tag);
 		
@@ -28,10 +23,6 @@ public class TAG_Short extends TAG_Base {
 	}
 	
 	public short getValue(){
-		return tag.data;
-	}
-	
-	public void setValue(short data) {
-		tag.data = data;
+		return tag.func_150289_e();
 	}
 }

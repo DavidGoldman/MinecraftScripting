@@ -21,6 +21,7 @@ public class ClientCore extends ScriptCore {
 		System.out.println("[SCRIPTS] Client core initialized on " + Thread.currentThread());
 	}
 	
+	@Override
 	public void tick() {
 		if (Minecraft.getMinecraft().thePlayer != player) {
 			player = Minecraft.getMinecraft().thePlayer;
@@ -39,10 +40,10 @@ public class ClientCore extends ScriptCore {
 		if (player != null) {
 			if (mc.currentScreen instanceof ClientMenu)
 				mc.displayGuiScreen(null);
-			player.addChatMessage(SECTION + "cClient script \"" + script.name + "\" has crashed");
-			player.addChatMessage(SECTION + "cCheck the console/log for more information");
-			player.addChatMessage(SECTION + "cFor now, the script has been disabled");
-			player.addChatMessage(SECTION + "cFix the script and restart Minecraft to reload it");
+			sendMessageToPlayer(SECTION + "cClient script \"" + script.name + "\" has crashed", player);
+			sendMessageToPlayer(SECTION + "cCheck the console/log for more information", player);
+			sendMessageToPlayer(SECTION + "cFor now, the script has been disabled", player);
+			sendMessageToPlayer(SECTION + "cFix the script and restart Minecraft to reload it", player);
 		}
 	}
 

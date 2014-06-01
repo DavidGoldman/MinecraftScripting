@@ -8,7 +8,7 @@ import java.util.Map;
 
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.ContinuationPending;
@@ -20,9 +20,7 @@ import scripting.defaultfilters.DefaultFilters;
 import scripting.forge.Proxy;
 import scripting.forge.ServerTickHandler;
 import scripting.items.SelectorItem;
-import scripting.network.ClientPacketHandler;
-import scripting.network.ConnectionHandler;
-import scripting.network.ServerPacketHandler;
+import scripting.network.PacketPipeline;
 import scripting.packet.ScriptPacket;
 import scripting.packet.ScriptPacket.PacketType;
 import scripting.wrapper.ScriptArray;
@@ -55,8 +53,7 @@ import scripting.wrapper.settings.SettingList;
 import scripting.wrapper.settings.SettingString;
 import scripting.wrapper.tileentity.ScriptTileEntity;
 import scripting.wrapper.world.ScriptBlock;
-import scripting.wrapper.world.ScriptBlockID;
-import scripting.wrapper.world.ScriptItemID;
+import scripting.wrapper.world.ScriptItem;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -67,30 +64,33 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 
 /*
  * TODO 
- *      Work on wrapping (focus on client + server scripts now)
+ *      - Verify default filters are working properly and verify ScriptingMod.onPlayerLoggedIn(PlayerLoggedInEvent)
+ *      - Allow empty selections
+ *      ? Separate filters by version (folders)
+ *      ? Feature Suggestion: "Reload Filters" Command (Issue #3)
+ *      
+ * Major Changes in this version:
+ * 		- NBT tags no longer have names
+ * 		- NBT tags no longer are mutable - cannot modify their data directly (shouldn't matter)
+ * 		- Packet system rewrite
+ * 		- Blocks and Items no longer use IDs - use Item.forName and Block.forName instead. 
  * 
  */
 @Mod(modid=ScriptingMod.MOD_ID, name=ScriptingMod.NAME, version=ScriptingMod.VERSION, dependencies = "after:guilib")
-@NetworkMod(clientSideRequired = false, serverSideRequired = false,
-connectionHandler = ConnectionHandler.class,
-clientPacketHandlerSpec = @SidedPacketHandler(channels = ScriptPacket.PACKET_ID, packetHandler = ClientPacketHandler.class),
-serverPacketHandlerSpec = @SidedPacketHandler(channels = ScriptPacket.PACKET_ID, packetHandler = ServerPacketHandler.class))
 public class ScriptingMod {
 
 	public static final String MOD_ID = "Scripting";
 	public static final String NAME = "In-Game MCEdit Filters & Scripts";
-	public static final String VERSION = "1.0.4";
+	public static final String VERSION = "1.1.0";
 	public static final char SECTION = '\u00A7';
+	public static final PacketPipeline DISPATCHER = new PacketPipeline();
 
 	@Instance("Scripting")
 	public static ScriptingMod instance;
@@ -120,8 +120,7 @@ public class ScriptingMod {
 	public void preInit(FMLPreInitializationEvent event) {
 		Config.load(new Configuration(event.getSuggestedConfigurationFile()));
 
-		selector = new SelectorItem(Config.selectorID);
-		LanguageRegistry.instance().addNameForObject(selector, "en_US", "Selector Wand");
+		selector = new SelectorItem();
 		GameRegistry.registerItem(selector, selector.getUnlocalizedName());
 
 		ModMetadata modMeta = event.getModMetadata();
@@ -143,6 +142,8 @@ public class ScriptingMod {
 		ContextFactory.initGlobal(new SandboxContextFactory());
 		ReflectionHelper.init();
 		DefaultFilters.init(new File(new File(proxy.getMinecraftDir(), "scripts"), "server"));
+		FMLCommonHandler.instance().bus().register(this);
+		DISPATCHER.initialize();
 		
 		addAbbreviation("Vec3", ScriptVec3.class);
 		addAbbreviation("Vec2", ScriptVec2.class);
@@ -153,8 +154,7 @@ public class ScriptingMod {
 		addAbbreviation("Script", ScriptHelper.class);
 		
 		addAbbreviation("Block", ScriptBlock.class);
-		addAbbreviation("BlockID", ScriptBlockID.class);
-		addAbbreviation("ItemID", ScriptItemID.class);
+		addAbbreviation("Item", ScriptItem.class);
 		
 		addAbbreviation("Setting", Setting.class);
 		addAbbreviation("SettingBoolean", SettingBoolean.class);
@@ -194,7 +194,7 @@ public class ScriptingMod {
 		 */
 		File scriptDir = new File(proxy.getMinecraftDir(), "scripts");
 		proxy.postInit(scriptDir, clientProps, abbreviations);
-		TickRegistry.registerScheduledTickHandler( (serverTicker = new ServerTickHandler(scriptDir, serverProps, abbreviations)) , Side.SERVER);
+		FMLCommonHandler.instance().bus().register((serverTicker = new ServerTickHandler(scriptDir, serverProps, abbreviations)));
 	}
 	
 	@EventHandler
@@ -235,24 +235,24 @@ public class ScriptingMod {
 	}
 
 	public Selection getSelection(EntityPlayerMP player) {
-		Selection s = selections.get(player.username);
+		Selection s = selections.get(player.getCommandSenderName());
 		if (s == null) {
 			s = new Selection(player.dimension);
-			selections.put(player.username, s);
+			selections.put(player.getCommandSenderName(), s);
 		}
 		if (s.getDimension() != player.dimension) {
 			s.reset(player.dimension);
-			player.playerNetServerHandler.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.SELECTION, s));
+			DISPATCHER.sendTo(ScriptPacket.getPacket(PacketType.SELECTION, s), player);
 		}
 		return s;
 	}
 
 	public void updateSelections(List<EntityPlayerMP> allPlayers) {
 		for (EntityPlayerMP player : allPlayers) {
-			Selection s = selections.get(player.username);
+			Selection s = selections.get(player.getCommandSenderName());
 			if (s != null && (s.getDimension() != player.dimension || s.isInvalid())) {
 				s.reset(player.dimension);
-				player.playerNetServerHandler.sendPacketToPlayer(ScriptPacket.getPacket(PacketType.SELECTION, s));
+				DISPATCHER.sendTo(ScriptPacket.getPacket(PacketType.SELECTION, s), player);
 			}
 		}
 	}
@@ -263,6 +263,15 @@ public class ScriptingMod {
 
 	public boolean isClient() {
 		return FMLCommonHandler.instance().getEffectiveSide().isClient();
+	}
+	
+	//TODO Verify this is working as intended
+	@SubscribeEvent
+	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
+		EntityPlayerMP player = (EntityPlayerMP)event.player;
+		Selection sel = ScriptingMod.instance.getSelection(player);
+		sel.reset(player.dimension);
+		ScriptingMod.DISPATCHER.sendTo(ScriptPacket.getPacket(PacketType.SELECTION, sel), player);
 	}
 
 }

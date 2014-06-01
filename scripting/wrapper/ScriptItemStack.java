@@ -3,25 +3,27 @@ package scripting.wrapper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import scripting.wrapper.nbt.TAG_Compound;
+import scripting.wrapper.world.ScriptBlock;
+import scripting.wrapper.world.ScriptItem;
 
 public class ScriptItemStack {
 	
 	public final ItemStack stack;
 
-	public ScriptItemStack(ItemStack is) {
+	private ScriptItemStack(ItemStack is) {
 		this.stack = is;
 	}
 	
-	public ScriptItemStack(int id, int size, int damage) {
-		this.stack = new ItemStack(id, size, damage);
+	public ScriptItemStack(ScriptItem item, int size, int damage) {
+		this.stack = new ItemStack((item == null) ? null : item.item, size, damage);
 	}
 	
-	public int getItemID() {
-		return stack.itemID;
+	public ScriptItemStack(ScriptBlock block, int size, int damage) {
+		this.stack = new ItemStack((block == null) ? null : block.block, size, damage);
 	}
 	
-	public void setItemID(int itemID) {
-		stack.itemID = itemID;
+	public ScriptItem getItem() {
+		return (stack.getItem() == null) ? null : ScriptItem.fromItem(stack.getItem());
 	}
 	
 	public int getStackSize() {
@@ -58,6 +60,10 @@ public class ScriptItemStack {
 	
 	public void readFromTag(TAG_Compound tag) {
 		stack.readFromNBT(tag.tag);
+	}
+	
+	public static ScriptItemStack fromItemStack(ItemStack stack) {
+		return (stack == null) ? null : new ScriptItemStack(stack);
 	}
 	
 }

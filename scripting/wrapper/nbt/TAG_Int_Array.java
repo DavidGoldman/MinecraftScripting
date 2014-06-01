@@ -1,20 +1,15 @@
 package scripting.wrapper.nbt;
 
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagIntArray;
 
 public class TAG_Int_Array extends TAG_Base {
 	
 	public final NBTTagIntArray arr;
 	
-	public TAG_Int_Array(String name, int[] data) {
-		super(new NBTTagIntArray(name, data));
+	public TAG_Int_Array(int[] data) {
+		super(new NBTTagIntArray(data));
 		
 		this.arr = (NBTTagIntArray)base;
-	}
-	
-	public TAG_Int_Array(int[] data) {
-		this("", data);
 	}
 	
 	public TAG_Int_Array(NBTTagIntArray arr) {
@@ -28,10 +23,6 @@ public class TAG_Int_Array extends TAG_Base {
 	}
 	
 	public int[] getValue() {
-		return arr.intArray;
-	}
-	
-	public void setValue(int[] intArray) {
-		arr.intArray = intArray;
+		return arr.func_150302_c();
 	}
 }

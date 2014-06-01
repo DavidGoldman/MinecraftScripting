@@ -1,20 +1,15 @@
 package scripting.wrapper.nbt;
 
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagFloat;
 
 public class TAG_Float extends TAG_Base {
 	
 	public final NBTTagFloat tag;
 	
-	public TAG_Float(String name, float data) {
-		super(new NBTTagFloat(name, data));
+	public TAG_Float(float data) {
+		super(new NBTTagFloat(data));
 		
 		this.tag = (NBTTagFloat)base;
-	}
-	
-	public TAG_Float(float data) {
-		this("", data);
 	}
 	
 	public TAG_Float(NBTTagFloat tag) {
@@ -28,11 +23,6 @@ public class TAG_Float extends TAG_Base {
 	}
 	
 	public float getValue(){
-		return tag.data;
+		return tag.func_150288_h();
 	}
-	
-	public void setValue(float data) {
-		tag.data = data;
-	}
-	
 }
