@@ -79,9 +79,7 @@ public class ServerCore extends ScriptCore {
 		if (script instanceof FilterScript) {
 			FilterScript fs = (FilterScript) script;
 			Selection sel = ScriptingMod.instance.getSelection(player);
-			if (sel.isEmpty()) 
-				sendMessageToPlayer(SECTION + "cNo selection! Unable to run filter", player);
-			else if (fs.hasOptions()) 
+			if (fs.hasOptions()) 
 				sendFilterOptions(player, fs);
 			else 
 				runFilter(player, sel, null, fs);
@@ -94,14 +92,10 @@ public class ServerCore extends ScriptCore {
 		JSScript script = scripts.get(pkt.script);
 		if (script instanceof FilterScript) {
 			Selection sel = ScriptingMod.instance.getSelection(player);
-			if (sel.isEmpty()) 
-				sendMessageToPlayer(SECTION + "cNo selection! Unable to run filter", player);
-			else {
-				Map<String, Object> options = new HashMap<String, Object>();
-				for (Setting s : pkt.settings)
-					options.put(s.display, s.getValue());
-				runFilter(player, sel, options, (FilterScript)script);
-			}
+			Map<String, Object> options = new HashMap<String, Object>();
+			for (Setting s : pkt.settings)
+				options.put(s.display, s.getValue());
+			runFilter(player, sel, options, (FilterScript)script);
 		}
 		else
 			sendMessageToPlayer(SECTION + "cError finding \"" + pkt.script  + "\". It must have crashed.", player);

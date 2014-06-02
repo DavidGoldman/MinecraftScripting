@@ -14,7 +14,7 @@ var inputs = Setting.toArray(
 	);
 	
 function run(player, world, sel, options) {
-	if (sel.isEntity()) { 
+	if (!sel.isRegion() && !sel.isTile()) {
 		player.addChatMessage("§cMust select a region or tile!");
 		return;
 	}

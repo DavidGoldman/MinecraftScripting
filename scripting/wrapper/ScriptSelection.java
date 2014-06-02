@@ -63,6 +63,10 @@ public class ScriptSelection {
 		return aabb != null;
 	}
 	
+	public boolean isEmpty() {
+		return selEntity == null && selTile == null && aabb == null;
+	}
+	
 	public int getMinX() {
 		return (int) aabb.minX;
 	}

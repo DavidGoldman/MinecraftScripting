@@ -71,16 +71,16 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 /*
  * TODO 
- *      - Verify default filters are working properly and verify ScriptingMod.onPlayerLoggedIn(PlayerLoggedInEvent)
- *      - Allow empty selections
+ *      - Verify ScriptingMod.onPlayerLoggedIn(PlayerLoggedInEvent)
  *      ? Separate filters by version (folders)
  *      ? Feature Suggestion: "Reload Filters" Command (Issue #3)
  *      
  * Major Changes in this version:
- * 		- NBT tags no longer have names
- * 		- NBT tags no longer are mutable - cannot modify their data directly (shouldn't matter)
- * 		- Packet system rewrite
- * 		- Blocks and Items no longer use IDs - use Item.forName and Block.forName instead. 
+ *      - NBT tags no longer have names
+ *      - NBT tags no longer are mutable - cannot modify their data directly (shouldn't matter)
+ *      - Packet system rewrite
+ *      - Blocks and Items no longer use IDs - use Item.forName and Block.forName instead. 
+ *      - Allow empty selections
  * 
  */
 @Mod(modid=ScriptingMod.MOD_ID, name=ScriptingMod.NAME, version=ScriptingMod.VERSION, dependencies = "after:guilib")
@@ -268,6 +268,8 @@ public class ScriptingMod {
 	//TODO Verify this is working as intended
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
+		System.err.println("Player logged in " + event);
+		//TODO DELETE
 		EntityPlayerMP player = (EntityPlayerMP)event.player;
 		Selection sel = ScriptingMod.instance.getSelection(player);
 		sel.reset(player.dimension);
