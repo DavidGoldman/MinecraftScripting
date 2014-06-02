@@ -71,7 +71,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 /*
  * TODO 
- *      - Verify ScriptingMod.onPlayerLoggedIn(PlayerLoggedInEvent)
  *      ? Separate filters by version (folders)
  *      ? Feature Suggestion: "Reload Filters" Command (Issue #3)
  *      
@@ -265,11 +264,8 @@ public class ScriptingMod {
 		return FMLCommonHandler.instance().getEffectiveSide().isClient();
 	}
 	
-	//TODO Verify this is working as intended
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
-		System.err.println("Player logged in " + event);
-		//TODO DELETE
 		EntityPlayerMP player = (EntityPlayerMP)event.player;
 		Selection sel = ScriptingMod.instance.getSelection(player);
 		sel.reset(player.dimension);

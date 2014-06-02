@@ -54,14 +54,14 @@ function run(player, world, sel, options) {
 			if (health != NO_OP)
 				tag.setFloat("HealF", health);
 		
-			if (vx != NO_OP)
-				tag.getTag("Motion").tagAt(0).value = vx;
-			
-			if (vy != NO_OP)
-				tag.getTag("Motion").tagAt(1).value = vy;
-			
-			if (vz != NO_OP)
-				tag.getTag("Motion").tagAt(2).value = vz;
+			var motionList = tag.getTag("Motion");
+			if (vx == NO_OP) 
+				vx = motionList.tagAt(0).value;
+			if (vy == NO_OP) 
+				vy = motionList.tagAt(1).value;
+			if (vz == NO_OP) 
+				vz = motionList.tagAt(2).value;
+			tag.setTag("Motion", TAG_List.newDoubleList(vx, vy, vz));
 			
 			if (fire != NO_OP)
 				tag.setShort("Fire", fire);
